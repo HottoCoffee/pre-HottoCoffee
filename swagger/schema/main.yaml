@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: HottoCoffee
+  title: hottocoffee
   version: "0.0.1"
   # 省略
 servers:
   - url: "http://localhost:3000"
 paths:
   "/api/batch":
-    description: "An endpoint for batch"
+    description: "an endpoint for batch"
     get:
       parameters:
         - in: query
@@ -15,47 +15,47 @@ paths:
           schema:
             type: string
           required: false
-      summary: Get batch list
+      summary: get batch list
       tags: [batch]
-      description: Get batch list. Response can be filtered by keyword.
+      description: get batch list. response can be filtered by keyword.
       responses:
         "200":
-          description: Success filter and can get batch list
+          description: success filter and can get batch list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch.yaml"
+                  $ref: "./schemas/batch.yaml#Batch"
         "400":
-          description: Bad Request
+          description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
         "500":
-          description: Internal Server Error
+          description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
     post:
       tags: [batch]
-      summary: Register batch
-      description: Register new batch
+      summary: register batch
+      description: register new batch
       responses:
         "200":
-          description: Success to create
+          description: success to create
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml"
+                $ref: "./schemas/batch.yaml#Batch"
 
-      requestBody:
+      requestbody:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml"
+              $ref: "./schemas/batch.yaml#Batch"
   "/api/calendar":
     description: batch status for calendar
     get:
@@ -76,19 +76,19 @@ paths:
           description: query for filtering
       responses:
         "200":
-          description: Return batch history list
+          description: return batch history list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch_history.yaml"
+                  $ref: "./schemas/history.yaml#History"
         "500":
-          description: Internal Server Error
+          description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
   "/api/batch/{id}/history":
     description: batch history
     get:
@@ -102,25 +102,25 @@ paths:
           required: true
       responses:
         "200":
-          description: Success to get history
+          description: success to get history
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch_history.yaml"
+                  $ref: "./schemas/history.yaml#History"
         "400":
-          description: Batch not found.
+          description: batch not found.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
         "500":
-          description: Internal server error
+          description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
     post:
       tags:
         - batch history
@@ -130,8 +130,8 @@ paths:
           schema:
             type: integer
           required: true
-          description: id of "./schemas/history.yaml"
-      requestBody:
+          description: id of "./schemas/history.yaml#History"
+      requestbody:
         content:
           application/json:
             schema:
@@ -142,17 +142,17 @@ paths:
                   enum: [before_started, in_progress, success, failed]
       responses:
         "200":
-          description: Success to receive
+          description: success to receive
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml"
+                $ref: "./schemas/success.yaml#Success"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
   "/api/batch/{id}/history/{historyId}":
     description: Get specific batch history
     get:
@@ -171,24 +171,24 @@ paths:
           required: true
       responses:
         "200":
-          description: Success to get specific history
+          description: Success to get history
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch_history.yaml"
+                $ref: "./schemas/history.yaml#History"
         "400":
           description: Batch not found.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml"
+                $ref: "./schemas/error.yaml#Error"
 components:
   schemas:
     batch:
-      $ref: "./schemas/batch.yaml"
+      $ref: "./schemas/batch.yaml#Batch"
