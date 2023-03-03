@@ -16,3 +16,4 @@ properties:
 required:
   - state
   - message
+  
