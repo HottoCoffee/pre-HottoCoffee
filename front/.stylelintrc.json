@@ -1,0 +1,22 @@
+{
+  "plugins": ["stylelint-scss"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order",
+    "stylelint-config-standard-scss",
+    "stylelint-prettier/recommended"
+  ],
+  "rules": {
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$"
+  },
+  "ignoreFiles": [
+    "**/node_modules/**",
+    "**/.next/**",
+    "src/index.css",
+    "src/app.css",
+    "src/stories/**/*",
+    "storybook-static/**/*",
+    "coverage/**/*",
+    "dist/**/*"
+  ]
+}

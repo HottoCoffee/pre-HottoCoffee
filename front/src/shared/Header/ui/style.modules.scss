@@ -1,0 +1,12 @@
+@import "~/styles/variables/font.scss";
+
+.title {
+  font-size: $font-size-title;
+  color: $font-color-base;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
