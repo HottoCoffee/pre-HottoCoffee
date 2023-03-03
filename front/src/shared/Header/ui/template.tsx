@@ -4,6 +4,9 @@ interface Props {
   children: React.ReactNode;
 }
 
+/**
+ * @package
+ */
 export const Template = (props: Props) => {
   const { children } = props;
 

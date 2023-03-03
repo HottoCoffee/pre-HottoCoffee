@@ -9,6 +9,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "next/core-web-vitals",
     "plugin:storybook/recommended",
+    "plugin:jsx-a11y/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -18,8 +19,9 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "@typescript-eslint", "jsx-a11y", "import-access"],
   rules: {
     "linebreak-style": ["error", "unix"],
+    "import-access/jsdoc": ["error"],
   },
 };

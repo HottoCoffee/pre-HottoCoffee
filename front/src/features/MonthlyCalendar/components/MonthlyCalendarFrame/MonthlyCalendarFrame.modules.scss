@@ -1,0 +1,25 @@
+$border-color: #a1a1a1;
+
+.container {
+  display: grid;
+  height: 100%;
+  border: $border-color 1px solid;
+
+  & > div:not(:last-child) {
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  & > div:not(:last-child) {
+    border-right: 1px solid $border-color;
+  }
+}
+
+.day {
+  display: inline-block;
+  padding: 16px;
+}

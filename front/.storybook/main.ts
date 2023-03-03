@@ -19,7 +19,7 @@ const config: StorybookConfig = {
     };
     return config;
   },
-  staticDirs: ["../public"],
+  staticDirs: ["../public", "../src"],
   docs: {
     autodocs: "tag",
   },
