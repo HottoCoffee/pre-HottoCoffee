@@ -16,7 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: 'npm run install '
+      - name: Install swagger-cli
+        run: |
+          npm install -g swagger-cli
+
+      - name: Combine Multiple Swagger Files
+        run: |
+          swagger-cli bundle main.yaml --outfile docs/swagger.yaml --type yaml --format 3
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
