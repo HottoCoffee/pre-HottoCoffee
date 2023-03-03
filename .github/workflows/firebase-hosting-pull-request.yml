@@ -24,7 +24,7 @@ jobs:
 
       - name: Combine Multiple Swagger Files
         run: |
-          swagger-cli bundle main.yaml --outfile docs/swagger.yaml --type yaml --format 3
+          swagger-cli bundle schema/main.yaml --outfile docs/swagger.yaml --type yaml --format 3
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
