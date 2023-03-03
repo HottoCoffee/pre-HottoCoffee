@@ -13,8 +13,6 @@ properties:
     enum: [success, failure]
     readOnly: false
 required:
-  - batch_name
-  - server_name
-  - initial_date
-  - time_limit
+  - batch_id
+  - status
   - id
