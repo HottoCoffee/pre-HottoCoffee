@@ -1,0 +1,8 @@
+type: object
+title: Success 
+description: Success Schema
+properties:
+  message:
+    type: string
+required:
+  - message
