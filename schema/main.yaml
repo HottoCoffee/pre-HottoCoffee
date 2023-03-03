@@ -11,28 +11,16 @@ paths:
     get:
       parameters:
         - in: query
-          name: start_date
-          schema:
-            type: string
-          required: false
-          description: query for filtering
-        - in: query
-          name: end_date
-          schema:
-            type: string
-          required: false
-          description: query for filtering
-        - in: query
           name: keyword
           schema:
             type: string
           required: false
       summary: Get batch list
       tags: [batch]
-      description: Get batch list. If date and filter_type was provided, should return filtered list. 
+      description: Get batch list. Response can be filtered by keyword.
       responses:
         '200':
-          description: Success filter and can get batch list 
+          description: Success filter and can get batch list
           content:
             application/json:
               schema:
@@ -41,12 +29,6 @@ paths:
                   $ref: "./schemas/batch.yaml"
         '400':
           description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: './schemas/error.yaml'
-        '404':
-          description: Todo Not Found
           content:
             application/json:
               schema:
@@ -74,6 +56,39 @@ paths:
           application/json:
             schema:
               $ref: "./schemas/batch.yaml"
+  '/api/calendar':
+    description: batch status for calendar
+    get:
+      tags:
+        - calendar
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          required: false
+          description: query for filtering
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          required: false
+          description: query for filtering
+      responses:
+        '200':
+          description: Return batch history list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "./schemas/batch_history.yaml"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/error.yaml'
   '/api/batch/{id}/history':
     description: batch history
     get:
