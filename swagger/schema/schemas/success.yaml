@@ -1,8 +1,8 @@
-type: object
-title: Success 
-description: Success Schema
-properties:
-  message:
-    type: string
-required:
-  - message
+Success:
+  type: object
+  description: Success Schema
+  properties:
+    message:
+      type: string
+  required:
+    - message

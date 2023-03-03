@@ -1,18 +1,18 @@
-type: object
-title: Error
-description: Error Schema
-properties:
-  state:
-    type: string
-    description: type of error
-    example: BatchNotFound
-    maxLength: 255
-  message:
-    type: string
-    description: Error message
-    maxLength: 255
-    example: Not Found
-    readOnly: true
-required:
-  - state
-  - message
+Error:
+  type: object
+  description: Error Schema
+  properties:
+    state:
+      type: string
+      description: type of error
+      example: BatchNotFound
+      maxLength: 255
+    message:
+      type: string
+      description: Error message
+      maxLength: 255
+      example: Not Found
+      readOnly: true
+  required:
+    - state
+    - message
