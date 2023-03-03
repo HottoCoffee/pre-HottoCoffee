@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: HottoCoffee 
+  title: HottoCoffee
   version: '0.0.1'
   # 省略
 servers:
@@ -48,7 +48,7 @@ paths:
           description: Success to create
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "./schemas/batch.yaml"
 
       requestBody:
@@ -81,7 +81,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "./schemas/batch_history.yaml"
         '500':
           description: Internal Server Error
@@ -97,7 +97,7 @@ paths:
       parameters:
         - in: path
           name: id
-          schema: 
+          schema:
             type: integer
           required: true
       responses:
@@ -107,7 +107,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
+                items:
                   $ref: "./schemas/batch_history.yaml"
         '400':
           description: Batch not found.
@@ -119,7 +119,7 @@ paths:
           description: Internal server error
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "./schemas/error.yaml"
     post:
       tags:
@@ -137,7 +137,7 @@ paths:
             schema:
               type: object
               properties:
-                status: 
+                status:
                   type: string
                   enum: [before_started, in_progress, success, failed]
       responses:
@@ -145,13 +145,13 @@ paths:
           description: Success to receive
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "./schemas/success.yaml"
         '500':
           description: internal server error
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "./schemas/error.yaml"
   '/api/batch/{id}/history/{historyId}':
     description: Get specific batch history
@@ -161,12 +161,12 @@ paths:
       parameters:
         - in: path
           name: id
-          schema: 
+          schema:
             type: integer
           required: true
         - in: path
           name: historyId
-          schema: 
+          schema:
             type: integer
           required: true
       responses:
@@ -175,7 +175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch_history.yaml"
+                $ref: "./schemas/history.yaml"
         '400':
           description: Batch not found.
           content:
@@ -186,10 +186,9 @@ paths:
           description: Internal server error
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "./schemas/error.yaml"
 components:
   schemas:
     batch:
       $ref: "./schemas/batch.yaml"
-      
