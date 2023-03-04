@@ -2,7 +2,6 @@ openapi: 3.0.0
 info:
   title: hottocoffee
   version: "0.0.1"
-  # 省略
 servers:
   - url: "http://localhost:3000"
 paths:
