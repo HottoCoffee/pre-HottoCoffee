@@ -9,6 +9,9 @@ Batch:
       type: string
     server_name:
       type: string
+    cron_setting:
+      type: string
+      description: ex.) 30 * * * *
     initial_date:
       format: ISO 8601
       type: string
@@ -20,13 +23,10 @@ Batch:
       description: Unit -> Minutes
       type: integer
       format: int64
-    status:
-      type: string
-      enum: [before_started, in_progress, success, failed]
-      readOnly: true
   required:
     - batch_name
     - server_name
     - initial_date
     - time_limit
+    - cron_setting
     - id
