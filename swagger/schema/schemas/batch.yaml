@@ -10,11 +10,14 @@ Batch:
     server_name:
       type: string
     initial_date:
+      format: ISO 8601
       type: string
     time_limit:
+      description: Unit -> Minutes
       type: integer
       format: int64
     estimated_duration:
+      description: Unit -> Minutes
       type: integer
       format: int64
     status:

@@ -10,11 +10,9 @@ History:
       readOnly: false
     status:
       type: string
-      enum: [success, failure]
-      readOnly: false
+    enum: [before_started, in_progress, success, failed]
+    readOnly: false
   required:
-    - batch_name
-    - server_name
-    - initial_date
-    - time_limit
+    - batch_id
+    - status
     - id
