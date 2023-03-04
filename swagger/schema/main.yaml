@@ -16,7 +16,7 @@ paths:
           required: false
       summary: get batch list
       tags: [batch]
-      description: get batch list. response can be filtered by keyword.
+      description: get batch list. response can be filtered by keyword. If no batches are found, an empty array is returned.
       responses:
         "200":
           description: success filter and can get batch list
@@ -49,8 +49,19 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/batch.yaml#Batch"
-
-      requestbody:
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#Error"
+      requestBody:
         content:
           application/json:
             schema:
@@ -65,14 +76,14 @@ paths:
           name: start_date
           schema:
             type: string
-          required: false
-          description: query for filtering
+          required: true
+          description: query for filtering (inclusive)
         - in: query
           name: end_date
           schema:
             type: string
-          required: false
-          description: query for filtering
+          required: true
+          description: query for filtering (inclusive)
       responses:
         "200":
           description: return batch history list
