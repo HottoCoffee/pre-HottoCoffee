@@ -25,13 +25,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch.yaml#/Batch"
+                  $ref: "./schemas/batch.yaml#/components/Batch"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
     post:
       tags: [batch]
       summary: register batch
@@ -42,24 +42,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/Batch"
+                $ref: "./schemas/batch.yaml#/components/Batch"
         "400":
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/Batch"
+              $ref: "./schemas/batch.yaml#/components/Batch"
   "/api/batch/{batch_id}":
     parameters:
       - in: path
@@ -75,39 +75,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/Success"
+                $ref: "./schemas/success.yaml#/components/Success"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
     put:
       tags: [batch]
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/Batch"
+              $ref: "./schemas/batch.yaml#/components/Batch"
       responses:
         "200":
           description: successfully updated.
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/Batch"
+                $ref: "./schemas/batch.yaml#/components/Batch"
         "400":
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
     get:
       tags: [batch]
       responses:
@@ -116,13 +116,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/Success"
+                $ref: "./schemas/success.yaml#/components/Success"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
 
   "/api/calendar":
     description: batch status for calendar. If no batches are found, an empty array is returned.
@@ -150,19 +150,19 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/history.yaml#/History"
+                  $ref: "./schemas/history.yaml#/components/History"
         "400":
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
   "/api/batch/{batch_id}/history":
     description: Return all histories of specific batch.
     get:
@@ -182,19 +182,19 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/history.yaml#/History"
+                  $ref: "./schemas/history.yaml#/components/History"
         "404":
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
     post:
       tags:
         - batch history
@@ -204,7 +204,7 @@ paths:
           schema:
             type: integer
           required: true
-          description: id of "./schemas/history.yaml#/History"
+          description: id of "./schemas/history.yaml#/components/History"
       requestBody:
         content:
           application/json:
@@ -222,13 +222,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/Success"
+                $ref: "./schemas/success.yaml#/components/Success"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
   "/api/batch/{id}/history/{historyId}":
     description: Get specific batch history
     get:
@@ -251,20 +251,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/history.yaml#/History"
+                $ref: "./schemas/history.yaml#/components/History"
         "404":
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/Error"
+                $ref: "./schemas/error.yaml#/components/Error"
 components:
   schemas:
     batch:
-      $ref: "./schemas/batch.yaml#/Batch"
+      $ref: "./schemas/batch.yaml#/components/Batch"
