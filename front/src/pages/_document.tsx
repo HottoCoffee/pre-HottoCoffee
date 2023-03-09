@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Document() {
   return (

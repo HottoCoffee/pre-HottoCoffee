@@ -1,0 +1,26 @@
+.container {
+  min-width: 300px;
+}
+
+.informationContainer {
+  display: grid;
+  grid-template-columns: minmax(140px, 0fr) 1fr;
+}
+
+.separator {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 12px;
+    content: ":";
+    z-index: 10;
+  }
+}
+
+.errorText {
+  color: red;
+}

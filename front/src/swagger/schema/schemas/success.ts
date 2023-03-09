@@ -9,7 +9,12 @@ export type paths = Record<string, never>;
 export type webhooks = Record<string, never>;
 
 export interface components {
-  schemas: never;
+  schemas: {
+    /** @description Success Schema */
+    Success: {
+      message: string;
+    };
+  };
   responses: never;
   parameters: never;
   requestBodies: never;

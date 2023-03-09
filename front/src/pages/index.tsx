@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "~/styles/Home.module.css";
 import { useEffect } from "react";
-import { client } from "~/msw/aspidaClient";
+import { client } from "~/modules/aspidaClient";
 
 const inter = Inter({ subsets: ["latin"] });
 

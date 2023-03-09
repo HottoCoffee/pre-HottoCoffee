@@ -9,7 +9,19 @@ export type paths = Record<string, never>;
 export type webhooks = Record<string, never>;
 
 export interface components {
-  schemas: never;
+  schemas: {
+    History: {
+      /** Format: int64 */
+      history_id?: number;
+      /** Format: int64 */
+      batch_id: number;
+      batch_name: string;
+      /** Format: ISO8601 */
+      start_datetime: string;
+      /** @enum {string} */
+      status: "before_started" | "in_progress" | "success" | "failed";
+    };
+  };
   responses: never;
   parameters: never;
   requestBodies: never;

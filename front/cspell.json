@@ -1,9 +1,9 @@
 {
   "version": "0.2",
-  "ignorePaths": [],
+  "ignorePaths": ["./src/api/**/*", "./src/swagger/**/*"],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": [],
+  "words": ["aspida", "Hotto", "datetime", "openapi"],
   "ignoreWords": [],
   "import": []
 }

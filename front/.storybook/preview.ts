@@ -1,4 +1,8 @@
 import type { Preview } from "@storybook/react";
+import { initialize, mswDecorator } from "msw-storybook-addon";
+import "react-loading-skeleton/dist/skeleton.css";
+
+initialize();
 
 const preview: Preview = {
   parameters: {
@@ -14,5 +18,7 @@ const preview: Preview = {
     },
   },
 };
+
+export const decorators = [mswDecorator];
 
 export default preview;

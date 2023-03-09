@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { rest, ResponseResolver, RestContext, RestRequest } from "msw";
 type A1<T> = T extends (a1: infer I) => unknown ? I : never;
 
