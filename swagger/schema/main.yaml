@@ -15,7 +15,7 @@ paths:
             type: string
           required: false
       summary: get batch list
-      tags: [batch]
+      tags: [batch list]
       description: get batch list. response can be filtered by keyword. If no batches are found, an empty array is returned.
       responses:
         "200":
@@ -26,12 +26,6 @@ paths:
                 type: array
                 items:
                   $ref: "./schemas/batch.yaml#/Batch"
-        "400":
-          description: bad request
-          content:
-            application/json:
-              schema:
-                $ref: "./schemas/error.yaml#/Error"
         "500":
           description: internal server error
           content:
@@ -66,8 +60,72 @@ paths:
           application/json:
             schema:
               $ref: "./schemas/batch.yaml#/Batch"
+  "/api/batch/{batch_id}":
+    parameters:
+      - in: path
+        name: batch_id
+        schema:
+          type: integer
+        required: true
+    delete:
+      tags: [batch]
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/Success"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/Error"
+    put:
+      tags: [batch]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/batch.yaml#/Batch"
+      responses:
+        "200":
+          description: successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/batch.yaml#/Batch"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/Error"
+    get:
+      tags: [batch]
+      responses:
+        "200":
+          description: return specific batch information
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/Success"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/Error"
+
   "/api/calendar":
-    description: batch status for calendar
+    description: batch status for calendar. If no batches are found, an empty array is returned.
     get:
       tags:
         - calendar
@@ -93,20 +151,26 @@ paths:
                 type: array
                 items:
                   $ref: "./schemas/history.yaml#/History"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/Error"
         "500":
           description: internal server error
           content:
             application/json:
               schema:
                 $ref: "./schemas/error.yaml#/Error"
-  "/api/batch/{id}/history":
-    description: batch history
+  "/api/batch/{batch_id}/history":
+    description: Return all histories of specific batch.
     get:
       tags:
         - batch history
       parameters:
         - in: path
-          name: id
+          name: batch_id
           schema:
             type: integer
           required: true
@@ -119,8 +183,8 @@ paths:
                 type: array
                 items:
                   $ref: "./schemas/history.yaml#/History"
-        "400":
-          description: Bad request
+        "404":
+          description: NotFound.
           content:
             application/json:
               schema:
@@ -150,6 +214,8 @@ paths:
                 status:
                   type: string
                   enum: [before_started, in_progress, success, failed]
+                message:
+                  type: string
       responses:
         "200":
           description: success to receive
@@ -186,8 +252,8 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/history.yaml#/History"
-        "400":
-          description: Batch not found.
+        "404":
+          description: NotFound.
           content:
             application/json:
               schema:

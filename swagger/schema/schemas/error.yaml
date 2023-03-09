@@ -2,17 +2,16 @@ Error:
   type: object
   description: Error Schema
   properties:
-    state:
-      type: string
-      description: type of error
-      example: BatchNotFound
-      maxLength: 255
+    status:
+      type: int
+      description: response status
+      example: 500
     message:
       type: string
       description: Error message
       maxLength: 255
-      example: Not Found
+      example: Server Error
       readOnly: true
   required:
-    - state
+    - status
     - message
