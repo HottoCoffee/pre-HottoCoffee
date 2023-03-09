@@ -8,7 +8,7 @@ name: "Chromatic"
 
 defaults:
   run:
-    working-directory: ./swagger
+    working-directory: ./front
 
 jobs:
   chromatic-deployment:
