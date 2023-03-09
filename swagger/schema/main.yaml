@@ -116,7 +116,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
         "500":
           description: internal server error
           content:
