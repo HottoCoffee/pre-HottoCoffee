@@ -1,0 +1,29 @@
+name: "Chromatic"
+
+"on":
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - front/**/*
+
+defaults:
+  run:
+    working-directory: ./front
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: npm install
+      - name: Run static analysis
+        run: npm run check && npm run fix
+      - name: Build app
+        run: npm run build
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: front
