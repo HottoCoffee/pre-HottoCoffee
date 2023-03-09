@@ -1,25 +1,26 @@
 components:
-  History:
-    properties:
-      history_id:
-        type: integer
-        format: int64
-        readOnly: true
-      batch_id:
-        type: integer
-        format: int64
-        readOnly: false
-      batch_name:
-        type: string
-      start_datetime:
-        type: string
-        format: ISO8601
-      status:
-        type: string
-        enum: [before_started, in_progress, success, failed]
-        readOnly: false
-    required:
-      - batch_id
-      - batch_name
-      - start_datetime
-      - status
+  schemas:
+    History:
+      properties:
+        history_id:
+          type: integer
+          format: int64
+          readOnly: true
+        batch_id:
+          type: integer
+          format: int64
+          readOnly: false
+        batch_name:
+          type: string
+        start_datetime:
+          type: string
+          format: ISO8601
+        status:
+          type: string
+          enum: [before_started, in_progress, success, failed]
+          readOnly: false
+      required:
+        - batch_id
+        - batch_name
+        - start_datetime
+        - status
