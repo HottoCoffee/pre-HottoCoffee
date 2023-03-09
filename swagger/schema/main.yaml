@@ -25,7 +25,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch.yaml#/components/Batch"
+                  $ref: "./schemas/batch.yaml#/components/schemas/Batch"
         "500":
           description: internal server error
           content:
@@ -42,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/Batch"
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
         "400":
           description: bad request
           content:
@@ -59,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/components/Batch"
+              $ref: "./schemas/batch.yaml#/components/schemas/Batch"
   "/api/batch/{batch_id}":
     parameters:
       - in: path
@@ -88,14 +88,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/components/Batch"
+              $ref: "./schemas/batch.yaml#/components/schemas/Batch"
       responses:
         "200":
           description: successfully updated.
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/Batch"
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
         "400":
           description: bad request
           content:
@@ -260,4 +260,4 @@ paths:
 components:
   schemas:
     batch:
-      $ref: "./schemas/batch.yaml#/components/Batch"
+      $ref: "./schemas/batch.yaml#/components/schemas/Batch"

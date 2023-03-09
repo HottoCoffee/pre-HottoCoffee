@@ -3,15 +3,15 @@ import type * as Types from '../../@types'
 
 export type Methods = {
   get: {
-    query?: {
-      /** query for filtering */
-      start_date?: string | undefined
-      /** query for filtering */
-      end_date?: string | undefined
-    } | undefined
+    query: {
+      /** query for filtering (inclusive) */
+      start_date: string
+      /** query for filtering (inclusive) */
+      end_date: string
+    }
 
     status: 200
-    /** Return batch history list */
-    resBody: Types.External2[]
+    /** return batch history list */
+    resBody: Types.External3_History[]
   }
 }

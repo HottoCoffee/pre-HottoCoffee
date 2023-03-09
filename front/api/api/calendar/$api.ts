@@ -9,14 +9,14 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
 
   return {
     /**
-     * @returns Return batch history list
+     * @returns return batch history list
      */
-    get: (option?: { query?: Methods0['get']['query'] | undefined, config?: T | undefined } | undefined) =>
+    get: (option: { query: Methods0['get']['query'], config?: T | undefined }) =>
       fetch<Methods0['get']['resBody'], BasicHeaders, Methods0['get']['status']>(prefix, PATH0, GET, option).json(),
     /**
-     * @returns Return batch history list
+     * @returns return batch history list
      */
-    $get: (option?: { query?: Methods0['get']['query'] | undefined, config?: T | undefined } | undefined) =>
+    $get: (option: { query: Methods0['get']['query'], config?: T | undefined }) =>
       fetch<Methods0['get']['resBody'], BasicHeaders, Methods0['get']['status']>(prefix, PATH0, GET, option).json().then(r => r.body),
     $path: (option?: { method?: 'get' | undefined; query: Methods0['get']['query'] } | undefined) =>
       `${prefix}${PATH0}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`

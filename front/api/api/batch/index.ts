@@ -2,22 +2,22 @@
 import type * as Types from '../../@types'
 
 export type Methods = {
-  /** Get batch list. Response can be filtered by keyword. */
+  /** get batch list. response can be filtered by keyword. If no batches are found, an empty array is returned. */
   get: {
     query?: {
       keyword?: string | undefined
     } | undefined
 
     status: 200
-    /** Success filter and can get batch list */
-    resBody: Types.External0[]
+    /** success filter and can get batch list */
+    resBody: Types.External0_Batch[]
   }
 
-  /** Register new batch */
+  /** register new batch */
   post: {
     status: 200
-    /** Success to create */
-    resBody: Types.External0
-    reqBody: Types.External0
+    /** success to create */
+    resBody: Types.External0_Batch
+    reqBody: Types.External0_Batch
   }
 }
