@@ -7,7 +7,8 @@
     "stylelint-prettier/recommended"
   ],
   "rules": {
-    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$"
+    "keyframes-name-pattern": null,
+    "selector-class-pattern": null
   },
   "ignoreFiles": [
     "**/node_modules/**",

@@ -13,11 +13,11 @@
   &::before {
     position: absolute;
     top: 0;
+    right: 12px;
     bottom: 0;
     left: auto;
-    right: 12px;
-    content: ":";
     z-index: 10;
+    content: ":";
   }
 }
 

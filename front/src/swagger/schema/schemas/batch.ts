@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export type paths = Record<string, never>;
 
 export type webhooks = Record<string, never>;
@@ -20,12 +19,12 @@ export interface components {
       /** Format: ISO 8601 */
       initial_date: string;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       time_limit: number;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       estimated_duration?: number;
