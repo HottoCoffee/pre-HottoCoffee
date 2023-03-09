@@ -222,19 +222,19 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/batch/{id}/history/{historyId}":
+  "/api/batch/{batch_id}/history/{history_id}":
     description: Get specific batch history
     get:
       tags:
         - batch history
       parameters:
         - in: path
-          name: id
+          name: batch_id
           schema:
             type: integer
           required: true
         - in: path
-          name: historyId
+          name: history_id
           schema:
             type: integer
           required: true
