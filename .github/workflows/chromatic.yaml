@@ -6,6 +6,10 @@ name: "Chromatic"
     paths:
       - front/**/*
 
+defaults:
+  run:
+    working-directory: ./swagger
+
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
