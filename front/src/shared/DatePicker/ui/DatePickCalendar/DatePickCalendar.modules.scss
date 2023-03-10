@@ -1,0 +1,65 @@
+.wrapper {
+  padding: 8px;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  background-color: white;
+  display: inline-block;
+  position: relative;
+}
+
+.container {
+  display: inline-grid;
+}
+
+.week {
+  display: inline-grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+  display: inline-block;
+  background: none;
+  border: none;
+  margin: 4px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  z-index: 10;
+
+  &[data-isthismonth="false"] {
+    color: #848484;
+  }
+
+  &[data-isselected="true"] {
+    color: white;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #6b7aff;
+      border-radius: 50%;
+      margin: auto;
+      z-index: -1;
+    }
+  }
+}
+
+.arrowButton {
+  border: none;
+  background: none;
+}
+
+.displayedMonthLabel {
+  display: grid;
+  margin: auto;
+  grid-template-columns: 16px 0fr 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}

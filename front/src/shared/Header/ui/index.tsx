@@ -1,9 +1,20 @@
-import { Template } from "./template";
+import styles from "./Header.modules.scss";
 
 interface Props {
   children: React.ReactNode;
 }
 
+/**
+ * @public
+ */
 export const Header = (props: Props) => {
-  return <Template {...props} />;
+  const { children } = props;
+
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>HottoCoffee</h1>
+
+      <div>{children}</div>
+    </div>
+  );
 };

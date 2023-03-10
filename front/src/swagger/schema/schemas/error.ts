@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export type paths = Record<string, never>;
 
 export type webhooks = Record<string, never>;
@@ -12,12 +13,12 @@ export interface components {
     /** @description Error Schema */
     Error: {
       /**
-       * @description response status
+       * @description response status 
        * @example 500
        */
       status: Record<string, never>;
       /**
-       * @description Error message
+       * @description Error message 
        * @example Server Error
        */
       message: string;

@@ -1,0 +1,15 @@
+.formLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.error {
+  color: red;
+  text-align: right;
+  grid-column: 1/3;
+}
+
+.fieldContainer {
+  display: grid;
+  gap: 8px;
+}

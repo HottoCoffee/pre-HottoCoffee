@@ -3,7 +3,7 @@
   "ignorePaths": ["./src/api/**/*", "./src/swagger/**/*"],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": ["aspida", "Hotto", "datetime", "openapi"],
+  "words": ["aspida", "datetime", "Hotto", "isselected", "isthismonth", "openapi"],
   "ignoreWords": [],
   "import": []
 }

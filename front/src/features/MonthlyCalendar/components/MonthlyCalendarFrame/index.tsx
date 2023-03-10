@@ -3,11 +3,11 @@ import { getDateListInMonth } from "../../utils/dateCalculationHelper";
 
 interface Props {
   date: Date;
-  childBoxComponent: (date: Date) => React.ReactNode;
+  children: (date: Date) => React.ReactNode;
 }
 
 export const MonthlyCalendarFrame = (props: Props) => {
-  const { date, childBoxComponent } = props;
+  const { date, children } = props;
 
   const dateList = getDateListInMonth(date);
 
@@ -19,7 +19,7 @@ export const MonthlyCalendarFrame = (props: Props) => {
             {week.map((date, dayIndex) => {
               return (
                 <div key={weekIndex * 7 + dayIndex} className={styles.day}>
-                  {childBoxComponent(date)}
+                  {children(date)}
                 </div>
               );
             })}

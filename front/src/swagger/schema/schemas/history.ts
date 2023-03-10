@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export type paths = Record<string, never>;
 
 export type webhooks = Record<string, never>;

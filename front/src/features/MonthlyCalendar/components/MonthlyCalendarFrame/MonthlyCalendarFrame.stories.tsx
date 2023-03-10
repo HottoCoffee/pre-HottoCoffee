@@ -20,7 +20,7 @@ type Story = StoryObj<typeof MonthlyCalendarFrame>;
 export const SimpleCalendar: Story = {
   args: {
     date: new Date("2023/3/1"),
-    childBoxComponent: (date: Date) => {
+    children: (date: Date) => {
       return (
         <div>
           <p>{date.getDate()}</p>

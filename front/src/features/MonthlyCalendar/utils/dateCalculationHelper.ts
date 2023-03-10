@@ -36,7 +36,27 @@ export const getFirstDateOfMonthlyCalendar = (date: Date) => {
 export const getWeekCount = (date: Date): number => {
   const firstDate = startOfMonth(date);
   const lastDate = endOfMonth(date);
-  const currentMonthWeeks = getWeek(lastDate) - getWeek(firstDate) + 1;
+
+  let currentMonthWeeks = getWeek(lastDate) - getWeek(firstDate) + 1;
+
+  if (currentMonthWeeks < 0) {
+    currentMonthWeeks += getLastWeekNumberInLastYear(firstDate);
+  }
 
   return currentMonthWeeks;
+};
+
+/**
+ * Get last week number in last year
+ */
+const getLastWeekNumberInLastYear = (date: Date): number => {
+  const currentYear = date.getFullYear();
+  const lastDayInLastYear = new Date(currentYear - 1, 11, 31);
+  let weekNumber = getWeek(lastDayInLastYear);
+
+  if (weekNumber === 1) {
+    weekNumber = getWeek(add(lastDayInLastYear, { weeks: -1 }));
+  }
+
+  return weekNumber;
 };

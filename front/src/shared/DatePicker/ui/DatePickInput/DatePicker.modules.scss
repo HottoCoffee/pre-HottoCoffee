@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  cursor: pointer;
+}
+
+.input {
+  background: none;
+  border: 2px solid #797979;
+  border-radius: 8px;
+  padding: 4px 12px;
+  padding-left: 32px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  margin: auto;
+  pointer-events: none;
+}
+
+.popoverContent {
+  z-index: 1000;
+}

@@ -21,7 +21,6 @@ describe("dateCalculationHelper", () => {
     const date = new Date("2023/3/1");
     const dateList = getDateListInMonth(date);
 
-    console.log(getDateListInMonth(date));
     expect(dateList.length).toBe(5);
     expect(dateList[0].length).toBe(7);
   });
