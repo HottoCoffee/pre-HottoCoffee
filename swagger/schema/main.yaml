@@ -42,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/schemas/BatchCreate"
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
         "400":
           description: bad request
           content:
@@ -59,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+              $ref: "./schemas/batch.yaml#/components/schemas/BatchCreate"
   "/api/batch/{batch_id}":
     parameters:
       - in: path
