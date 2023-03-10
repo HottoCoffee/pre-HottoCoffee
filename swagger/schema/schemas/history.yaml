@@ -6,6 +6,8 @@ components:
           type: integer
           format: int64
           readOnly: true
+          required: false
+          description: history_id will be null when the batch execution time is future.
         batch_id:
           type: integer
           format: int64
