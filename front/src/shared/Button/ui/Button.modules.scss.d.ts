@@ -1,9 +1,10 @@
 export type Styles = {
-  error: string;
-  fieldContainer: string;
-  footer: string;
-  formLayout: string;
-  title: string;
+  button: string;
+  danger: string;
+  default: string;
+  disabled: string;
+  labeled: string;
+  success: string;
 };
 
 export type ClassNames = keyof Styles;

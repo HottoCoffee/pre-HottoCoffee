@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import { DatePickInput } from "~/shared/DatePicker/ui/DatePickInput";
 import { FormEvent, useState } from "react";
 import { createNewBatchValidation } from "../../utils/validations/createNewBatchValidation";
+import { Button } from "~/shared/Button/ui";
 
 const clx = classNames.bind(styles);
 
@@ -25,6 +26,7 @@ export const RegisterNewBatchForm = () => {
 
   return (
     <Form.Root className={styles.fieldContainer} onSubmit={onSubmit}>
+      <h1 className={styles.title}>Register New Batch</h1>
       <Form.Field name="batch_name" className={styles.formLayout}>
         <Form.FormLabel>Batch name</Form.FormLabel>
         <Form.Control asChild>
@@ -71,7 +73,7 @@ export const RegisterNewBatchForm = () => {
       </Form.Field>
 
       <Form.Field name="time_limit" className={styles.formLayout}>
-        <Form.FormLabel>Server name</Form.FormLabel>
+        <Form.FormLabel>Time limit (s)</Form.FormLabel>
         <Form.Control asChild>
           <TextInput required type="number" />
         </Form.Control>
@@ -81,9 +83,15 @@ export const RegisterNewBatchForm = () => {
         </Form.Message>
       </Form.Field>
 
-      <Form.Submit asChild>
-        <button>Register</button>
-      </Form.Submit>
+      <div className={styles.footer}>
+        <Button appearance="labeled" type="button">
+          Back To Top
+        </Button>
+
+        <Form.Submit asChild>
+          <Button appearance="success">Register</Button>
+        </Form.Submit>
+      </div>
     </Form.Root>
   );
 };
