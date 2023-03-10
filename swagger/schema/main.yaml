@@ -261,3 +261,9 @@ components:
   schemas:
     batch:
       $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+    error:
+      $ref: "./schemas/error.yaml#/components/schemas/Error"
+    history:
+      $ref: "./schemas/history.yaml#/components/schemas/History"
+    success:
+      $ref: "./schemas/success.yaml#/components/schemas/Success"
