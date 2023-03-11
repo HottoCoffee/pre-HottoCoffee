@@ -1,0 +1,15 @@
+services:
+  mysql:
+    build:
+      context: ./db
+    image: hottocoffee-db
+    command: mysqld
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/create.sql:/docker-entrypoint-initdb.d/create.sql
+    privileged: true
+    environment:
+      - MYSQL_DATABASE=hottocoffee
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Asia/Tokyo
