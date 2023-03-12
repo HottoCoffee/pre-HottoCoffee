@@ -30,6 +30,24 @@ export interface components {
        */
       estimated_duration?: number;
     };
+    BatchCreate: {
+      batch_name: string;
+      server_name: string;
+      /** @description ex.) 30 * * * * */
+      cron_setting: string;
+      /** Format: ISO 8601 */
+      initial_date: string;
+      /**
+       * Format: int64 
+       * @description Unit -> Minutes
+       */
+      time_limit: number;
+      /**
+       * Format: int64 
+       * @description Unit -> Minutes
+       */
+      estimated_duration?: number;
+    };
   };
   responses: never;
   parameters: never;

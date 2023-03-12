@@ -1,18 +1,26 @@
 import * as Form from "@radix-ui/react-form";
 import { TextInput } from "~/shared/TextInput/ui";
 import styles from "./RegisterNewBatchForm.modules.scss";
-import classNames from "classnames/bind";
 import { DatePickInput } from "~/shared/DatePicker/ui/DatePickInput";
 import { FormEvent, useState } from "react";
 import { createNewBatchValidation } from "../../utils/validations/createNewBatchValidation";
 import { Button } from "~/shared/Button/ui";
+import { client } from "~/modules/aspidaClient";
+import * as Toast from "@radix-ui/react-toast";
+import { components } from "~/swagger/schema/schemas/batch";
+import axios from "axios";
+import { Toaster } from "~/shared/Toaster/ui";
 
-const clx = classNames.bind(styles);
+interface Props {
+  onSuccess: (batch: components["schemas"]["Batch"]) => void;
+}
 
-export const RegisterNewBatchForm = () => {
+export const RegisterNewBatchForm = (props: Props) => {
+  const { onSuccess } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget));
 
@@ -21,7 +29,26 @@ export const RegisterNewBatchForm = () => {
       initial_date: selectedDate,
     });
 
-    console.log(validationResult.data);
+    if (validationResult.type === "err") {
+      window.alert("Please input valid values.");
+      return;
+    }
+
+    try {
+      const response = await client.api.batch.post({
+        body: validationResult.data,
+      });
+
+      onSuccess(response.body);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        setErrorMessage(e.message);
+      }
+    }
+  };
+
+  const clearError = () => {
+    setErrorMessage(undefined);
   };
 
   return (
@@ -62,12 +89,13 @@ export const RegisterNewBatchForm = () => {
 
       <Form.Field name="initial_execution_date" className={styles.formLayout}>
         <Form.FormLabel>Initial execution date</Form.FormLabel>
-        <Form.Control asChild>
+        <Form.Control id="initial_execution_date" asChild>
           <DatePickInput
             selectedDate={selectedDate}
             onSelectDate={(date) => {
               setSelectedDate(date);
             }}
+            dataTestId="initial_execution_date"
           />
         </Form.Control>
       </Form.Field>
@@ -92,6 +120,19 @@ export const RegisterNewBatchForm = () => {
           <Button appearance="success">Register</Button>
         </Form.Submit>
       </div>
+
+      <Toaster
+        type={"success"}
+        description={<p>{errorMessage}</p>}
+        title="Error on api."
+        open={Boolean(errorMessage)}
+        setOpen={(open: boolean) => {
+          if (!open) {
+            clearError();
+          }
+        }}
+      />
+      <Toast.Viewport />
     </Form.Root>
   );
 };

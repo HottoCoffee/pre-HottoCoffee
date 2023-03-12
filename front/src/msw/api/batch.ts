@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { client } from "~/modules/aspidaClient";
-import { restGet } from "~/modules/handlerFactory";
+import { restGet, restPost } from "~/modules/handlerFactory";
 import { sleep } from "~/modules/sleep";
 
 export const MOCK_BATCH_ID = 1;
@@ -34,6 +34,30 @@ export const returnErrorGetBatchByBatchId = () => {
         status: 500,
         message: "Unknown Error",
       }),
+    );
+  });
+};
+
+export const successToCreateNewBatch = () => {
+  return restPost(client.api.batch, async (_, res, context) => {
+    return res(
+      context.json({
+        id: MOCK_BATCH_ID,
+        batch_name: "Batch1",
+        server_name: "Server1",
+        initial_date: "2023-03-03T09:27:03.529Z",
+        time_limit: 30,
+        cron_setting: "30 * * *",
+      }),
+    );
+  });
+};
+
+export const failedToCreateNewBatch = () => {
+  return rest.post(client.api.batch.$path(), async (_, res, context) => {
+    return res(
+      context.status(500),
+      context.json({ status: 500, message: "Unknown Error occurred during creating new batch" }),
     );
   });
 };
