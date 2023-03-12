@@ -1,0 +1,62 @@
+components:
+  schemas:
+    Batch:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        batch_name:
+          type: string
+        server_name:
+          type: string
+        cron_setting:
+          type: string
+          description: ex.) 30 * * * *
+        initial_date:
+          format: ISO 8601
+          type: string
+        time_limit:
+          description: Unit -> Minutes
+          type: integer
+          format: int64
+        estimated_duration:
+          description: Unit -> Minutes
+          type: integer
+          format: int64
+      required:
+        - batch_name
+        - server_name
+        - initial_date
+        - time_limit
+        - cron_setting
+        - id
+    BatchCreate:
+      type: object
+      properties:
+        batch_name:
+          type: string
+        server_name:
+          type: string
+        cron_setting:
+          type: string
+          description: ex.) 30 * * * *
+        initial_date:
+          format: ISO 8601
+          type: string
+        time_limit:
+          description: Unit -> Minutes
+          type: integer
+          format: int64
+        estimated_duration:
+          description: Unit -> Minutes
+          type: integer
+          format: int64
+      required:
+        - batch_name
+        - server_name
+        - initial_date
+        - time_limit
+        - cron_setting
+        - id

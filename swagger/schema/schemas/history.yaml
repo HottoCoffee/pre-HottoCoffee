@@ -1,0 +1,28 @@
+components:
+  schemas:
+    History:
+      properties:
+        history_id:
+          type: integer
+          format: int64
+          readOnly: true
+          required: false
+          description: history_id will be null when the batch execution time is future.
+        batch_id:
+          type: integer
+          format: int64
+          readOnly: false
+        batch_name:
+          type: string
+        start_datetime:
+          type: string
+          format: ISO8601
+        status:
+          type: string
+          enum: [before_started, in_progress, success, failed]
+          readOnly: false
+      required:
+        - batch_id
+        - batch_name
+        - start_datetime
+        - status
