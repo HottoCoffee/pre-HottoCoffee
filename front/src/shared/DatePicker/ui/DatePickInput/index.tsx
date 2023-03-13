@@ -4,6 +4,9 @@ import * as Popover from "@radix-ui/react-popover";
 import { DatePickCalendar } from "../DatePickCalendar";
 import { format } from "date-fns";
 import { forwardRef, Ref } from "react";
+import classNames from "classnames/bind";
+
+const clx = classNames.bind(styles);
 
 interface Props {
   selectedDate?: Date;
@@ -13,23 +16,23 @@ interface Props {
 
 export const DatePickInput = forwardRef(function DatePickInput(
   props: Props,
-  ref: Ref<HTMLInputElement>,
+  ref: Ref<HTMLButtonElement>,
 ) {
   const { selectedDate, onSelectDate, dataTestId } = props;
 
+  const buttonClass = clx(styles.button, {
+    [styles.placeholder]: !selectedDate,
+  });
+  const value = selectedDate ?? new Date();
+
   return (
-    <div className={styles.container} role="button">
+    <div className={styles.container}>
       <BsCalendarEvent className={styles.icon} />
       <Popover.Root>
         <Popover.Trigger asChild>
-          <input
-            type="text"
-            className={styles.input}
-            placeholder="2023/1/3"
-            value={selectedDate ? format(selectedDate, "yyyy/MM/dd") : undefined}
-            ref={ref}
-            data-testid={dataTestId}
-          />
+          <button className={buttonClass} ref={ref} data-testid={dataTestId}>
+            {format(value, "yyyy/MM/dd")}
+          </button>
         </Popover.Trigger>
 
         <Popover.Portal>

@@ -1,7 +1,8 @@
 export type Styles = {
+  button: string;
   container: string;
   icon: string;
-  input: string;
+  placeholder: string;
   popoverContent: string;
 };
 

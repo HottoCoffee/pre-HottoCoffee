@@ -1,12 +1,13 @@
 import { add, format, isSameDay, isSameMonth } from "date-fns";
 import { useState } from "react";
 import { getDateListInMonth } from "~/features/MonthlyCalendar/utils/dateCalculationHelper";
+import * as Popover from "@radix-ui/react-popover";
 
 import styles from "./DatePickCalendar.modules.scss";
 import * as AccessibleIcon from "@radix-ui/react-accessible-icon";
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
 
-interface Props {
+export interface Props {
   selectedDate?: Date;
   onSelectDate: (date: Date) => void;
 }
@@ -33,15 +34,19 @@ export const DatePickCalendar = (props: Props) => {
     <div className={styles.wrapper}>
       <div className={styles.displayedMonthLabel}>
         <AccessibleIcon.Root label="BackToPreviousMonth">
-          <button className={styles.arrowButton} onClick={goPreviousMonth}>
+          <button
+            className={styles.arrowButton}
+            onClick={goPreviousMonth}
+            data-testid="back-previous-month"
+          >
             <MdOutlineArrowBackIos />
           </button>
         </AccessibleIcon.Root>
 
-        <p>{format(displayedMonth, "yyyy/MM")}</p>
+        <p data-testid="date-input-title">{format(displayedMonth, "yyyy/MM")}</p>
 
-        <AccessibleIcon.Root label="BackToPreviousMonth">
-          <button className={styles.arrowButton} onClick={goNextMonth}>
+        <AccessibleIcon.Root label="GoToNextMonth">
+          <button className={styles.arrowButton} onClick={goNextMonth} data-testid="go-next-month">
             <MdOutlineArrowForwardIos />
           </button>
         </AccessibleIcon.Root>
@@ -52,10 +57,27 @@ export const DatePickCalendar = (props: Props) => {
           return (
             <div key={weekIndex} className={styles.week}>
               {week.map((date, dayIndex) => {
+                if (isSameMonth(date, displayedMonth)) {
+                  return (
+                    <Popover.Close key={weekIndex * 7 + dayIndex} asChild>
+                      <button
+                        className={styles.day}
+                        data-isthismonth={isSameMonth(date, displayedMonth)}
+                        data-isselected={isSameDay(date, selectedDate)}
+                        onClick={() => {
+                          onSelectDay(date);
+                        }}
+                      >
+                        {format(date, "d")}
+                      </button>
+                    </Popover.Close>
+                  );
+                }
+
                 return (
                   <button
-                    key={weekIndex * 7 + dayIndex}
                     className={styles.day}
+                    key={weekIndex * 7 + dayIndex}
                     data-isthismonth={isSameMonth(date, displayedMonth)}
                     data-isselected={isSameDay(date, selectedDate)}
                     onClick={() => {
