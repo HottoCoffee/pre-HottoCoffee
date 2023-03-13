@@ -1,4 +1,4 @@
-name: "Backend build check"
+name: Backend build check
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - '**.go'
   push:
     branches:
-      - 'main'
+      - main
       - develop
 
 defaults:
