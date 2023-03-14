@@ -1,24 +1,33 @@
 package controller
 
 import (
+	"github.com/HottoCoffee/HottoCoffee/usecase"
 	"gorm.io/gorm"
+	"strconv"
 	"time"
 )
 
 type BatchController struct {
-	p  BatchPresenter
-	db gorm.DB
+	getBatchUsecase usecase.GetBatchUsecase
+	batchPresenter  *BatchPresenter
 }
 
-func (bc BatchController) GetBatch(id int) {
-	var batch Batch
-	tx := bc.db.First(&batch, id)
-	if tx.RowsAffected == 0 {
-		// presenter.notFound
+func NewBatchController(gbu usecase.GetBatchUsecase, bp *BatchPresenter) BatchController {
+	return BatchController{getBatchUsecase: gbu, batchPresenter: bp}
+}
+
+func (bc *BatchController) GetBatch(input string) {
+	id, err := strconv.Atoi(input)
+	if err != nil {
+		bc.batchPresenter.SendNotFoundResponse()
 		return
 	}
-
-  bc.p.SendResponse((map[string]interface{})batch)
+	b, err := bc.getBatchUsecase.Execute(id)
+	if err != nil {
+		bc.batchPresenter.SendNotFoundResponse()
+	} else {
+		bc.batchPresenter.SendBatchResponse(*b)
+	}
 }
 
 type Batch struct {
