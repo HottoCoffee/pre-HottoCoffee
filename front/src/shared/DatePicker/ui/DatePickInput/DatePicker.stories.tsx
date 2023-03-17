@@ -1,3 +1,4 @@
+import { userEvent, within } from "@storybook/testing-library";
 import { DatePickInput } from "./index";
 
 import type { Meta, StoryObj } from "@storybook/react";
@@ -11,5 +12,13 @@ export default meta;
 type Story = StoryObj<typeof DatePickInput>;
 
 export const Normal: Story = {
-  args: {},
+  args: {
+    dataTestId: "testid-input",
+  },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+
+    const inputElement = canvas.getByTestId("testid-input");
+    await userEvent.click(inputElement);
+  },
 };

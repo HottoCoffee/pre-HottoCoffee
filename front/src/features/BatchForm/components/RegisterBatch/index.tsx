@@ -38,8 +38,9 @@ export const RegisterNewBatchForm = (props: Props) => {
       const response = await client.api.batch.post({
         body: validationResult.data,
       });
+      console.log(response);
 
-      onSuccess(response.body);
+      onSuccess?.(response.body);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         setErrorMessage(e.message);
@@ -112,12 +113,14 @@ export const RegisterNewBatchForm = (props: Props) => {
       </Form.Field>
 
       <div className={styles.footer}>
-        <Button appearance="labeled" type="button">
+        <Button appearance="labeled" type="reset">
           Back To Top
         </Button>
 
         <Form.Submit asChild>
-          <Button appearance="success">Register</Button>
+          <Button type="submit" appearance="success" data-testid="submit">
+            Register
+          </Button>
         </Form.Submit>
       </div>
 

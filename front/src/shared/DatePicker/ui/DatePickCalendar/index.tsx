@@ -31,7 +31,7 @@ export const DatePickCalendar = (props: Props) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid="date-picker">
       <div className={styles.displayedMonthLabel}>
         <AccessibleIcon.Root label="BackToPreviousMonth">
           <button

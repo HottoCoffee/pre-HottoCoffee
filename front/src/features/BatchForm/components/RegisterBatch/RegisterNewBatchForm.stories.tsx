@@ -1,3 +1,4 @@
+import { expect, jest } from "@storybook/jest";
 import { RegisterNewBatchForm } from "./index";
 
 import type { Meta, StoryObj } from "@storybook/react";
@@ -16,13 +17,15 @@ export default meta;
 type Story = StoryObj<typeof RegisterNewBatchForm>;
 
 export const SuccessToCreate: Story = {
-  args: {},
+  args: {
+    onSuccess: jest.fn(),
+  },
   parameters: {
     msw: {
       handlers: [successToCreateNewBatch()],
     },
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
     const batchNameInput = canvas.getAllByLabelText("Batch name")[0];
@@ -36,14 +39,33 @@ export const SuccessToCreate: Story = {
 
     const initialExecutionDateInput = canvas.getByTestId("initial_execution_date");
     await userEvent.click(initialExecutionDateInput);
+    await userEvent.click(initialExecutionDateInput);
+
+    const timeLimitInput = canvas.getByLabelText("Time limit (s)");
+    await userEvent.type(timeLimitInput, "20");
+
+    const submissionButton = canvas.getByTestId("submit");
+    await userEvent.click(submissionButton);
+
+    await expect(args.onSuccess).toBeCalled();
   },
 };
 
 export const FailedToCreate: Story = {
-  args: {},
+  args: {
+    onSuccess: jest.fn(),
+  },
   parameters: {
     msw: {
       handlers: [failedToCreateNewBatch()],
     },
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    const submissionButton = canvas.getByTestId("submit");
+    await userEvent.click(submissionButton);
+
+    await expect(args.onSuccess).not.toBeCalled();
   },
 };
