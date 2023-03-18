@@ -1,3 +1,3 @@
-[submodule "front"]
-	path = front
-	url = git@github.com:HottoCoffee/HottoCoffee-front.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:HottoCoffee/HottoCoffee-frontend.git
