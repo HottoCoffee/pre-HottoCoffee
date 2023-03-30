@@ -8,6 +8,7 @@
   "dictionaries": [],
   "words": [
     "aspida",
+    "Autodocs",
     "datetime",
     "Hotto",
     "isselected",
@@ -15,7 +16,8 @@
     "openapi",
     "stylelint",
     "testid",
-    "Twotone"
+    "Twotone",
+    "usehooks"
   ],
   "ignoreWords": [],
   "import": []

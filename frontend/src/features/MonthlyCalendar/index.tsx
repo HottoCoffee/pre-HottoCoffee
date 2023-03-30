@@ -4,12 +4,9 @@ import { client } from "~/modules/aspidaClient";
 import { getDateListInMonth } from "./utils/dateCalculationHelper";
 import { isSameDay } from "date-fns";
 import styles from "./index.module.scss";
-import classNames from "classnames/bind";
 import { MonthlyCalendarDayCell } from "./components/MonthlyCalendarDayCell";
 import { Toaster } from "~/shared/Toaster/ui";
 import * as Toast from "@radix-ui/react-toast";
-
-const clx = classNames.bind(styles);
 
 interface Props {
   date: Date;

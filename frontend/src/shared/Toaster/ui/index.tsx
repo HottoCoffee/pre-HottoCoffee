@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Toaster = (props: Props) => {
-  const { type, description, title, setOpen, open } = props;
+  const { description, title, setOpen, open } = props;
 
   return (
     <>

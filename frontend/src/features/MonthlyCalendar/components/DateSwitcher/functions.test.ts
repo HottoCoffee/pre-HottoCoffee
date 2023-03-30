@@ -1,6 +1,6 @@
 import { dateSwitcherOnChangeMethod } from "./functions";
 
-describe("features > MonthlyCalenadr > components > DateSwitcher > functions", () => {
+describe("features > MonthlyCalendar > components > DateSwitcher > functions", () => {
   test("returns incremented 1 month when user calls goNext method with type='month'", () => {
     const { goNext } = dateSwitcherOnChangeMethod({
       date: new Date("2023/3/1"),
