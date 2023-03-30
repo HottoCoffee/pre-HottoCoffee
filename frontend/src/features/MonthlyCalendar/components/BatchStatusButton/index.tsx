@@ -17,6 +17,7 @@ interface Props {
 import styles from "./BatchStatusButton.modules.scss";
 import { BatchDetailPopover } from "../BatchDetailPopover";
 import { BatchHistoryPopover } from "../BatchHistoryPopover";
+import { HEIGHT_OF_BATCH_STATUS_BUTTON } from "./constants";
 
 export const BatchStatusButton = (props: Props) => {
   const { batchName, status, batchId, historyId } = props;
@@ -31,7 +32,7 @@ export const BatchStatusButton = (props: Props) => {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
-        <button className={buttonClass}>
+        <button className={buttonClass} style={{ height: HEIGHT_OF_BATCH_STATUS_BUTTON }}>
           {batchName}
           {status === "in_progress" && (
             <AccessibleIcon.Root label="Loading effect">

@@ -12,7 +12,12 @@ export const MonthlyCalendarFrame = (props: Props) => {
   const dateList = getDateListInMonth(date);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        gridTemplateRows: `repeat(${dateList.length}, 1fr)`,
+      }}
+    >
       {dateList.map((week, weekIndex) => {
         return (
           <div key={weekIndex} className={styles.week}>

@@ -1,16 +1,29 @@
 import { client } from "../../modules/aspidaClient";
 import { restGet } from "~/modules/handlerFactory";
 
-export const mockGetBatchListForCalendar = restGet(client.api.batch, (req, res, context) => {
+export const mockGetBatchListForCalendar = restGet(client.api.calendar, (req, res, context) => {
   return res(
     context.json([
       {
-        id: 1,
-        batch_name: "Batch1",
-        server_name: "Server1",
-        initial_date: "2023-03-03T09:27:03.529Z",
-        time_limit: 30,
-        cron_setting: "30 * * *",
+        history_id: 1,
+        batch_id: 1,
+        batch_name: "Batch 1",
+        start_datetime: "2023-02-04T00:00:00.000Z",
+        status: "success",
+      },
+      {
+        history_id: 1,
+        batch_id: 1,
+        batch_name: "LongLongBatchName",
+        start_datetime: "2023-02-04T00:00:00.000Z",
+        status: "success",
+      },
+      {
+        history_id: 1,
+        batch_id: 1,
+        batch_name: "Batch 1",
+        start_datetime: "2023-02-04T00:00:00.000Z",
+        status: "success",
       },
     ]),
   );

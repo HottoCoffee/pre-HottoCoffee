@@ -1,45 +1,19 @@
-@import "../../../../styles/animations.scss";
+.list {
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+  margin-top: 4px;
+}
 
 .container {
-  display: inline-block;
-  padding: 2px max(4px, 12%);
+  height: 100%;
+}
+
+.moreButton {
+  margin-top: 4px;
   background: none;
   border: none;
-  border-radius: 4px;
-  white-space: nowrap;
-  width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.beforeStarted {
-  color: #333;
-  background: #d9d9d9;
-}
-
-.inProgress {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 12px 2px 20px;
-  color: #373737;
-  background: #00e500;
-}
-
-.success {
-  color: #666;
-  border: 2px #d9d9d9 dotted;
-}
-
-.failed {
-  color: #f00;
-  border: 2px #f00 dotted;
-}
-
-.loadingIcon {
-  width: 16px;
-  height: 16px;
+  font-size: 14px;
 }
 
 .close {
@@ -78,4 +52,8 @@
   &[data-state="open"][data-side="left"] {
     animation-name: slideRightAndFade;
   }
+}
+
+.restBatchList {
+  margin-top: 24px;
 }
