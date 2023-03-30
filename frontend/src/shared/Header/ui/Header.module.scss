@@ -1,0 +1,13 @@
+@import "~/styles/variables/font";
+
+.title {
+  font-size: $font-size-title;
+  color: $font-color-base;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 12px 20px;
+}

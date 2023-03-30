@@ -1,0 +1,9 @@
+.container {
+  display: grid;
+  grid-template-columns: 20px 0fr 20px;
+}
+
+.button {
+  background: none;
+  border: none;
+}

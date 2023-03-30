@@ -1,0 +1,18 @@
+.container {
+  display: grid;
+  gap: 8px;
+}
+
+.button {
+  background: none;
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 12px;
+  margin: 0;
+  border-radius: 8px;
+}
+
+.active {
+  background: #fe9999;
+}
