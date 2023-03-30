@@ -8,7 +8,7 @@ name: 'Chromatic'
 
 defaults:
   run:
-    working-directory: .frontend/
+    working-directory: ./frontend
 
 jobs:
   chromatic-deployment:
@@ -24,4 +24,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          workingDir: front
+          workingDir: frontend
