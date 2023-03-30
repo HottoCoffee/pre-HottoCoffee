@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { AiTwotoneHome } from "react-icons/ai";
 import { MdViewList } from "react-icons/md";
 import classNames from "classnames/bind";
+import Link from "next/link";
 
 import styles from "./SideNavigation.module.scss";
 
@@ -20,17 +21,17 @@ export const SideNavigation = () => {
 
   return (
     <div className={containerClass}>
-      <button className={homeButtonClass}>
+      <Link href="/home" className={homeButtonClass}>
         <AiTwotoneHome />
 
         <span>Home</span>
-      </button>
+      </Link>
 
-      <button className={batchListButtonClass}>
+      <Link href="/batch/list" className={batchListButtonClass}>
         <MdViewList />
 
         <span>Batch list</span>
-      </button>
+      </Link>
     </div>
   );
 };

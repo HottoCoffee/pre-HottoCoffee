@@ -3,6 +3,8 @@ import "~/styles/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import type { AppProps } from "next/app";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider as ToastProvider } from "@radix-ui/react-toast";
 
 if (process.env.NODE_ENV === "development") {
   // dynamic import でファイルを読み込んで MSW を有効にする
@@ -13,6 +15,14 @@ if (process.env.NODE_ENV === "development") {
   MockServer();
 }
 
+const queryClient = new QueryClient();
+
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <Component {...pageProps} />
+      </ToastProvider>
+    </QueryClientProvider>
+  );
 }

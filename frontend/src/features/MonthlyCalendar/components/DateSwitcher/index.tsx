@@ -2,7 +2,7 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import * as AccessibleIcon from "@radix-ui/react-accessible-icon";
 import { dateSwitcherOnChangeMethod } from "./functions";
 import { format } from "date-fns";
-import styles from "./DateSwitcher.modules.scss";
+import styles from "./DateSwitcher.module.scss";
 
 /**
  * @package

@@ -48,4 +48,4 @@ export const returnErrorGetBatchHistory = () => {
   );
 };
 
-export const batchHandlers = [successGetBatchHistory()];
+export const batchHistoryHandlers = [successGetBatchHistory()];

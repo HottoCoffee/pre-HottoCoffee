@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import { forwardRef, Ref } from "react";
-import styles from "./TextInput.modules.scss";
+import styles from "./TextInput.module.scss";
 
 const clx = classNames.bind(styles);
 

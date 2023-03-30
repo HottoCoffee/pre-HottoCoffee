@@ -4,6 +4,10 @@ import * as AccessibleIcon from "@radix-ui/react-accessible-icon";
 import { ThreeDots } from "react-loading-icons";
 import * as Popover from "@radix-ui/react-popover";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import styles from "./BatchStatusButton.module.scss";
+import { BatchDetailPopover } from "../BatchDetailPopover";
+import { BatchHistoryPopover } from "../BatchHistoryPopover";
+import { HEIGHT_OF_BATCH_STATUS_BUTTON } from "./constants";
 
 const clx = classNames.bind(styles);
 
@@ -13,11 +17,6 @@ interface Props {
   batchId: number;
   historyId?: number;
 }
-
-import styles from "./BatchStatusButton.modules.scss";
-import { BatchDetailPopover } from "../BatchDetailPopover";
-import { BatchHistoryPopover } from "../BatchHistoryPopover";
-import { HEIGHT_OF_BATCH_STATUS_BUTTON } from "./constants";
 
 export const BatchStatusButton = (props: Props) => {
   const { batchName, status, batchId, historyId } = props;

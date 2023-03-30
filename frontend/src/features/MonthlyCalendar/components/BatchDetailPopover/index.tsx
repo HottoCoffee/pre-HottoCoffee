@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 
 const clx = classNames.bind(styles);
 
-import styles from "./BatchDetailPopover.modules.scss";
+import styles from "./BatchDetailPopover.module.scss";
 
 interface Props {
   batchId: number;

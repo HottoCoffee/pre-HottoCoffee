@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getDateListInMonth } from "~/features/MonthlyCalendar/utils/dateCalculationHelper";
 import * as Popover from "@radix-ui/react-popover";
 
-import styles from "./DatePickCalendar.modules.scss";
+import styles from "./DatePickCalendar.module.scss";
 import * as AccessibleIcon from "@radix-ui/react-accessible-icon";
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
 

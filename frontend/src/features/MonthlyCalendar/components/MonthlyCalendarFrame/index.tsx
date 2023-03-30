@@ -1,4 +1,4 @@
-import styles from "./MonthlyCalendarFrame.modules.scss";
+import styles from "./MonthlyCalendarFrame.module.scss";
 import { getDateListInMonth } from "../../utils/dateCalculationHelper";
 
 interface Props {

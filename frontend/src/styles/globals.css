@@ -91,3 +91,9 @@ a {
     color-scheme: dark;
   }
 }
+
+/* stylelint-disable-next-line selector-id-pattern */
+#__next {
+  height: 100vh;
+  height: 100svh;
+}

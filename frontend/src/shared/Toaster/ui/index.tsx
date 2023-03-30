@@ -1,5 +1,5 @@
 import * as Toast from "@radix-ui/react-toast";
-import styles from "./Toaster.modules.scss";
+import styles from "./Toaster.module.scss";
 
 interface Props {
   type: "success" | "failed";

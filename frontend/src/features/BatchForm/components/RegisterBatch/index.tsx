@@ -1,6 +1,6 @@
 import * as Form from "@radix-ui/react-form";
 import { TextInput } from "~/shared/TextInput/ui";
-import styles from "./RegisterNewBatchForm.modules.scss";
+import styles from "./RegisterNewBatchForm.module.scss";
 import { DatePickInput } from "~/shared/DatePicker/ui/DatePickInput";
 import { FormEvent, useState } from "react";
 import { createNewBatchValidation } from "../../utils/validations/createNewBatchValidation";

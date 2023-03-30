@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 
 const clx = classNames.bind(styles);
 
-import styles from "./BatchHistoryPopover.modules.scss";
+import styles from "./BatchHistoryPopover.module.scss";
 import { format } from "date-fns";
 
 interface Props {

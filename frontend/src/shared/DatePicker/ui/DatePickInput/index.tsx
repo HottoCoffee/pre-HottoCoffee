@@ -1,4 +1,4 @@
-import styles from "./DatePicker.modules.scss";
+import styles from "./DatePicker.module.scss";
 import { BsCalendarEvent } from "react-icons/bs";
 import * as Popover from "@radix-ui/react-popover";
 import { DatePickCalendar } from "../DatePickCalendar";
