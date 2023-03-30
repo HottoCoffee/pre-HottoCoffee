@@ -1,0 +1,20 @@
+# editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.yaml]
+quote_type = single
+indent_size = 2
+indent_style = space
+
+[*.ts]
+indent_size = 2
+indent_style = space
+
+[*.md]
+trim_trailing_whitespace = false

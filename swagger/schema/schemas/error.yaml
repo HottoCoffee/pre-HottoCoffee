@@ -1,0 +1,19 @@
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error Schema
+      properties:
+        status:
+          type: int
+          description: response status
+          example: 500
+        message:
+          type: string
+          description: Error message
+          maxLength: 255
+          example: Server Error
+          readOnly: true
+      required:
+        - status
+        - message

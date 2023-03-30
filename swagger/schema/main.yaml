@@ -1,0 +1,269 @@
+openapi: 3.0.0
+info:
+  title: hottocoffee
+  version: "0.0.1"
+servers:
+  - url: "http://localhost:3000"
+paths:
+  "/api/batch":
+    description: "an endpoint for batch"
+    get:
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          required: false
+      summary: get batch list
+      tags: [batch list]
+      description: get batch list. response can be filtered by keyword. If no batches are found, an empty array is returned.
+      responses:
+        "200":
+          description: success filter and can get batch list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    post:
+      tags: [batch]
+      summary: register batch
+      description: register new batch
+      responses:
+        "200":
+          description: success to create
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/batch.yaml#/components/schemas/BatchCreate"
+  "/api/batch/{batch_id}":
+    parameters:
+      - in: path
+        name: batch_id
+        schema:
+          type: integer
+        required: true
+    delete:
+      tags: [batch]
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/components/schemas/Success"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    put:
+      tags: [batch]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+      responses:
+        "200":
+          description: successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    get:
+      tags: [batch]
+      responses:
+        "200":
+          description: return specific batch information
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+
+  "/api/calendar":
+    description: batch status for calendar. If no batches are found, an empty array is returned.
+    get:
+      tags:
+        - calendar
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          required: true
+          description: query for filtering (inclusive)
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          required: true
+          description: query for filtering (inclusive)
+      responses:
+        "200":
+          description: return batch history list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/history.yaml#/components/schemas/History"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/batch/{batch_id}/history":
+    description: Return all histories of specific batch.
+    parameters:
+      - in: path
+        name: batch_id
+        schema:
+          type: integer
+        required: true
+    get:
+      tags:
+        - batch history
+      responses:
+        "200":
+          description: success to get history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/history.yaml#/components/schemas/History"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    post:
+      tags:
+        - batch history
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [before_started, in_progress, success, failed]
+                message:
+                  type: string
+      responses:
+        "200":
+          description: success to receive
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/components/schemas/Success"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/batch/{batch_id}/history/{history_id}":
+    description: Get specific batch history
+    get:
+      tags:
+        - batch history
+      parameters:
+        - in: path
+          name: batch_id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: history_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Success to get history
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/history.yaml#/components/schemas/History"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+components:
+  schemas:
+    batch:
+      $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+    error:
+      $ref: "./schemas/error.yaml#/components/schemas/Error"
+    history:
+      $ref: "./schemas/history.yaml#/components/schemas/History"
+    success:
+      $ref: "./schemas/success.yaml#/components/schemas/Success"
