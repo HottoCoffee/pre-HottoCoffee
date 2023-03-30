@@ -1,4 +1,4 @@
-ervices:
+services:
   mysql:
     build:
       context: ./db

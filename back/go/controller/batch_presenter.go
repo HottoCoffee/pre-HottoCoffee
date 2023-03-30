@@ -6,15 +6,15 @@ import (
 )
 
 type BatchPresenter struct {
-	c *gin.Context
+	context *gin.Context
 }
 
 func NewBatchPresenter(c *gin.Context) BatchPresenter {
-	return BatchPresenter{c: c}
+	return BatchPresenter{context: c}
 }
 
 func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
-	p.c.JSON(200, map[string]interface{}{
+	p.context.JSON(200, map[string]interface{}{
 		"id":                 b.Id,
 		"batch_name":         b.BatchName,
 		"server_name":        b.ServerName,
@@ -26,5 +26,5 @@ func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 }
 
 func (p *BatchPresenter) SendNotFoundResponse() {
-	p.c.JSON(404, map[string]string{"status": "404", "message": "Not Found"})
+	p.context.JSON(404, map[string]string{"status": "404", "message": "Not Found"})
 }

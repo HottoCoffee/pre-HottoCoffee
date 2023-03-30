@@ -13,19 +13,19 @@ import (
 func main() {
 	// DI
 	dialector := mysql.Open("root:root@tcp(127.0.0.1)/hottocoffee?parseTime=True")
-	db, err := gorm.Open(dialector, &gorm.Config{})
-	if err != nil {
+	db, dbErr := gorm.Open(dialector, &gorm.Config{})
+	if dbErr != nil {
 		fmt.Println("Failed to connect DB")
 		return
 	}
 	br := infrastructure.NewBatchRepository(db)
-	bu := usecase.NewGetBatchUsecase(br)
 
 	route := gin.Default()
 	route.GET("/api/batch/:id", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
-		bc := controller.NewBatchController(bu, &bp)
-		bc.GetBatch(c.Param("id"))
+		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("id"))
 	})
-	route.Run()
+	if route.Run() != nil {
+		panic("Failed to boot app")
+	}
 }
