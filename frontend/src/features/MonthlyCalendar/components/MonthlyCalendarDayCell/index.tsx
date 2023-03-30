@@ -39,6 +39,7 @@ export const MonthlyCalendarDayCell = (props: Props) => {
                 batchName={batch.batch_name}
                 batchId={batch.batch_id}
                 status={batch.status}
+                historyId={batch.history_id}
               />
             </li>
           );
@@ -65,6 +66,7 @@ export const MonthlyCalendarDayCell = (props: Props) => {
                         batchName={batch.batch_name}
                         batchId={batch.batch_id}
                         status={batch.status}
+                        historyId={batch.history_id}
                       />
                     </li>
                   );

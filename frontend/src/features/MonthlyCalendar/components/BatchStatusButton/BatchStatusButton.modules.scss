@@ -2,14 +2,15 @@
 
 .container {
   display: inline-block;
-  padding: 2px max(4px, 12%);
+  padding: 0 max(4px, 12%);
   background: none;
   border: none;
   border-radius: 4px;
   white-space: nowrap;
-  width: 100%;
+  width: calc(100% - max(4px, 12%) - max(4px, 12%));
   text-overflow: ellipsis;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .beforeStarted {

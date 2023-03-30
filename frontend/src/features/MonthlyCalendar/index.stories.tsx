@@ -3,11 +3,14 @@ import { MonthlyCalendar } from "./index";
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { queryClientDecorator } from "~/modules/queryClientDecorator";
+import { successGetBatchByBatchId } from "~/msw/api/batch";
+import { toasterDecorator } from "~/modules/toasterDecorator";
+import { successGetBatchHistory } from "~/msw/api/batchHistory";
 
 const meta: Meta<typeof MonthlyCalendar> = {
   title: "feature/MonthlyCalendar",
   component: MonthlyCalendar,
-  decorators: [queryClientDecorator],
+  decorators: [queryClientDecorator, toasterDecorator],
 };
 
 export default meta;
@@ -19,7 +22,7 @@ export const Default: Story = {
   },
   parameters: {
     msw: {
-      handlers: [mockGetBatchListForCalendar],
+      handlers: [mockGetBatchListForCalendar, successGetBatchByBatchId(), successGetBatchHistory()],
     },
   },
 };

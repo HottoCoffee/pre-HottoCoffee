@@ -38,7 +38,6 @@ export const RegisterNewBatchForm = (props: Props) => {
       const response = await client.api.batch.post({
         body: validationResult.data,
       });
-      console.log(response);
 
       onSuccess?.(response.body);
     } catch (e) {

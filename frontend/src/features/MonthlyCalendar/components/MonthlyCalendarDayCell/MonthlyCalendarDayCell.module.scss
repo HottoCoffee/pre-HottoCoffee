@@ -1,3 +1,5 @@
+@import "../../../../styles/animations.scss";
+
 .list {
   display: flex;
   gap: 4px;
@@ -7,13 +9,25 @@
 
 .container {
   height: 100%;
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .moreButton {
-  margin-top: 4px;
+  margin-top: auto;
   background: none;
   border: none;
   font-size: 14px;
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 2px 4px;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid rgb(129, 188, 255);
+  }
 }
 
 .close {

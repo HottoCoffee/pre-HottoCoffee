@@ -3,10 +3,11 @@ import { MonthlyCalendarFrame } from "./components/MonthlyCalendarFrame";
 import { client } from "~/modules/aspidaClient";
 import { getDateListInMonth } from "./utils/dateCalculationHelper";
 import { isSameDay } from "date-fns";
-import { BatchStatusButton } from "./components/BatchStatusButton";
 import styles from "./index.module.scss";
 import classNames from "classnames/bind";
 import { MonthlyCalendarDayCell } from "./components/MonthlyCalendarDayCell";
+import { Toaster } from "~/shared/Toaster/ui";
+import * as Toast from "@radix-ui/react-toast";
 
 const clx = classNames.bind(styles);
 
@@ -42,6 +43,18 @@ export const MonthlyCalendar = (props: Props) => {
           return <MonthlyCalendarDayCell batchHistoryList={targetBatchList} date={date} />;
         }}
       </MonthlyCalendarFrame>
+
+      {error && (
+        <>
+          <Toaster
+            type={"success"}
+            description={<p>{error}</p>}
+            title="Error on api."
+            open={Boolean(error)}
+          />
+          <Toast.Viewport />
+        </>
+      )}
     </div>
   );
 };

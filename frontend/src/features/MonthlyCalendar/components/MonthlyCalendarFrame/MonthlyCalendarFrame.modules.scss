@@ -14,6 +14,7 @@ $border-color: #a1a1a1;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   height: 100%;
+  overflow: hidden;
 
   & > div:not(:last-child) {
     border-right: 1px solid $border-color;
@@ -21,7 +22,7 @@ $border-color: #a1a1a1;
 }
 
 .day {
-  display: block;
+  position: relative;
   padding: 16px;
   width: 100%;
   height: 100%;
