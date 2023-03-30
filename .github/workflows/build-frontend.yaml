@@ -8,7 +8,7 @@ name: 'Frontend app build check'
 
 defaults:
   run:
-    working-directory: .frontend/
+    working-directory: ./frontend
 
 jobs:
   check-build:
