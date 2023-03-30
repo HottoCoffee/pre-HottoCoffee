@@ -6,6 +6,7 @@ import { queryClientDecorator } from "~/modules/queryClientDecorator";
 import { failedToCreateNewBatch, successToCreateNewBatch } from "~/msw/api/batch";
 import { toasterDecorator } from "~/modules/toasterDecorator";
 import { within, userEvent } from "@storybook/testing-library";
+import { sleep } from "~/modules/sleep";
 
 const meta: Meta<typeof RegisterNewBatchForm> = {
   title: "feature/BatchForm/RegisterNewBatchForm",
@@ -46,6 +47,7 @@ export const SuccessToCreate: Story = {
 
     const submissionButton = canvas.getByTestId("submit");
     await userEvent.click(submissionButton);
+    await sleep(200);
 
     await expect(args.onSuccess).toBeCalled();
   },
