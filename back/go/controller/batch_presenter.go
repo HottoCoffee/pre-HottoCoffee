@@ -18,7 +18,7 @@ func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 		"id":                 b.Id,
 		"batch_name":         b.BatchName,
 		"server_name":        b.ServerName,
-		"cron_setting":       b.CronSetting,
+		"cron_setting":       b.CronSetting.ToString(),
 		"initial_date":       b.StartDate,
 		"time_limit":         b.TimeLimit,
 		"estimated_duration": b.EsitimatedDuration,

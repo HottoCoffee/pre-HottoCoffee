@@ -37,14 +37,9 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 		return nil, errors.New("no record")
 	}
 
-	batch := entity.Batch{
-		Id:                 id,
-		BatchName:          b.BatchName,
-		ServerName:         b.ServerName,
-		CronSetting:        b.CronSetting,
-		TimeLimit:          b.TimeLimit,
-		EsitimatedDuration: b.EstimatedDuration,
-		StartDate:          b.InitialDate,
+	batch, err := entity.NewBatch(id, b.BatchName, b.ServerName, b.CronSetting, b.TimeLimit, b.EstimatedDuration, b.InitialDate, &b.DeletedAt.Time)
+	if err != nil {
+		return nil, errors.New("broken DB record")
 	}
-	return &batch, nil
+	return batch, nil
 }
