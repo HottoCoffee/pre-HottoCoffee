@@ -1,7 +1,7 @@
 package controller
 
 import (
-    "github.com/HottoCoffee/HottoCoffee/usecase"
+	"github.com/HottoCoffee/HottoCoffee/usecase"
 )
 
 type BatchController struct {
