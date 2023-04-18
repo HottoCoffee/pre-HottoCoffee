@@ -1,7 +1,7 @@
 # HottoCoffee
 
 HottoCoffee is an open-source software (OSS) service designed to manage batches.  
-It provides a simple way to manage batch history by registering batch and execution schedules, execute the batch in your server, and receive execution result as an HTTP request from your server.
+It provides an easy way to manage batch history by registering batches and execution schedules, executing batches on the server, and receiving execution results as HTTP requests from the server.
 
 ## Getting Started
 
@@ -9,25 +9,26 @@ To get started with HottoCoffee, follow these steps:
 
 1. Clone the HottoCoffee repository to your local machine.
 2. Start application with `docker compose up`
+3. Begin managing your batches!
 
 ## How it Works
 
-HottoCoffee is built to help you manage your batch processes in a simple and efficient way.
+HottoCoffee is designed to make managing the batch process simple and efficient.
 Here's how it works:
 
-1. Register your batch and execution schedule into HottoCoffee. This can be done via the web interface.
-2. Once the batch has completed, HottoCoffee will receive an HTTP request from your server to signal that the batch is complete.
-3. You can then view the status of your batches and their execution history in the HottoCoffee web interface.
+1. Register batches and execution schedules with HottoCoffee. This can be done from the web interface.
+2. when the batch is complete, HottoCoffee receives an HTTP request from your server informing it of the batch's completion.
+3. you can then check the batch status and execution history in the HottoCoffee web interface.
 
-## Contributing
+## Contributions
 
-HottoCoffee is an open-source project, and we welcome contributions from anyone!  
-If you would like to contribute to HottoCoffee, please take a look at our CONTRIBUTING.md file for guidelines on how to get started.
+HottoCoffee is an open source project and welcomes contributions from anyone!
+If you would like to contribute to HottoCoffee, please see the guidelines in CONTRIBUTING.md.
 
-## Issues and Bug Reports
+## Problem and Bug Reports
 
-If you encounter any issues or bugs while using HottoCoffee, please create a new issue in the HottoCoffee repository.  
-We'll do our best to address the issue as quickly as possible.
+If you encounter a problem or bug while using HottoCoffee, please create a new issue in the HottoCoffee repository.
+We will respond as quickly as possible.
 
 ## License
 
