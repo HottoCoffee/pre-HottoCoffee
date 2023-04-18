@@ -38,6 +38,12 @@ func TestNewBatch(t *testing.T) {
 			false,
 		},
 		{
+			"error scenario with invalid id",
+			args{0, "batch", "server", "* * * * *", 2, 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), nil},
+			nil,
+			true,
+		},
+		{
 			"error scenario with empty batch name",
 			args{1, "", "server", "* * * * *", 2, 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), nil},
 			nil,
