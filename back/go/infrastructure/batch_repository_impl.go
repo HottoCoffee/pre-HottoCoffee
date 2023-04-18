@@ -2,10 +2,11 @@ package infrastructure
 
 import (
 	"errors"
+	"time"
+
 	"github.com/HottoCoffee/HottoCoffee/core"
 	"github.com/HottoCoffee/HottoCoffee/core/entity"
 	"gorm.io/gorm"
-	"time"
 )
 
 type BatchRepositoryImpl struct {
@@ -37,7 +38,12 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 		return nil, errors.New("no record")
 	}
 
-	batch, err := entity.NewBatch(id, b.BatchName, b.ServerName, b.CronSetting, b.TimeLimit, b.EstimatedDuration, b.InitialDate, &b.DeletedAt.Time)
+	var da *time.Time
+	if b.DeletedAt.Valid {
+		da = &b.DeletedAt.Time
+	}
+
+	batch, err := entity.NewBatch(id, b.BatchName, b.ServerName, b.CronSetting, b.TimeLimit, b.EstimatedDuration, b.InitialDate, da)
 	if err != nil {
 		return nil, errors.New("broken DB record")
 	}

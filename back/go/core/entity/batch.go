@@ -6,14 +6,14 @@ import (
 )
 
 type Batch struct {
-	Id                 int
-	BatchName          string
-	ServerName         string
-	CronSetting        CronSetting
-	TimeLimit          int
-	EsitimatedDuration int
-	StartDate          time.Time
-	EndDate            *time.Time
+	Id                int
+	BatchName         string
+	ServerName        string
+	CronSetting       CronSetting
+	TimeLimit         int
+	EstimatedDuration int
+	StartDate         time.Time
+	EndDate           *time.Time
 }
 
 func NewBatch(
@@ -46,17 +46,17 @@ func NewBatch(
 		return nil, errors.New("estimation duration should be equal or more than 0 and less than time limit")
 	}
 	if endDate != nil && (endDate.Equal(startDate) || endDate.Before(startDate)) {
-		return nil, errors.New("end date shold be after start date if exists")
+		return nil, errors.New("end date should be after start date if exists")
 	}
 
 	return &Batch{
-		Id:                 id,
-		BatchName:          batchName,
-		ServerName:         serverName,
-		CronSetting:        *cs,
-		TimeLimit:          timeLimit,
-		EsitimatedDuration: estimationDuration,
-		StartDate:          startDate,
-		EndDate:            endDate,
+		Id:                id,
+		BatchName:         batchName,
+		ServerName:        serverName,
+		CronSetting:       *cs,
+		TimeLimit:         timeLimit,
+		EstimatedDuration: estimationDuration,
+		StartDate:         startDate,
+		EndDate:           endDate,
 	}, nil
 }
