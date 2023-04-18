@@ -1,8 +1,9 @@
 package usecase
 
 import (
-	"github.com/HottoCoffee/HottoCoffee/core"
 	"strconv"
+
+	"github.com/HottoCoffee/HottoCoffee/core"
 )
 
 type GetBatchUsecase struct {

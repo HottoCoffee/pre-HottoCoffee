@@ -2,8 +2,9 @@ package entity
 
 import (
 	"errors"
-	"github.com/robfig/cron/v3"
 	"time"
+
+	"github.com/robfig/cron/v3"
 )
 
 type CronSetting struct {
@@ -25,7 +26,7 @@ func (cs CronSetting) ToString() string {
 	return cs.value
 }
 
-func (cs CronSetting) ListScedules(begin time.Time, endInclusive time.Time) (schedules []time.Time) {
+func (cs CronSetting) ListSchedules(begin time.Time, endInclusive time.Time) (schedules []time.Time) {
 	t := cs.schedule.Next(begin.Add(time.Minute * -1)) // Next doesn't returns given time even though it matches cron settings.
 	for t.Equal(endInclusive) || t.Before(endInclusive) {
 		schedules = append(schedules, t)

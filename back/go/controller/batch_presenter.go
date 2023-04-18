@@ -21,7 +21,7 @@ func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 		"cron_setting":       b.CronSetting.ToString(),
 		"initial_date":       b.StartDate,
 		"time_limit":         b.TimeLimit,
-		"estimated_duration": b.EsitimatedDuration,
+		"estimated_duration": b.EstimatedDuration,
 	})
 }
 
