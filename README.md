@@ -7,7 +7,7 @@ HottoCoffee is an open-source software (OSS) service designed to manage batches.
 To get started with HottoCoffee, follow these steps:
 
 1. Clone the HottoCoffee repository to your local machine.
-2. Start containers with `docker compose up`
+2. Start application with `docker compose up`
 
 ## How it Works
 
