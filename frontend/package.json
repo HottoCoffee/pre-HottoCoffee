@@ -23,13 +23,14 @@
     "typegen:scss": "typed-scss-modules src",
     "generate": "run-p generate:*",
     "generate:api": "rm -rf src/api && npx openapi2aspida -i ../swagger/schema/main.yaml -o src/api",
-    "generate:type": "cd ../ && npx openapi-typescript 'swagger/schema/schemas/**/*.yaml' --output front/src/",
+    "generate:type": "cd ../ && npx openapi-typescript 'swagger/schema/schemas/**/*.yaml' --output frontend/src/",
     "test-storybook": "test-storybook"
   },
   "dependencies": {
     "@aspida/axios": "^1.11.0",
     "@aspida/react-query": "^1.11.0",
     "@radix-ui/react-accessible-icon": "^1.0.2",
+    "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-form": "^0.0.1",
     "@radix-ui/react-popover": "^1.0.5",
     "@radix-ui/react-toast": "^1.1.3",

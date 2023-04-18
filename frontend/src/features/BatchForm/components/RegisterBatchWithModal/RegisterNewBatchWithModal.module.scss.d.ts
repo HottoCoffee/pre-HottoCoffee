@@ -1,12 +1,8 @@
 export type Styles = {
-  close: string;
-  container: string;
+  content: string;
   contentShow: string;
-  list: string;
-  moreButton: string;
+  overlay: string;
   overlayShow: string;
-  popover: string;
-  restBatchList: string;
   slideDownAndFade: string;
   slideLeftAndFade: string;
   slideRightAndFade: string;

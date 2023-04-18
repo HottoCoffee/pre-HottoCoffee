@@ -13,10 +13,13 @@ import { Toaster } from "~/shared/Toaster/ui";
 
 interface Props {
   onSuccess: (batch: components["schemas"]["Batch"]) => void;
+  footer?: {
+    closeButton?: React.ReactNode;
+  };
 }
 
 export const RegisterNewBatchForm = (props: Props) => {
-  const { onSuccess } = props;
+  const { onSuccess, footer } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
@@ -112,9 +115,11 @@ export const RegisterNewBatchForm = (props: Props) => {
       </Form.Field>
 
       <div className={styles.footer}>
-        <Button appearance="labeled" type="reset">
-          Back To Top
-        </Button>
+        {footer?.closeButton ?? (
+          <Button appearance="labeled" type="reset">
+            Back To Top
+          </Button>
+        )}
 
         <Form.Submit asChild>
           <Button type="submit" appearance="success" data-testid="submit">

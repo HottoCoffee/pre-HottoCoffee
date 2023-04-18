@@ -1,4 +1,6 @@
 export type Styles = {
+  contentShow: string;
+  overlayShow: string;
   slideDownAndFade: string;
   slideLeftAndFade: string;
   slideRightAndFade: string;

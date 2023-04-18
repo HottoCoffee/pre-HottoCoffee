@@ -10,7 +10,7 @@ export default function Home() {
   const [date, setDate] = useState(new Date());
 
   return (
-    <>
+    <div className={styles.container}>
       <CommonMetaInformation />
 
       <Header>
@@ -24,6 +24,6 @@ export default function Home() {
           <MonthlyCalendar date={date} />
         </div>
       </main>
-    </>
+    </div>
   );
 }

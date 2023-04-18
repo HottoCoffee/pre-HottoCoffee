@@ -2,9 +2,11 @@ export type Styles = {
   beforeStarted: string;
   close: string;
   container: string;
+  contentShow: string;
   failed: string;
   inProgress: string;
   loadingIcon: string;
+  overlayShow: string;
   popover: string;
   slideDownAndFade: string;
   slideLeftAndFade: string;
