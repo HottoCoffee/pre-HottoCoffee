@@ -21,7 +21,7 @@ export const RegisterNewBatchWithModal = (props: Props) => {
   };
 
   return (
-    <div>
+    <>
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Trigger asChild>{children}</Dialog.Trigger>
         <Dialog.Portal>
@@ -45,6 +45,6 @@ export const RegisterNewBatchWithModal = (props: Props) => {
 
       <Toaster type={"success"} description={<p>{""}</p>} title="Error on api." open={Boolean()} />
       <Toast.Viewport />
-    </div>
+    </>
   );
 };
