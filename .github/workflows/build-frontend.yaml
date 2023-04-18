@@ -1,0 +1,27 @@
+name: 'Frontend app build check'
+
+'on':
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - frontend/**/*
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+jobs:
+  check-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: npm install
+      - name: Generate schema and api client
+        run: npm run generate
+      - name: Run static analysis
+        run: npm run check && npm run fix
+      - name: Run unit-test
+        run: npm run test:unit
+      - name: Build app
+        run: npm run build

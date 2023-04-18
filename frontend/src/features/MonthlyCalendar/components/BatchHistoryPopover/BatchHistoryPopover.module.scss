@@ -1,0 +1,36 @@
+.container {
+  min-width: 300px;
+}
+
+.informationContainer {
+  display: grid;
+  grid-template-columns: minmax(80px, 0fr) 1fr;
+}
+
+.separator {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    bottom: 0;
+    left: auto;
+    z-index: 10;
+    content: ":";
+  }
+}
+
+.failed,
+.errorText {
+  color: red;
+}
+
+.success {
+  color: #00b800;
+  font-weight: bold;
+}
+
+.inProgress {
+  color: #333;
+}

@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  border-top: 1px solid #a1a1a1;
+  padding-top: 16px;
+}
+
+.button {
+  background: none;
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 12px;
+  margin: 0;
+  border-radius: 8px;
+  border: none;
+  align-items: center;
+}
+
+.active {
+  background: #fe9999;
+}
