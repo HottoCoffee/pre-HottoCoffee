@@ -1,25 +1,21 @@
 # HottoCoffee
 
-HottoCoffee is an open-source software (OSS) service designed to manage batches. It provides a simple way to enter batch and execution schedules, execute the batch, and send an exit signal as an HTTP request.
+HottoCoffee is an open-source software (OSS) service designed to manage batches. It provides a simple way to manage batch history by registering batch and execution schedules, execute the batch in your server, and receive execution result as an HTTP request from your server.
 
 ## Getting Started
 
 To get started with HottoCoffee, follow these steps:
 
 1. Clone the HottoCoffee repository to your local machine.
-2. Install any necessary dependencies.
-3. Configure the HottoCoffee service according to your needs.
-4. Start the HottoCoffee service.
-5. Begin managing your batches!
+2. Start containers with `docker compose up`
 
 ## How it Works
 
 HottoCoffee is built to help you manage your batch processes in a simple and efficient way. Here's how it works:
 
-1. Enter your batch and execution schedule into HottoCoffee. This can be done via the web interface or by making a POST request to the HottoCoffee API.
-2. HottoCoffee will automatically execute your batch according to the schedule you provided.
-3. Once the batch has completed, HottoCoffee will send an HTTP request to your designated endpoint to signal that the batch is complete.
-4. You can then view the status of your batches and their execution history in the HottoCoffee web interface.
+1. Register your batch and execution schedule into HottoCoffee. This can be done via the web interface.
+2. Once the batch has completed, HottoCoffee will receive an HTTP request from your server to signal that the batch is complete.
+3. You can then view the status of your batches and their execution history in the HottoCoffee web interface.
 
 ## Contributing
 
