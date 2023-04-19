@@ -53,7 +53,7 @@ func TestGetBatchUsecase_Execute(t *testing.T) {
 			func(br *mock_core.MockBatchRepository, bob *mock_usecase.MockBatchOutputBoundary) {
 				br.EXPECT().
 					FindById(1).
-					Return(nil, errors.New("no recode"))
+					Return(nil, errors.New("no record"))
 
 				bob.EXPECT().
 					SendNotFoundResponse()
