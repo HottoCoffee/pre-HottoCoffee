@@ -3,3 +3,6 @@ back/go/HottoCoffee
 
 # Ignore coverage report
 back/go/coverage.*
+
+# MacOS file
+.DS_Store
