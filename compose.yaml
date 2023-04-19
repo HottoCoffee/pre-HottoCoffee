@@ -1,0 +1,30 @@
+services:
+  mysql:
+    build:
+      context: ./back/db
+    image: hottocoffee-mysql
+    command: mysqld
+    ports:
+      - 3306:3306
+    volumes:
+      - ./back/db/create.sql:/docker-entrypoint-initdb.d/create.sql
+    privileged: true
+    environment:
+      - MYSQL_DATABASE=hottocoffee
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Asia/Tokyo
+    healthcheck:
+      test: mysqladmin ping -uroot -proot || exit 1
+      interval: 1s
+      retries: 999999999
+      timeout: 999999999s
+  go:
+    build:
+      context: ./back/go
+    image: hottocoffee-backend
+    command: ./HottoCoffee
+    ports:
+      - 8081:8080
+    depends_on:
+      mysql:
+        condition: service_healthy
