@@ -92,7 +92,7 @@ func TestCronSetting_ListSchedules(t *testing.T) {
 			gotSchedules := cs.ListSchedules(tt.args.begin, tt.args.endInclusive)
 
 			if len(tt.wantSchedules) == 0 {
-				if !(len(gotSchedules) == 0) {
+				if len(gotSchedules) != 0 {
 					t.Errorf("CronSetting.ListSchedules() = %v, want %v", gotSchedules, tt.wantSchedules)
 				}
 			} else {
