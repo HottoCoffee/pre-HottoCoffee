@@ -43,12 +43,12 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		recode  *infrastructure.BatchRecord
+		record  *infrastructure.BatchRecord
 		want    *entity.Batch
 		wantErr bool
 	}{
 		{
-			"get 1 recode",
+			"get 1 record",
 			fields{mockDb},
 			args{1},
 			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
@@ -56,7 +56,7 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 			false,
 		},
 		{
-			"get 0 recode",
+			"get 0 record",
 			fields{mockDb},
 			args{1},
 			nil,
@@ -64,7 +64,7 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 			true,
 		},
 		{
-			"get 1 broken recode",
+			"get 1 broken record",
 			fields{mockDb},
 			args{1},
 			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
@@ -76,7 +76,7 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			br := infrastructure.NewBatchRepository(tt.fields.db)
 
-			if tt.recode == nil {
+			if tt.record == nil {
 				mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE `batch`.`id` = ? AND `batch`.`deleted_at` IS NULL")).
 					WithArgs(tt.args.id).
 					WillReturnRows(sqlmock.NewRows(columns))
@@ -84,7 +84,7 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 				mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE `batch`.`id` = ? AND `batch`.`deleted_at` IS NULL")).
 					WithArgs(tt.args.id).
 					WillReturnRows(sqlmock.NewRows(columns).
-						AddRow(tt.recode.ID, tt.recode.BatchName, tt.recode.ServerName, tt.recode.CronSetting, tt.recode.InitialDate, tt.recode.TimeLimit, tt.recode.EstimatedDuration, tt.recode.CreatedAt, tt.recode.UpdatedAt, tt.recode.DeletedAt))
+						AddRow(tt.record.ID, tt.record.BatchName, tt.record.ServerName, tt.record.CronSetting, tt.record.InitialDate, tt.record.TimeLimit, tt.record.EstimatedDuration, tt.record.CreatedAt, tt.record.UpdatedAt, tt.record.DeletedAt))
 			}
 
 			got, err := br.FindById(tt.args.id)
