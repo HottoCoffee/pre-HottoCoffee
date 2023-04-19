@@ -16,7 +16,7 @@ func NewCronSetting(v string) (*CronSetting, error) {
 	p := cron.NewParser(cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow)
 	s, err := p.Parse(v)
 	if err != nil {
-		return nil, errors.New("malformed schedule setting v")
+		return nil, errors.New("malformed schedule setting " + v)
 	}
 
 	return &CronSetting{value: v, schedule: s}, nil
