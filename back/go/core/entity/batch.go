@@ -2,6 +2,7 @@ package entity
 
 import (
 	"errors"
+	"strconv"
 	"time"
 )
 
@@ -27,7 +28,7 @@ func NewBatch(
 	endDate *time.Time,
 ) (*Batch, error) {
 	if id <= 0 {
-		return nil, errors.New("ID should be more than 0. Given: " + string(rune(id)))
+		return nil, errors.New("ID should be more than 0. Given: " + strconv.Itoa(id))
 	}
 	if len(batchName) == 0 {
 		return nil, errors.New("batch name should not be empty")
@@ -40,7 +41,7 @@ func NewBatch(
 		return nil, err
 	}
 	if timeLimit < 1 {
-		return nil, errors.New("time limit should be equal or more than 1. Given: " + string(rune(timeLimit)))
+		return nil, errors.New("time limit should be equal or more than 1. Given: " + strconv.Itoa(timeLimit))
 	}
 	if !(estimationDuration >= 0 && estimationDuration < timeLimit) {
 		return nil, errors.New("estimation duration should be equal or more than 0 and less than time limit")
