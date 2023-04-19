@@ -13,30 +13,39 @@ func TestNewCronSetting(t *testing.T) {
 		v string
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    *CronSetting
-		wantErr bool
+		name       string
+		args       args
+		want       *CronSetting
+		wantErr    bool
+		wantErrMsg *string
 	}{
 		{
 			"normal scenario",
 			args{"* * * * *"},
 			&CronSetting{"* * * * *", *newSchedule("* * * * *")},
 			false,
+			nil,
 		},
 		{
 			"normal scenario with invalid cron setting",
 			args{"* * * *"},
 			nil,
 			true,
+			&[]string{"malformed schedule setting * * * *"}[0],
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewCronSetting(tt.args.v)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("NewCronSetting() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			if err != nil {
+				if !tt.wantErr {
+					t.Errorf("NewCronSetting() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				if *tt.wantErrMsg != err.Error() {
+					t.Errorf("NewCronSetting() error message = %v, wantMsg %v", err.Error(), *tt.wantErrMsg)
+					return
+				}
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewCronSetting() = %v, want %v", got, tt.want)
