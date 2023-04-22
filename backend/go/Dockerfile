@@ -8,5 +8,7 @@ FROM debian:bullseye-slim
 
 WORKDIR /work
 COPY --from=0 /app/HottoCoffee /work/
-EXPOSE 8080
+COPY ./.env.docker /work/.env
 CMD ["./HottoCoffee"]
+
+EXPOSE 8080

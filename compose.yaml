@@ -1,13 +1,13 @@
 services:
   mysql:
     build:
-      context: ./back/db
+      context: ./backend/db
     image: hottocoffee-mysql
     command: mysqld
     ports:
       - 3306:3306
     volumes:
-      - ./back/db/create.sql:/docker-entrypoint-initdb.d/create.sql
+      - ./backend/db/create.sql:/docker-entrypoint-initdb.d/create.sql
     privileged: true
     environment:
       - MYSQL_DATABASE=hottocoffee
@@ -20,7 +20,7 @@ services:
       timeout: 999999999s
   go:
     build:
-      context: ./back/go
+      context: ./backend/go
     image: hottocoffee-backend
     command: ./HottoCoffee
     ports:
