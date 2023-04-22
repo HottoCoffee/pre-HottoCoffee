@@ -2,6 +2,7 @@
 
 [![Backend build check](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml/badge.svg)](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml)
 [![Backend coverage](https://codecov.io/gh/HottoCoffee/HottoCoffee/branch/main/graph/badge.svg?token=J3IRHICVNY)](https://codecov.io/gh/HottoCoffee/HottoCoffee)
+[![Frontend build check](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-frontend.yaml/badge.svg)](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-frontend.yaml)
 
 HottoCoffee is an open-source software (OSS) service designed to manage batches.  
 It provides an easy way to manage batch history by registering batches and execution schedules, and receiving execution results as HTTP requests from the server.
