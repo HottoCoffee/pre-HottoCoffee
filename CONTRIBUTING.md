@@ -28,7 +28,6 @@ Please make sure your code follows the project's coding style and conventions. H
 
 - Use meaningful variable and function names.
 - Use comments to explain complex code or logic.
-- Keep lines of code under 80 characters.
 - Follow the existing coding style and conventions in the project.
 
 Thank you for your contributions to HottoCoffee!
