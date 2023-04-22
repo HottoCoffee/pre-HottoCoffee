@@ -1,0 +1,29 @@
+.frame {
+  border: 2px solid #717171;
+  border-radius: 12px;
+  padding: 20px 16px;
+  width: 220px;
+  text-align: left;
+  background-color: white;
+}
+
+.batchName {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.serverName {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
