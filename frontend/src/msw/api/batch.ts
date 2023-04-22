@@ -78,4 +78,4 @@ export const failedToCreateNewBatch = () => {
   });
 };
 
-export const batchHandlers = [successGetBatchByBatchId()];
+export const batchHandlers = [successGetBatchByBatchId(), successGetBatchList()];

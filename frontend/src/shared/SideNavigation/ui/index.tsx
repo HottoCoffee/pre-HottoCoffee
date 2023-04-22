@@ -12,10 +12,10 @@ export const SideNavigation = () => {
   const { pathname } = useRouter();
 
   const homeButtonClass = clx(styles.button, {
-    [styles.active]: pathname === "/",
+    [styles.active]: pathname === "/" || pathname === "/home",
   });
   const batchListButtonClass = clx(styles.button, {
-    [styles.active]: pathname === "/batch-list",
+    [styles.active]: pathname === "/batch/list",
   });
   const containerClass = clx(styles.container);
 
