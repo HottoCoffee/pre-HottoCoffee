@@ -28,3 +28,11 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    command: npm start
+    ports:
+      - 3000:3000
