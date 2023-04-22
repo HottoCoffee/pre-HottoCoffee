@@ -26,6 +26,11 @@ export const MonthlyCalendar = (props: Props) => {
     },
   });
 
+  // FIXME: Should add error handling
+  if (error) {
+    return <p>Unknown error occurred. {JSON.stringify(error)}</p>
+  }
+
   return (
     <div className={styles.container}>
       <MonthlyCalendarFrame date={date}>
