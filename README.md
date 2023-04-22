@@ -25,15 +25,21 @@ To get started with HottoCoffee, follow these steps:
    |Node.js|18|https://nodejs.org/en|
 2. Run commands
 
-```shell
-cd frontend
-npm install
-npm run dev
-```
+   #### frontend
 
-```shell
-cd back
-```
+   ```shell
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+   #### backend
+
+   ```shell
+   docker compose up -d mysql
+   cd backend/go
+   go run main.go
+   ```
 
 ## How it Works
 
