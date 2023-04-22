@@ -1,15 +1,35 @@
 # HottoCoffee
 
 HottoCoffee is an open-source software (OSS) service designed to manage batches.  
-It provides an easy way to manage batch history by registering batches and execution schedules, executing batches on the server, and receiving execution results as HTTP requests from the server.
+It provides an easy way to manage batch history by registering batches and execution schedules, and receiving execution results as HTTP requests from the server.
 
 ## Getting Started
+
+### Start Application
 
 To get started with HottoCoffee, follow these steps:
 
 1. Clone the HottoCoffee repository to your local machine.
-2. Start application with `docker compose up`
+2. Start application with `docker compose up -d`
 3. Begin managing your batches!
+
+### Start development
+
+1. Install following applications.
+   |Application|version|url|
+   |---|---|---|
+   |Go|1.19|https://go.dev/doc/install|
+   |Node.js|18|https://nodejs.org/en|
+2. Run commands
+```shell
+cd frontend
+npm install
+npm run dev
+```
+```shell
+cd back
+```
+
 
 ## How it Works
 

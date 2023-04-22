@@ -16,12 +16,11 @@ Here are a few ways you can contribute to the project:
 
 To get started contributing to HottoCoffee, follow these steps:
 
-1. Clone the HottoCoffee repository to your local machine.
+1. For the repository and create a new branch for your changes.
 2. Set up your development environment by following the instructions in the README.md file.
 3. Find an issue or feature to work on by browsing the issues in the HottoCoffee repository.
-4. Fork the repository and create a new branch for your changes.
-5. Make your changes and commit them with a descriptive commit message.
-6. Push your changes to your fork and create a pull request to merge your changes into the main repository.
+4. Make your changes and commit them with a descriptive commit message.
+5. Push your changes to your fork and create a pull request to merge your changes into the main repository.
 
 ## Code Style and Conventions
 
