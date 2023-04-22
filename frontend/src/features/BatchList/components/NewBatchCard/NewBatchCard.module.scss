@@ -1,0 +1,24 @@
+.button {
+  background: none;
+  border: none;
+  border: 2px dashed #717171;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  width: 220px;
+  height: 80px;
+
+  &:hover {
+    background: #dddddd;
+  }
+}
+
+.text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  margin-left: 10px;
+}
