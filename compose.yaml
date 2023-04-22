@@ -33,6 +33,5 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
-    command: node server.js
     ports:
-      - 3000:3000
+      - 3000:80

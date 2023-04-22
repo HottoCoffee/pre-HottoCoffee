@@ -5,6 +5,9 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
+  images: {
+    unoptimized: true
+  },
   experimental: {
     optimizeFonts: true,
   },
