@@ -1,8 +1,8 @@
 # Ignore built binary
-back/go/HottoCoffee
+backend/go/HottoCoffee
 
 # Ignore coverage report
-back/go/coverage.*
+backend/go/coverage.*
 
 # MacOS file
 .DS_Store
