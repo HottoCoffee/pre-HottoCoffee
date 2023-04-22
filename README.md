@@ -1,5 +1,8 @@
 # HottoCoffee
 
+[![Backend build check](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml/badge.svg)](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml)
+[![Backend coverage](https://codecov.io/gh/HottoCoffee/HottoCoffee/branch/main/graph/badge.svg?token=J3IRHICVNY)](https://codecov.io/gh/HottoCoffee/HottoCoffee)
+
 HottoCoffee is an open-source software (OSS) service designed to manage batches.  
 It provides an easy way to manage batch history by registering batches and execution schedules, and receiving execution results as HTTP requests from the server.
 
@@ -21,15 +24,16 @@ To get started with HottoCoffee, follow these steps:
    |Go|1.19|https://go.dev/doc/install|
    |Node.js|18|https://nodejs.org/en|
 2. Run commands
+
 ```shell
 cd frontend
 npm install
 npm run dev
 ```
+
 ```shell
 cd back
 ```
-
 
 ## How it Works
 
