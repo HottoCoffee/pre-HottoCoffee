@@ -12,11 +12,19 @@ import (
 
 func main() {
 	// DI
+	route := SetUp()
+	if route.Run() != nil {
+		panic("Failed to boot app")
+	}
+}
+
+func SetUp() *gin.Engine {
+	// DI
 	dialector := mysql.Open("root:root@tcp(127.0.0.1)/hottocoffee?parseTime=True")
 	db, dbErr := gorm.Open(dialector, &gorm.Config{})
 	if dbErr != nil {
 		fmt.Println("Failed to connect DB")
-		return
+		return nil
 	}
 	br := infrastructure.NewBatchRepository(db)
 
@@ -25,7 +33,6 @@ func main() {
 		bp := controller.NewBatchPresenter(c)
 		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("id"))
 	})
-	if route.Run() != nil {
-		panic("Failed to boot app")
-	}
+
+	return route
 }
