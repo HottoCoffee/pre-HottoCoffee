@@ -51,7 +51,18 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 }
 
 func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
-    return nil, errors.New("not impletemented")
+	var brs []BatchRecord
+	br.db.Find(&brs)
+
+	var bs []entity.Batch
+	for i := range brs {
+		batch, err := entity.NewBatch(int(brs[i].ID), brs[i].BatchName, brs[i].ServerName, brs[i].CronSetting, brs[i].TimeLimit, brs[i].EstimatedDuration, brs[i].InitialDate, nil)
+		if err != nil {
+			return nil, errors.New("broken DB records")
+		}
+		bs = append(bs, *batch)
+	}
+	return bs, nil
 }
 
 func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, error) {
