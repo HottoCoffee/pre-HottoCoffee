@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider as ToastProvider } from "@radix-ui/react-toast";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" || Boolean(process.env.SHOULD_ENABLE_MOCK)) {
   // dynamic import でファイルを読み込んで MSW を有効にする
   const MockServer = () =>
     import("~/msw/worker").then((mo) => {
