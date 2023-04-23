@@ -4,6 +4,9 @@ const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  basePath: process.env.ENABLE_GH_PAGES ? "/HottoCoffee" : "",
+  trailingSlash: true,
+
   images: {
     unoptimized: true,
   },
