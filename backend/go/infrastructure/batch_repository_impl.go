@@ -49,3 +49,11 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 	}
 	return batch, nil
 }
+
+func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
+    return nil, errors.New("not impletemented")
+}
+
+func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, error) {
+	return nil, errors.New("not impletemented")
+}

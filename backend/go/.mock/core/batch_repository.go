@@ -34,6 +34,21 @@ func (m *MockBatchRepository) EXPECT() *MockBatchRepositoryMockRecorder {
 	return m.recorder
 }
 
+// FindAll mocks base method.
+func (m *MockBatchRepository) FindAll() ([]entity.Batch, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].([]entity.Batch)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockBatchRepositoryMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockBatchRepository)(nil).FindAll))
+}
+
 // FindById mocks base method.
 func (m *MockBatchRepository) FindById(id int) (*entity.Batch, error) {
 	m.ctrl.T.Helper()
@@ -47,4 +62,19 @@ func (m *MockBatchRepository) FindById(id int) (*entity.Batch, error) {
 func (mr *MockBatchRepositoryMockRecorder) FindById(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindById", reflect.TypeOf((*MockBatchRepository)(nil).FindById), id)
+}
+
+// FindFilteredBy mocks base method.
+func (m *MockBatchRepository) FindFilteredBy(query string) ([]entity.Batch, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindFilteredBy", query)
+	ret0, _ := ret[0].([]entity.Batch)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindFilteredBy indicates an expected call of FindFilteredBy.
+func (mr *MockBatchRepositoryMockRecorder) FindFilteredBy(query interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFilteredBy", reflect.TypeOf((*MockBatchRepository)(nil).FindFilteredBy), query)
 }
