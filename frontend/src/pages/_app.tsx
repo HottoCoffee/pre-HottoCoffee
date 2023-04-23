@@ -7,12 +7,17 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider as ToastProvider } from "@radix-ui/react-toast";
 
 const isBrowser = typeof window !== "undefined";
+const isGHPages = Boolean(process.env.NEXT_PUBLIC_ENABLE_GH_PAGES);
 
 if (isBrowser) {
-  if (process.env.NODE_ENV === "development" || Boolean(process.env.NEXT_PUBLIC_ENABLE_GH_PAGES)) {
+  if (process.env.NODE_ENV === "development" || isGHPages) {
     const MockServer = () =>
       import("~/msw/worker").then((mo) => {
-        mo.worker.start();
+        mo.worker.start({
+          serviceWorker: {
+            url: `${isGHPages ? "/HottoCoffee" : ""}/mockServiceWorker.js`,
+          },
+        });
       });
     MockServer();
   }
