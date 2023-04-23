@@ -4,9 +4,9 @@ const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  assetPrefix: process.env.NEXT_PUBLIC_ENABLE_GH_PAGES ? "/HottoCoffee" : "",
   basePath: process.env.NEXT_PUBLIC_ENABLE_GH_PAGES ? "/HottoCoffee" : "",
   trailingSlash: true,
-
   images: {
     unoptimized: true,
   },
