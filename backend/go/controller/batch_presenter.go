@@ -15,13 +15,12 @@ func NewBatchPresenter(c *gin.Context) BatchPresenter {
 
 func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 	p.context.JSON(200, map[string]interface{}{
-		"id":                 b.Id,
-		"batch_name":         b.BatchName,
-		"server_name":        b.ServerName,
-		"cron_setting":       b.CronSetting.ToString(),
-		"initial_date":       b.StartDate,
-		"time_limit":         b.TimeLimit,
-		"estimated_duration": b.EstimatedDuration,
+		"id":           b.Id,
+		"batch_name":   b.BatchName,
+		"server_name":  b.ServerName,
+		"cron_setting": b.CronSetting.ToString(),
+		"initial_date": b.StartDate,
+		"time_limit":   b.TimeLimit,
 	})
 }
 
