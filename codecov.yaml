@@ -1,2 +1,5 @@
 fixes:
   - "github.com/HottoCoffee/HottoCoffee/::backend/go/"
+
+ignore:
+  - "**/main.go"
