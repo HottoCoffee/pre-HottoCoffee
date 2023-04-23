@@ -11,7 +11,7 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
+
 defaults:
   run:
     working-directory: ./frontend
@@ -59,9 +59,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
-        run: npm install
+        run: npm install && npm run generate
       - name: Build with Next.js
-        run: npm run build
+        run: SHOULD_ENABLE_MOCK=true npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
