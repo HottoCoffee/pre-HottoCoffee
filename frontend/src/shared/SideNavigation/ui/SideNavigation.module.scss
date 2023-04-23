@@ -2,8 +2,8 @@
   display: flex;
   gap: 8px;
   flex-direction: column;
-  border-top: 1px solid #a1a1a1;
-  padding-top: 16px;
+  padding: 16px;
+  border-right: 1px solid #a1a1a1;
 }
 
 .button {
@@ -19,5 +19,5 @@
 }
 
 .active {
-  background: #fe9999;
+  background: #bdd6ff;
 }
