@@ -9,7 +9,7 @@ import { Provider as ToastProvider } from "@radix-ui/react-toast";
 const isBrowser = typeof window !== "undefined";
 
 if (isBrowser) {
-  if (process.env.NODE_ENV === "development" || Boolean(process.env.ENABLE_GH_PAGES)) {
+  if (process.env.NODE_ENV === "development" || Boolean(process.env.NEXT_PUBLIC_ENABLE_GH_PAGES)) {
     const MockServer = () =>
       import("~/msw/worker").then((mo) => {
         mo.worker.start();
