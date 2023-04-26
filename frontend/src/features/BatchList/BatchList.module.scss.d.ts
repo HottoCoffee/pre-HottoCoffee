@@ -1,4 +1,5 @@
 export type Styles = {
+  inputWrapper: string;
   list: string;
 };
 
