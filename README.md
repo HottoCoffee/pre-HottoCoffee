@@ -1,7 +1,66 @@
 # HottoCoffee
 
-## Run Swagger(OpenAPI)
+[![Backend build check](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml/badge.svg)](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-backend.yaml)
+[![Backend coverage](https://codecov.io/gh/HottoCoffee/HottoCoffee/branch/main/graph/badge.svg?token=J3IRHICVNY)](https://codecov.io/gh/HottoCoffee/HottoCoffee)
+[![Frontend build check](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-frontend.yaml/badge.svg)](https://github.com/HottoCoffee/HottoCoffee/actions/workflows/build-frontend.yaml)
 
-```bash
-docker run -p 10081:8080 -e SWAGGER_JSON=/app/main.yaml -v ./schema:/app swaggerapi/swagger-ui
-```
+HottoCoffee is an open-source software (OSS) service designed to manage batches.  
+It provides an easy way to manage batch history by registering batches and execution schedules, and receiving execution results as HTTP requests from the server.
+
+## Getting Started
+
+### Start Application
+
+To get started with HottoCoffee, follow these steps:
+
+1. Clone the HottoCoffee repository to your local machine.
+2. Start application with `docker compose up -d`
+3. Begin managing your batches!
+
+### Start development
+
+1. Install following applications.
+   |Application|version|url|
+   |---|---|---|
+   |Go|1.19|https://go.dev/doc/install|
+   |Node.js|18|https://nodejs.org/en|
+2. Run commands
+
+   #### frontend
+
+   ```shell
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+   #### backend
+
+   ```shell
+   docker compose up -d mysql
+   cd backend/go
+   go run main.go
+   ```
+
+## How it Works
+
+HottoCoffee is designed to make managing the batch process simple and efficient.
+Here's how it works:
+
+1. Register batches and execution schedules with HottoCoffee. This can be done from the web interface.
+2. when the batch is complete, HottoCoffee receives an HTTP request from your server informing it of the batch's completion.
+3. you can then check the batch status and execution history in the HottoCoffee web interface.
+
+## Contributions
+
+HottoCoffee is an open source project and welcomes contributions from anyone!
+If you would like to contribute to HottoCoffee, please see the guidelines in CONTRIBUTING.md.
+
+## Problem and Bug Reports
+
+If you encounter a problem or bug while using HottoCoffee, please create a new issue in the HottoCoffee repository.
+We will respond as quickly as possible.
+
+## License
+
+HottoCoffee is released under the MIT License. Please see the LICENSE file for more information.
