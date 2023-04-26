@@ -104,7 +104,7 @@ export const RegisterNewBatchForm = (props: Props) => {
       </Form.Field>
 
       <Form.Field name="time_limit" className={styles.formLayout}>
-        <Form.FormLabel>Time limit (s)</Form.FormLabel>
+        <Form.FormLabel>Time limit (min)</Form.FormLabel>
         <Form.Control asChild>
           <TextInput required type="number" />
         </Form.Control>
