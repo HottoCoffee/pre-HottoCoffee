@@ -42,7 +42,7 @@ export const SuccessToCreate: Story = {
     await userEvent.click(initialExecutionDateInput);
     await userEvent.click(initialExecutionDateInput);
 
-    const timeLimitInput = canvas.getByLabelText("Time limit (s)");
+    const timeLimitInput = canvas.getByLabelText("Time limit (min)");
     await userEvent.type(timeLimitInput, "20");
 
     const submissionButton = canvas.getByTestId("submit");
