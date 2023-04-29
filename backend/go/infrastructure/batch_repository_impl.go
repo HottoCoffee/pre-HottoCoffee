@@ -55,8 +55,8 @@ func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
 	br.db.Find(&brs)
 
 	var bs []entity.Batch
-	for i := range brs {
-		batch, err := entity.NewBatch(int(brs[i].ID), brs[i].BatchName, brs[i].ServerName, brs[i].CronSetting, brs[i].TimeLimit, brs[i].EstimatedDuration, brs[i].InitialDate, nil)
+	for _, br := range brs {
+		batch, err := mapRecordToBatch(br)
 		if err != nil {
 			return nil, errors.New("broken DB records")
 		}
@@ -65,6 +65,6 @@ func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
 	return bs, nil
 }
 
-func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, error) {
-	return nil, errors.New("not impletemented")
+func mapRecordToBatch(r BatchRecord) (*entity.Batch, error) {
+	return entity.NewBatch(int(r.ID), r.BatchName, r.ServerName, r.CronSetting, r.TimeLimit, r.EstimatedDuration, r.InitialDate, nil)
 }
