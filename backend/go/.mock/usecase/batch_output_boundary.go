@@ -34,6 +34,18 @@ func (m *MockBatchOutputBoundary) EXPECT() *MockBatchOutputBoundaryMockRecorder 
 	return m.recorder
 }
 
+// SendBatchListResponse mocks base method.
+func (m *MockBatchOutputBoundary) SendBatchListResponse(b []entity.Batch) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SendBatchListResponse", b)
+}
+
+// SendBatchListResponse indicates an expected call of SendBatchListResponse.
+func (mr *MockBatchOutputBoundaryMockRecorder) SendBatchListResponse(b interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBatchListResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendBatchListResponse), b)
+}
+
 // SendBatchResponse mocks base method.
 func (m *MockBatchOutputBoundary) SendBatchResponse(b entity.Batch) {
 	m.ctrl.T.Helper()
@@ -44,18 +56,6 @@ func (m *MockBatchOutputBoundary) SendBatchResponse(b entity.Batch) {
 func (mr *MockBatchOutputBoundaryMockRecorder) SendBatchResponse(b interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBatchResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendBatchResponse), b)
-}
-
-// SendBatchesResponse mocks base method.
-func (m *MockBatchOutputBoundary) SendBatchesResponse(b []entity.Batch) {
-	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SendBatchesResponse", b)
-}
-
-// SendBatchesResponse indicates an expected call of SendBatchesResponse.
-func (mr *MockBatchOutputBoundaryMockRecorder) SendBatchesResponse(b interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBatchesResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendBatchesResponse), b)
 }
 
 // SendInternalServerErrorResponse mocks base method.

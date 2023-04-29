@@ -24,7 +24,7 @@ func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 	})
 }
 
-func (p *BatchPresenter) SendBatchesResponse(bs []entity.Batch) {
+func (p *BatchPresenter) SendBatchListResponse(bs []entity.Batch) {
 	var response []map[string]interface{}
 	for _, b := range bs {
 		response = append(response, map[string]interface{}{
