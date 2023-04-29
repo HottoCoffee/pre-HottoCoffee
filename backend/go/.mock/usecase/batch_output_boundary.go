@@ -46,6 +46,30 @@ func (mr *MockBatchOutputBoundaryMockRecorder) SendBatchResponse(b interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBatchResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendBatchResponse), b)
 }
 
+// SendBatchesResponse mocks base method.
+func (m *MockBatchOutputBoundary) SendBatchesResponse(b []entity.Batch) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SendBatchesResponse", b)
+}
+
+// SendBatchesResponse indicates an expected call of SendBatchesResponse.
+func (mr *MockBatchOutputBoundaryMockRecorder) SendBatchesResponse(b interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBatchesResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendBatchesResponse), b)
+}
+
+// SendInternalServerErrorResponse mocks base method.
+func (m *MockBatchOutputBoundary) SendInternalServerErrorResponse() {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SendInternalServerErrorResponse")
+}
+
+// SendInternalServerErrorResponse indicates an expected call of SendInternalServerErrorResponse.
+func (mr *MockBatchOutputBoundaryMockRecorder) SendInternalServerErrorResponse() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendInternalServerErrorResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendInternalServerErrorResponse))
+}
+
 // SendNotFoundResponse mocks base method.
 func (m *MockBatchOutputBoundary) SendNotFoundResponse() {
 	m.ctrl.T.Helper()
