@@ -3,11 +3,10 @@ name: Backend build check
 on:
   pull_request:
     paths:
-      - '**.go'
+      - ./backend/go/**
   push:
     branches:
       - main
-      - develop
 
 defaults:
   run:
