@@ -1,0 +1,10 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px);
+  gap: 16px;
+}
+
+.inputWrapper {
+  display: inline-block;
+  margin: 16px 0;
+}

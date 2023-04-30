@@ -19,12 +19,19 @@ export const MonthlyCalendar = (props: Props) => {
   const startDate = dateList[0][0];
   const endDate = dateList.at(-1)?.at(-1);
 
+  console.log(startDate.toISOString() ?? "");
+
   const { data, error } = useAspidaQuery(client.api.calendar, {
     query: {
       start_date: startDate.toISOString() ?? "",
       end_date: endDate?.toISOString() ?? "",
     },
   });
+
+  // FIXME: Should add error handling
+  if (error) {
+    return <p>Unknown error occurred. {JSON.stringify(error)}</p>
+  }
 
   return (
     <div className={styles.container}>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run generate && run-p dev:*",
+    "dev": "cp .env.sample .env.local && npm run generate && run-p dev:*",
     "dev:next": "next dev",
     "dev:scss": "typed-scss-modules src --watch --implementation sass --nameFormat none --exportType default --aliasPrefixes.~ src/",
     "build": "next build && next export",
@@ -23,7 +23,7 @@
     "typegen:scss": "typed-scss-modules src",
     "generate": "run-p generate:*",
     "generate:api": "rm -rf src/api && npx openapi2aspida -i ../swagger/schema/main.yaml -o src/api",
-    "generate:type": "cd ../ && npx openapi-typescript 'swagger/schema/schemas/**/*.yaml' --output frontend/src/",
+    "generate:type": "cd ../ && npx openapi-typescript@v6.2.0 'swagger/schema/schemas/**/*.yaml' --output frontend/src/",
     "test-storybook": "test-storybook"
   },
   "dependencies": {
@@ -47,7 +47,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-loading-icons": "^1.1.0",
-    "react-loading-skeleton": "^3.2.0",
+    "react-loading-skeleton": "^3.2.1",
     "react-query": "^3.39.3",
     "ts-pattern": "^4.2.2",
     "typescript": "4.9.5",

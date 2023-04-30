@@ -1,0 +1,5 @@
+# Ignore built binary
+HottoCoffee
+
+# Ignore coverage report
+coverage.*
