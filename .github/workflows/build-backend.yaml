@@ -3,7 +3,7 @@ name: Backend build check
 on:
   pull_request:
     paths:
-      - ./backend/go/**
+      - './backend/go/**'
   push:
     branches:
       - main
