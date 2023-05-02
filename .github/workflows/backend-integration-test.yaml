@@ -18,7 +18,9 @@ jobs:
           go-version-file: ./backend/go/go.mod
           cache-dependency-path: ./backend/go/go.sum
       - name: Boot MySQL
-        run: docker compose up -d mysql --health-cmd='mysqladmin ping -uroot -proot --silent'
+        run: |-
+          docker compose up -d mysql
+          while ! mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do sleep 1 done
       - name: Test
         run: |-
           cd ./backend go
