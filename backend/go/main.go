@@ -36,6 +36,11 @@ func SetUp() *gin.Engine {
 	br := infrastructure.NewBatchRepository(db)
 
 	route := gin.Default()
+	route.GET("/api/batch", func(c *gin.Context) {
+		query := c.Query("query")
+		bp := controller.NewBatchPresenter(c)
+		usecase.NewGetBatchListUsecase(br, &bp).Execute(query)
+	})
 	route.GET("/api/batch/:id", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
 		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("id"))
