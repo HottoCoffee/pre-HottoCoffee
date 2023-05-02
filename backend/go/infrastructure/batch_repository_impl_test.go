@@ -257,7 +257,7 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 				rows.AddRow(record.ID, record.BatchName, record.ServerName, record.CronSetting, record.InitialDate, record.TimeLimit, record.EstimatedDuration, record.CreatedAt, record.UpdatedAt, record.DeletedAt)
 			}
 
-			mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE batch_name LIKE ? AND server_name LIKE ? AND cron_setting LIKE ? AND `batch`.`deleted_at` IS NULL")).WillReturnRows(rows)
+			mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE (batch_name LIKE ? OR server_name LIKE ? OR cron_setting LIKE ?) AND `batch`.`deleted_at` IS NULL")).WillReturnRows(rows)
 
 			got, err := br.FindFilteredBy(tt.args.query)
 			if (err != nil) != tt.wantErr {

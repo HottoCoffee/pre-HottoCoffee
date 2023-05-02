@@ -94,8 +94,8 @@ func TestGetBatchListApi(t *testing.T) {
 		{
 			"get all batches without query",
 			args{"/api/batch"},
-			[]map[string]interface{}{
-				{
+			[]any{
+				map[string]interface{}{
 					"id":           float64(1),
 					"batch_name":   "hoge",
 					"server_name":  "fuga",
@@ -103,7 +103,7 @@ func TestGetBatchListApi(t *testing.T) {
 					"initial_date": "2023-01-01T00:00:00Z",
 					"time_limit":   float64(100),
 				},
-				{
+				map[string]interface{}{
 					"id":           float64(2),
 					"batch_name":   "piyo",
 					"server_name":  "foo",
@@ -128,7 +128,7 @@ func TestGetBatchListApi(t *testing.T) {
 		}, {
 			"get empty batch list",
 			args{"/api/batch?query=not_exist"},
-			[]map[string]interface{}{},
+			[]any{},
 		},
 	}
 	for _, tt := range tests {
