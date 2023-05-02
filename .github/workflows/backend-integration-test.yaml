@@ -1,0 +1,27 @@
+name: Backend integration test
+
+on:
+  pull_request:
+    paths:
+      - 'backend/go/**'
+  push:
+    branches:
+      - main
+
+jobs:
+  check-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: ./backend/go/go.mod
+          cache-dependency-path: ./backend/go/go.sum
+      - name: Boot MySQL
+        run: |-
+          docker compose up -d mysql
+          while ! mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do sleep 1; done
+      - name: Test
+        run: |-
+          cd ./backend/go
+          go test .

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/HottoCoffee/HottoCoffee/infrastructure"
+	"github.com/google/go-cmp/cmp"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"io"
@@ -47,19 +48,98 @@ func TestGetBatchIdApi(t *testing.T) {
 	// when
 	resRecorder := performRequest(route, "GET", "/api/batch/1", nil)
 
-	var got map[string]any
-	json.Unmarshal(resRecorder.Body.Bytes(), &got)
+	var got interface{}
+	_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
 
 	// then
 	want := map[string]interface{}{
-		"id":           1,
+		"id":           float64(1),
 		"batch_name":   "hoge",
 		"server_name":  "fuga",
 		"cron_setting": "0 * * * *",
 		"initial_date": "2023-01-01T00:00:00Z",
-		"time_limit":   100,
+		"time_limit":   float64(100),
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("GET /batch/{id} got = %v, want %v", got, want)
+	}
+}
+
+func TestGetBatchListApi(t *testing.T) {
+	// setup
+	if testing.Short() {
+		t.Skip()
+	}
+	truncate()
+
+	route := SetUp()
+
+	// given
+	batchRecords := []infrastructure.BatchRecord{
+		{BatchName: "hoge", ServerName: "fuga", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 100, EstimatedDuration: 50},
+		{BatchName: "piyo", ServerName: "foo", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 100, EstimatedDuration: 50},
+	}
+	batchRecords[0].ID = 1
+	batchRecords[1].ID = 2
+	db.Create(batchRecords)
+
+	type args struct {
+		url string
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			"get all batches without query",
+			args{"/api/batch"},
+			[]any{
+				map[string]interface{}{
+					"id":           float64(1),
+					"batch_name":   "hoge",
+					"server_name":  "fuga",
+					"cron_setting": "0 * * * *",
+					"initial_date": "2023-01-01T00:00:00Z",
+					"time_limit":   float64(100),
+				},
+				map[string]interface{}{
+					"id":           float64(2),
+					"batch_name":   "piyo",
+					"server_name":  "foo",
+					"cron_setting": "0 * * * *",
+					"initial_date": "2023-01-01T00:00:00Z",
+					"time_limit":   float64(100),
+				},
+			},
+		}, {
+			"get batches by query",
+			args{"/api/batch?query=hog"},
+			[]any{
+				map[string]any{
+					"id":           float64(1),
+					"batch_name":   "hoge",
+					"server_name":  "fuga",
+					"cron_setting": "0 * * * *",
+					"initial_date": "2023-01-01T00:00:00Z",
+					"time_limit":   float64(100),
+				},
+			},
+		}, {
+			"get empty batch list",
+			args{"/api/batch?query=not_exist"},
+			[]any{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resRecorder := performRequest(route, "GET", tt.args.url, nil)
+			var got interface{}
+			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
+
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("GET %v got = %v, want %v, diff %v", tt.args.url, got, tt.want, diff)
+			}
+		})
 	}
 }

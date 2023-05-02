@@ -49,3 +49,40 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 	}
 	return batch, nil
 }
+
+func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
+	var brs []BatchRecord
+	br.db.Find(&brs)
+
+	var bs []entity.Batch
+	for _, br := range brs {
+		batch, err := mapRecordToBatch(br)
+		if err != nil {
+			return nil, errors.New("broken DB records")
+		}
+		bs = append(bs, *batch)
+	}
+	return bs, nil
+}
+
+func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, error) {
+	var brs []BatchRecord
+	br.db.Where("batch_name LIKE ?", "%"+query+"%").
+		Or("server_name LIKE ?", "%"+query+"%").
+		Or("cron_setting LIKE ?", "%"+query+"%").
+		Find(&brs)
+
+	var bs []entity.Batch
+	for _, br := range brs {
+		batch, err := mapRecordToBatch(br)
+		if err != nil {
+			return nil, errors.New("broken DB records")
+		}
+		bs = append(bs, *batch)
+	}
+	return bs, nil
+}
+
+func mapRecordToBatch(r BatchRecord) (*entity.Batch, error) {
+	return entity.NewBatch(int(r.ID), r.BatchName, r.ServerName, r.CronSetting, r.TimeLimit, r.EstimatedDuration, r.InitialDate, nil)
+}
