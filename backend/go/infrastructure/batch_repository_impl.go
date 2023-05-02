@@ -67,7 +67,10 @@ func (br BatchRepositoryImpl) FindAll() ([]entity.Batch, error) {
 
 func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, error) {
 	var brs []BatchRecord
-	br.db.Where("batch_name LIKE ?", "%"+query+"%").Where("server_name LIKE ?", "%"+query+"%").Where("cron_setting LIKE ?", "%"+query+"%").Find(&brs)
+	br.db.Where("batch_name LIKE ?", "%"+query+"%").
+		Or("server_name LIKE ?", "%"+query+"%").
+		Or("cron_setting LIKE ?", "%"+query+"%").
+		Find(&brs)
 
 	var bs []entity.Batch
 	for _, br := range brs {

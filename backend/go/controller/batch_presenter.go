@@ -26,15 +26,19 @@ func (p *BatchPresenter) SendBatchResponse(b entity.Batch) {
 
 func (p *BatchPresenter) SendBatchListResponse(bs []entity.Batch) {
 	var response []map[string]interface{}
-	for _, b := range bs {
-		response = append(response, map[string]interface{}{
-			"id":           b.Id,
-			"batch_name":   b.BatchName,
-			"server_name":  b.ServerName,
-			"cron_setting": b.CronSetting.ToString(),
-			"initial_date": b.StartDate,
-			"time_limit":   b.TimeLimit,
-		})
+	if len(bs) == 0 {
+		response = []map[string]interface{}{}
+	} else {
+		for _, b := range bs {
+			response = append(response, map[string]interface{}{
+				"id":           b.Id,
+				"batch_name":   b.BatchName,
+				"server_name":  b.ServerName,
+				"cron_setting": b.CronSetting.ToString(),
+				"initial_date": b.StartDate,
+				"time_limit":   b.TimeLimit,
+			})
+		}
 	}
 
 	p.context.JSON(200, response)
