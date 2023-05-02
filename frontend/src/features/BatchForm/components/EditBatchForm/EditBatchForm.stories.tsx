@@ -39,6 +39,14 @@ export const SuccessToCreate: Story = {
 export const FailedToCreate: Story = {
   args: {
     onSuccess: jest.fn(),
+    initialBatch: {
+      id: 1,
+      batch_name: "BatchA",
+      server_name: "ServerB",
+      cron_setting: "30 * * *",
+      initial_date: "2021-01-01T00:00:00",
+      time_limit: 20,
+    },
   },
   parameters: {
     msw: {
