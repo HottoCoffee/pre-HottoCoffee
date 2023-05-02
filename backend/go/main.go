@@ -13,20 +13,18 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Failed to load environment file")
-		return
-	}
-	// DI
 	route := SetUp()
-	if route.Run() != nil {
+	if route == nil || route.Run() != nil {
 		panic("Failed to boot app")
 	}
 }
 
 func SetUp() *gin.Engine {
-	// DI
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Failed to load environment file")
+		return nil
+	}
 	dialector := mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/hottocoffee?parseTime=True", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST")))
 	db, dbErr := gorm.Open(dialector, &gorm.Config{})
 	if dbErr != nil {
