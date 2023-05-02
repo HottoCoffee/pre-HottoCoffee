@@ -6,3 +6,5 @@ backend/go/coverage.*
 
 # MacOS file
 .DS_Store
+
+.idea
