@@ -21,16 +21,30 @@ COPY ./frontend /app/frontend
 COPY ./swagger /app/swagger
 # This will do the trick, use the corresponding env file for each environment.
 ENV NODE_ENV=production
-COPY frontend/.env.docker .env.production
-
 RUN npm run generate
 RUN npm run build
 
 # 3. Production image, copy all the files and run next
-FROM nginx:latest
+FROM base AS runner
+WORKDIR /app
 
-COPY --from=builder /app/frontend/out /usr/share/nginx/html
-COPY ./frontend/docker/default.conf /etc/nginx/conf.d/default.conf
+ENV NODE_ENV=production
 
-EXPOSE 80
-RUN service nginx start
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+COPY --from=builder /app/frontend/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/static ./.next/static
+COPY frontend/.env.docker .env.production
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node", "server.js"]
