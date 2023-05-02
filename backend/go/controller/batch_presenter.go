@@ -44,6 +44,10 @@ func (p *BatchPresenter) SendBatchListResponse(bs []entity.Batch) {
 	p.context.JSON(200, response)
 }
 
+func (p *BatchPresenter) SendInvalidRequestResponse(message string) {
+	p.context.JSON(400, map[string]string{"status": "400", "message": message})
+}
+
 func (p *BatchPresenter) SendNotFoundResponse() {
 	p.context.JSON(404, map[string]string{"status": "404", "message": "Not Found"})
 }
