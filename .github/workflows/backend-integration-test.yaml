@@ -20,8 +20,8 @@ jobs:
       - name: Boot MySQL
         run: |-
           docker compose up -d mysql
-          while ! mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do sleep 1 done
+          while ! mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do sleep 1; done
       - name: Test
         run: |-
-          cd ./backend go
+          cd ./backend/go
           go test .
