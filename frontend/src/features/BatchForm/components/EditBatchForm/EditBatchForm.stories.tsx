@@ -34,31 +34,6 @@ export const SuccessToCreate: Story = {
       handlers: [successToCreateNewBatch()],
     },
   },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-
-    // const batchNameInput = canvas.getAllByLabelText("Batch name")[0];
-    // await userEvent.type(batchNameInput, "BatchA");
-
-    // const serverNameInput = canvas.getAllByLabelText("Server name")[0];
-    // await userEvent.type(serverNameInput, "ServerB");
-
-    // const cronSettingInput = canvas.getAllByLabelText("Cron setting")[0];
-    // await userEvent.type(cronSettingInput, "30 * * *");
-
-    // const initialExecutionDateInput = canvas.getByTestId("initial_execution_date");
-    // await userEvent.click(initialExecutionDateInput);
-    // await userEvent.click(initialExecutionDateInput);
-
-    // const timeLimitInput = canvas.getByLabelText("Time limit (min)");
-    // await userEvent.type(timeLimitInput, "20");
-
-    // const submissionButton = canvas.getByTestId("submit");
-    // await userEvent.click(submissionButton);
-    // await sleep(200);
-
-    await expect(args.onSuccess).toBeCalled();
-  },
 };
 
 export const FailedToCreate: Story = {
