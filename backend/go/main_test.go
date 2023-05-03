@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 )
@@ -26,6 +27,7 @@ func truncate() {
 
 func performRequest(r http.Handler, method, path string, body io.Reader) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, body)
+	req.Header.Set("Content-Type", "application/json")
 	resRecorder := httptest.NewRecorder()
 	r.ServeHTTP(resRecorder, req)
 	return resRecorder
@@ -57,7 +59,7 @@ func TestGetBatchIdApi(t *testing.T) {
 		"batch_name":   "hoge",
 		"server_name":  "fuga",
 		"cron_setting": "0 * * * *",
-		"initial_date": "2023-01-01T00:00:00Z",
+		"initial_date": "2023-01-01T00:00:00+09:00",
 		"time_limit":   float64(100),
 	}
 	if !reflect.DeepEqual(got, want) {
@@ -100,7 +102,7 @@ func TestGetBatchListApi(t *testing.T) {
 					"batch_name":   "hoge",
 					"server_name":  "fuga",
 					"cron_setting": "0 * * * *",
-					"initial_date": "2023-01-01T00:00:00Z",
+					"initial_date": "2023-01-01T00:00:00+09:00",
 					"time_limit":   float64(100),
 				},
 				map[string]interface{}{
@@ -108,7 +110,7 @@ func TestGetBatchListApi(t *testing.T) {
 					"batch_name":   "piyo",
 					"server_name":  "foo",
 					"cron_setting": "0 * * * *",
-					"initial_date": "2023-01-01T00:00:00Z",
+					"initial_date": "2023-01-01T00:00:00+09:00",
 					"time_limit":   float64(100),
 				},
 			},
@@ -121,7 +123,7 @@ func TestGetBatchListApi(t *testing.T) {
 					"batch_name":   "hoge",
 					"server_name":  "fuga",
 					"cron_setting": "0 * * * *",
-					"initial_date": "2023-01-01T00:00:00Z",
+					"initial_date": "2023-01-01T00:00:00+09:00",
 					"time_limit":   float64(100),
 				},
 			},
@@ -139,6 +141,56 @@ func TestGetBatchListApi(t *testing.T) {
 
 			if diff := cmp.Diff(tt.want, got); diff != "" {
 				t.Errorf("GET %v got = %v, want %v, diff %v", tt.args.url, got, tt.want, diff)
+			}
+		})
+	}
+}
+
+func TestPostBatchApi(t *testing.T) {
+	// setup
+	if testing.Short() {
+		t.Skip()
+	}
+	truncate()
+
+	route := SetUp()
+
+	type args struct {
+		body string
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			"post valid batch",
+			args{`{"batch_name":"hoge","server_name":"fuga","cron_setting":"0 * * * *", "initial_date":"2023-01-01T00:00:00+09:00","time_limit":1}`},
+			map[string]interface{}{
+				"id":           float64(1),
+				"batch_name":   "hoge",
+				"server_name":  "fuga",
+				"cron_setting": "0 * * * *",
+				"initial_date": "2023-01-01T00:00:00+09:00",
+				"time_limit":   float64(1),
+			},
+		}, {
+			"post invalid batch",
+			args{`{}`},
+			map[string]interface{}{
+				"status":  float64(400),
+				"message": "batch name should not be empty",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resRecorder := performRequest(route, "POST", "/api/batch", strings.NewReader(tt.args.body))
+			var got interface{}
+			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
+
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("POST /api/batch got = %v, want %v, diff %v", got, tt.want, diff)
 			}
 		})
 	}
