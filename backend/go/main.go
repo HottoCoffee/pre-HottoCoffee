@@ -20,12 +20,18 @@ func main() {
 }
 
 func SetUp() *gin.Engine {
-	err := godotenv.Load()
+	err := os.Setenv("TZ", "Asia/Tokyo")
+	if err != nil {
+		fmt.Println("Failed to set timezone")
+		return nil
+	}
+	err = godotenv.Load()
 	if err != nil {
 		fmt.Println("Failed to load environment file")
 		return nil
 	}
-	dialector := mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/hottocoffee?parseTime=True", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST")))
+
+	dialector := mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/hottocoffee?parseTime=True&loc=Asia%%2FTokyo", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST")))
 	db, dbErr := gorm.Open(dialector, &gorm.Config{})
 	if dbErr != nil {
 		fmt.Println("Failed to connect DB")
