@@ -3,7 +3,6 @@ package infrastructure_test
 import (
 	"database/sql"
 	"database/sql/driver"
-	"fmt"
 	"github.com/HottoCoffee/HottoCoffee/util"
 	"reflect"
 	"regexp"
@@ -342,11 +341,9 @@ func TestBatchRepositoryImpl_Create(t *testing.T) {
 
 			got, err := br.Create(tt.args.batchName, tt.args.serverName, tt.args.cronSetting, tt.args.timeLimit, tt.args.startDate)
 			if tt.wantErr {
-				compile := regexp.MustCompile(tt.wantErrMsg)
-				fmt.Println(compile)
 				if err == nil {
 					t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
-				} else if !compile.MatchString(err.Error()) {
+				} else if !regexp.MustCompile(tt.wantErrMsg).MatchString(err.Error()) {
 					t.Errorf("Create() error = %v, wantErrMsg %v", err.Error(), tt.wantErrMsg)
 				}
 				return
