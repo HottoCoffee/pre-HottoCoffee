@@ -84,18 +84,11 @@ func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, erro
 	return bs, nil
 }
 
-func (br BatchRepositoryImpl) Save(b entity.Batch) (*entity.Batch, error) {
-	batchRecord := BatchRecord{BatchName: b.BatchName, ServerName: b.ServerName, CronSetting: b.CronSetting.ToString(), InitialDate: b.StartDate, TimeLimit: b.TimeLimit}
-	var crudType string
-	if b.Id == 0 {
-		crudType = "insert"
-	} else {
-		crudType = "update"
-	}
-
+func (br BatchRepositoryImpl) Create(batchName string, serverName string, cronSetting string, timeLimit int, startDate time.Time) (*entity.Batch, error) {
+	batchRecord := BatchRecord{BatchName: batchName, ServerName: serverName, CronSetting: cronSetting, InitialDate: startDate, TimeLimit: timeLimit}
 	tx := br.db.Save(batchRecord)
 	if tx.RowsAffected != 1 {
-		return nil, errors.New(fmt.Sprintf("failed to %s batch record: %v", crudType, batchRecord))
+		return nil, errors.New(fmt.Sprintf("failed to insert batch record: %v", batchRecord))
 	}
 
 	return mapRecordToBatch(batchRecord)
