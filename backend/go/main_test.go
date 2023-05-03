@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/HottoCoffee/HottoCoffee/infrastructure"
+	"github.com/HottoCoffee/HottoCoffee/util"
 	"github.com/google/go-cmp/cmp"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -43,7 +44,7 @@ func TestGetBatchIdApi(t *testing.T) {
 	route := SetUp()
 
 	// given
-	batchRecord := infrastructure.BatchRecord{BatchName: "hoge", ServerName: "fuga", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 100, EstimatedDuration: 50}
+	batchRecord := infrastructure.BatchRecord{BatchName: "hoge", ServerName: "fuga", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 100, EstimatedDuration: 50}
 	batchRecord.ID = 1
 	db.Create(&batchRecord)
 
@@ -78,8 +79,8 @@ func TestGetBatchListApi(t *testing.T) {
 
 	// given
 	batchRecords := []infrastructure.BatchRecord{
-		{BatchName: "hoge", ServerName: "fuga", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 100, EstimatedDuration: 50},
-		{BatchName: "piyo", ServerName: "foo", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 100, EstimatedDuration: 50},
+		{BatchName: "hoge", ServerName: "fuga", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 100, EstimatedDuration: 50},
+		{BatchName: "piyo", ServerName: "foo", CronSetting: "0 * * * *", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 100, EstimatedDuration: 50},
 	}
 	batchRecords[0].ID = 1
 	batchRecords[1].ID = 2

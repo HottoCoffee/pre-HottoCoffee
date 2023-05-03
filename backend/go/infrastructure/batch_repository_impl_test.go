@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
+	"github.com/HottoCoffee/HottoCoffee/util"
 	"reflect"
 	"regexp"
 	"testing"
@@ -56,8 +57,8 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 			"get 1 record",
 			fields{mockDb},
 			args{1},
-			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
-			&entity.Batch{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), EndDate: nil},
+			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1},
+			&entity.Batch{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), EndDate: nil},
 			false,
 		},
 		{
@@ -72,7 +73,7 @@ func TestBatchRepositoryImpl_FindById(t *testing.T) {
 			"get 1 broken record",
 			fields{mockDb},
 			args{1},
-			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
+			&infrastructure.BatchRecord{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1},
 			nil,
 			true,
 		},
@@ -137,12 +138,12 @@ func TestBatchRepositoryImpl_FindAll(t *testing.T) {
 			"get records",
 			fields{mockDb},
 			[]infrastructure.BatchRecord{
-				{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
-				{gorm.Model{ID: 2, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name2", "server2", "* * * * *", time.Date(2023, 2, 3, 4, 5, 6, 7, time.Local), 4, 3},
+				{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1},
+				{gorm.Model{ID: 2, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name2", "server2", "* * * * *", time.Date(2023, 2, 3, 4, 5, 6, 7, util.JST), 4, 3},
 			},
 			[]entity.Batch{
-				{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), EndDate: nil},
-				{Id: 2, BatchName: "name2", ServerName: "server2", CronSetting: newCronSetting("* * * * *"), TimeLimit: 4, EstimatedDuration: 3, StartDate: time.Date(2023, 2, 3, 4, 5, 6, 7, time.Local), EndDate: nil},
+				{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), EndDate: nil},
+				{Id: 2, BatchName: "name2", ServerName: "server2", CronSetting: newCronSetting("* * * * *"), TimeLimit: 4, EstimatedDuration: 3, StartDate: time.Date(2023, 2, 3, 4, 5, 6, 7, util.JST), EndDate: nil},
 			},
 			false,
 		},
@@ -156,7 +157,7 @@ func TestBatchRepositoryImpl_FindAll(t *testing.T) {
 		{
 			"get broken records",
 			fields{mockDb},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
 			nil,
 			true,
 		},
@@ -230,12 +231,12 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 			fields{mockDb},
 			args{"name"},
 			[]infrastructure.BatchRecord{
-				{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1},
-				{gorm.Model{ID: 2, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name2", "server2", "* * * * *", time.Date(2023, 2, 3, 4, 5, 6, 7, time.Local), 4, 3},
+				{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1},
+				{gorm.Model{ID: 2, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "name2", "server2", "* * * * *", time.Date(2023, 2, 3, 4, 5, 6, 7, util.JST), 4, 3},
 			},
 			[]entity.Batch{
-				{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), EndDate: nil},
-				{Id: 2, BatchName: "name2", ServerName: "server2", CronSetting: newCronSetting("* * * * *"), TimeLimit: 4, EstimatedDuration: 3, StartDate: time.Date(2023, 2, 3, 4, 5, 6, 7, time.Local), EndDate: nil},
+				{Id: 1, BatchName: "name", ServerName: "server", CronSetting: newCronSetting("* * * * *"), TimeLimit: 2, EstimatedDuration: 1, StartDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), EndDate: nil},
+				{Id: 2, BatchName: "name2", ServerName: "server2", CronSetting: newCronSetting("* * * * *"), TimeLimit: 4, EstimatedDuration: 3, StartDate: time.Date(2023, 2, 3, 4, 5, 6, 7, util.JST), EndDate: nil},
 			},
 			false,
 		},
@@ -251,7 +252,7 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 			"get broken records",
 			fields{mockDb},
 			args{"name"},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
 			nil,
 			true,
 		},
@@ -315,14 +316,14 @@ func TestBatchRepositoryImpl_Create(t *testing.T) {
 	}{
 		{
 			"successful insertion",
-			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
+			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
 			sqlmock.NewResult(1, 1),
-			newBatch(1, "batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)),
+			newBatch(1, "batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)),
 			false,
 			"",
 		}, {
 			"failure insertion",
-			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
+			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
 			sqlmock.NewResult(0, 0),
 			nil,
 			true,

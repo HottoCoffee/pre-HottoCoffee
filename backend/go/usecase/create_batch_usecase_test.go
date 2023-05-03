@@ -5,6 +5,7 @@ import (
 	mock_core "github.com/HottoCoffee/HottoCoffee/.mock/core"
 	mock_usecase "github.com/HottoCoffee/HottoCoffee/.mock/usecase"
 	"github.com/HottoCoffee/HottoCoffee/core/entity"
+	"github.com/HottoCoffee/HottoCoffee/util"
 	"github.com/golang/mock/gomock"
 	"testing"
 	"time"
@@ -21,11 +22,11 @@ func TestCreateBatchUsecase_Execute(t *testing.T) {
 	}{
 		{
 			"successfully created",
-			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 1, CronSetting: "* * * * *"}},
+			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 1, CronSetting: "* * * * *"}},
 			func(br *mock_core.MockBatchRepository, bob *mock_usecase.MockBatchOutputBoundary) {
-				br.EXPECT().Create("batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)).
-					Return(entity.NewBatch(1, "batch", "server", "* * * * *", 1, 0, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), nil))
-				batch, _ := entity.NewBatch(1, "batch", "server", "* * * * *", 1, 0, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), nil)
+				br.EXPECT().Create("batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)).
+					Return(entity.NewBatch(1, "batch", "server", "* * * * *", 1, 0, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), nil))
+				batch, _ := entity.NewBatch(1, "batch", "server", "* * * * *", 1, 0, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), nil)
 				bob.EXPECT().SendBatchResponse(*batch)
 			},
 		}, {
@@ -37,9 +38,9 @@ func TestCreateBatchUsecase_Execute(t *testing.T) {
 			},
 		}, {
 			"insertion error",
-			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 1, CronSetting: "* * * * *"}},
+			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 1, CronSetting: "* * * * *"}},
 			func(br *mock_core.MockBatchRepository, bob *mock_usecase.MockBatchOutputBoundary) {
-				br.EXPECT().Create("batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)).
+				br.EXPECT().Create("batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)).
 					Return(nil, errors.New("sample error"))
 				bob.EXPECT().SendInternalServerErrorResponse().Times(1)
 			},
