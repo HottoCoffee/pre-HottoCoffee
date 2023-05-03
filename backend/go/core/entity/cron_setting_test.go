@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github.com/HottoCoffee/HottoCoffee/util"
 	"reflect"
 	"testing"
 	"time"
@@ -72,23 +73,23 @@ func TestCronSetting_ListSchedules(t *testing.T) {
 		{
 			"normal scenario",
 			fields{"*/30 * * * *", *newSchedule("*/30 * * * *")},
-			args{time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), time.Date(2023, 1, 1, 1, 0, 0, 0, time.Local)},
+			args{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST)},
 			[]time.Time{
-				time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local),
-				time.Date(2023, 1, 1, 0, 30, 0, 0, time.Local),
-				time.Date(2023, 1, 1, 1, 0, 0, 0, time.Local),
+				time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST),
+				time.Date(2023, 1, 1, 0, 30, 0, 0, util.JST),
+				time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST),
 			},
 		},
 		{
 			"begin time and end time is the same value",
 			fields{"*/30 * * * *", *newSchedule("*/30 * * * *")},
-			args{time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
-			[]time.Time{time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
+			args{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
+			[]time.Time{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
 		},
 		{
 			"there are no scheduled batch executions and return empty list",
 			fields{"0 2 * * *", *newSchedule("0 2 * * *")},
-			args{time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), time.Date(2023, 1, 1, 1, 0, 0, 0, time.Local)},
+			args{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST)},
 			[]time.Time{},
 		},
 	}

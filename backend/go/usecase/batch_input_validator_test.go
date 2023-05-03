@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/HottoCoffee/HottoCoffee/util"
 	"reflect"
 	"testing"
 	"time"
@@ -19,8 +20,8 @@ func Test_validateBatchInput(t *testing.T) {
 	}{
 		{
 			"validation success",
-			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 1, CronSetting: "* * * * *"}},
-			&BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), TimeLimit: 1, CronSetting: "* * * * *"},
+			args{BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 1, CronSetting: "* * * * *"}},
+			&BatchInput{BatchName: "batch", ServerName: "server", InitialDate: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), TimeLimit: 1, CronSetting: "* * * * *"},
 			false,
 			"",
 		}, {
