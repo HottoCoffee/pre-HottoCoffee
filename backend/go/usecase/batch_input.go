@@ -2,7 +2,7 @@ package usecase
 
 import "time"
 
-type CreateBatchInput struct {
+type BatchInput struct {
 	BatchName   string    `json:"batch_name"`
 	ServerName  string    `json:"server_name"`
 	InitialDate time.Time `json:"initial_date"`

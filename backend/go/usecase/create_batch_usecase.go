@@ -3,7 +3,6 @@ package usecase
 import (
 	"fmt"
 	"github.com/HottoCoffee/HottoCoffee/core"
-	"github.com/HottoCoffee/HottoCoffee/core/entity"
 )
 
 type CreateBatchUsecase struct {
@@ -15,14 +14,14 @@ func NewCreateBatchUsecase(bp core.BatchRepository, bob BatchOutputBoundary) Cre
 	return CreateBatchUsecase{batchRepository: bp, batchOutputBoundary: bob}
 }
 
-func (cbu CreateBatchUsecase) Execute(input CreateBatchInput) {
-	b, err := entity.NewBatch(0, input.BatchName, input.ServerName, input.CronSetting, input.TimeLimit, 0, input.InitialDate, nil)
+func (cbu CreateBatchUsecase) Execute(input BatchInput) {
+	bi, err := validateBatchInput(input)
 	if err != nil {
 		cbu.batchOutputBoundary.SendInvalidRequestResponse(err.Error())
 		return
 	}
 
-	createdBatch, err := cbu.batchRepository.Save(*b)
+	createdBatch, err := cbu.batchRepository.Create(bi.BatchName, bi.ServerName, bi.CronSetting, bi.TimeLimit, bi.InitialDate)
 	if err != nil {
 		_ = fmt.Errorf(err.Error())
 		cbu.batchOutputBoundary.SendInternalServerErrorResponse()
