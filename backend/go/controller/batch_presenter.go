@@ -45,13 +45,13 @@ func (p *BatchPresenter) SendBatchListResponse(bs []entity.Batch) {
 }
 
 func (p *BatchPresenter) SendInvalidRequestResponse(message string) {
-	p.context.JSON(400, map[string]string{"status": "400", "message": message})
+	p.context.JSON(400, map[string]interface{}{"status": 400, "message": message})
 }
 
 func (p *BatchPresenter) SendNotFoundResponse() {
-	p.context.JSON(404, map[string]string{"status": "404", "message": "Not Found"})
+	p.context.JSON(404, map[string]interface{}{"status": 404, "message": "Not Found"})
 }
 
 func (p *BatchPresenter) SendInternalServerErrorResponse() {
-	p.context.JSON(500, map[string]string{"status": "500", "message": "Internal Server Error"})
+	p.context.JSON(500, map[string]interface{}{"status": 500, "message": "Internal Server Error"})
 }
