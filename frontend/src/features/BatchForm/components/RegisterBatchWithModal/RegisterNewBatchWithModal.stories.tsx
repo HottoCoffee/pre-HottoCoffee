@@ -24,7 +24,7 @@ export const SuccessToCreate: Story = {
       handlers: [successToCreateNewBatch()],
     },
   },
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     const openButton = canvas.getByText("Open");
