@@ -86,7 +86,7 @@ func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, erro
 
 func (br BatchRepositoryImpl) Create(batchName string, serverName string, cronSetting string, timeLimit int, startDate time.Time) (*entity.Batch, error) {
 	batchRecord := BatchRecord{BatchName: batchName, ServerName: serverName, CronSetting: cronSetting, InitialDate: startDate, TimeLimit: timeLimit}
-	tx := br.db.Save(batchRecord)
+	tx := br.db.Create(&batchRecord)
 	if tx.RowsAffected != 1 {
 		return nil, errors.New(fmt.Sprintf("failed to insert batch record: %v", batchRecord))
 	}
