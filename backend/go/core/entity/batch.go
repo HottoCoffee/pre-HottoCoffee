@@ -30,10 +30,10 @@ func NewBatch(
 	if id <= 0 {
 		return nil, errors.New("ID should be more than 0. Given: " + strconv.Itoa(id))
 	}
-	if len(batchName) == 0 {
+	if len(batchName) == 0 || len(batchName) > 255 {
 		return nil, errors.New("batch name should not be empty")
 	}
-	if len(serverName) == 0 {
+	if len(serverName) == 0 || len(serverName) > 255 {
 		return nil, errors.New("server name should not be empty")
 	}
 	cs, err := NewCronSetting(cronSetting)
