@@ -46,8 +46,9 @@ func SetUp() *gin.Engine {
 	route.POST("/api/batch", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
 		input := usecase.BatchInput{}
-		if c.ShouldBind(input) != nil {
+		if err := c.ShouldBind(&input); err != nil {
 			bp.SendInvalidRequestResponse("Invalid format")
+			return
 		}
 		usecase.NewCreateBatchUsecase(br, &bp).Execute(input)
 	})

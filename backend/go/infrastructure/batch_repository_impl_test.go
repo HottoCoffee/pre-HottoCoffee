@@ -257,7 +257,9 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 				rows.AddRow(record.ID, record.BatchName, record.ServerName, record.CronSetting, record.InitialDate, record.TimeLimit, record.EstimatedDuration, record.CreatedAt, record.UpdatedAt, record.DeletedAt)
 			}
 
-			mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE (batch_name LIKE ? OR server_name LIKE ? OR cron_setting LIKE ?) AND `batch`.`deleted_at` IS NULL")).WillReturnRows(rows)
+			mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `batch` WHERE (batch_name LIKE ? OR server_name LIKE ? OR cron_setting LIKE ?) AND `batch`.`deleted_at` IS NULL")).
+				WithArgs("%"+tt.args.query+"%", "%"+tt.args.query+"%", "%"+tt.args.query+"%").
+				WillReturnRows(rows)
 
 			got, err := br.FindFilteredBy(tt.args.query)
 			if (err != nil) != tt.wantErr {
@@ -276,6 +278,79 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 		})
 	}
 }
+
+//func TestBatchRepositoryImpl_Create(t *testing.T) {
+//	db, mock, err := sqlmock.New()
+//	if err != nil {
+//		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+//	}
+//	defer db.Close()
+//	mockDb, _ := gorm.Open(mysql.New(mysql.Config{Conn: db, SkipInitializeWithVersion: true}), &gorm.Config{})
+//	//columns := []string{
+//	//	"id",
+//	//	"batch_name",
+//	//	"server_name",
+//	//	"cron_setting",
+//	//	"initial_date",
+//	//	"time_limit",
+//	//	"estimated_duration",
+//	//	"created_at",
+//	//	"updated_at",
+//	//	"deleted_at",
+//	//}
+//
+//	type args struct {
+//		batchName   string
+//		serverName  string
+//		cronSetting string
+//		timeLimit   int
+//		startDate   time.Time
+//	}
+//	tests := []struct {
+//		name       string
+//		args       args
+//		sqlResult  sql.Result
+//		want       *entity.Batch
+//		wantErr    bool
+//		wantErrMsg string
+//	}{
+//		{
+//			"successful insertion",
+//			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
+//			sqlmock.NewResult(1, 1),
+//			&entity.Batch{},
+//			false,
+//			"",
+//		}, {
+//			"failure insertion",
+//			args{"batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)},
+//			sqlmock.NewResult(0, 0),
+//			nil,
+//			true,
+//			"failed to insert batch record: {{0 0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC {0001-01-01 00:00:00 +0000 UTC false}} batch server * * * * * 2023-01-01 00:00:00 +0900 JST 1 0}",
+//		},
+//	}
+//	for _, tt := range tests {
+//		t.Run(tt.name, func(t *testing.T) {
+//			br := infrastructure.NewBatchRepository(mockDb)
+//
+//			mock.ExpectExec("INSERT").WillReturnResult(tt.sqlResult)
+//
+//			got, err := br.Create(tt.args.batchName, tt.args.serverName, tt.args.cronSetting, tt.args.timeLimit, tt.args.startDate)
+//			if tt.wantErr {
+//				if err == nil {
+//					t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
+//				} else if err.Error() != tt.wantErrMsg {
+//					t.Errorf("Create() error = %v, wantErrMsg %v", err.Error(), tt.wantErrMsg)
+//				}
+//				return
+//			}
+//			if !reflect.DeepEqual(got, tt.want) {
+//				t.Errorf("Create() got = %v, want %v", got, tt.want)
+//			}
+//		})
+//	}
+//}
 
 func newCronSetting(v string) entity.CronSetting {
 	s, _ := entity.NewCronSetting(v)
