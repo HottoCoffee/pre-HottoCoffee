@@ -94,3 +94,17 @@ func (mr *MockBatchRepositoryMockRecorder) FindFilteredBy(query interface{}) *go
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFilteredBy", reflect.TypeOf((*MockBatchRepository)(nil).FindFilteredBy), query)
 }
+
+// Save mocks base method.
+func (m *MockBatchRepository) Save(batch entity.Batch) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Save", batch)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Save indicates an expected call of Save.
+func (mr *MockBatchRepositoryMockRecorder) Save(batch interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockBatchRepository)(nil).Save), batch)
+}

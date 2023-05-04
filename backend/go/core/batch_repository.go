@@ -10,4 +10,5 @@ type BatchRepository interface {
 	FindAll() ([]entity.Batch, error)
 	FindFilteredBy(query string) ([]entity.Batch, error)
 	Create(batchName string, serverName string, cronSetting string, timeLimit int, startDate time.Time) (*entity.Batch, error)
+	Save(batch entity.Batch) error
 }
