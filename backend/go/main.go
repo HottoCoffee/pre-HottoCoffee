@@ -44,6 +44,15 @@ func SetUp() *gin.Engine {
 			"DELETE",
 			"OPTIONS",
 		},
+		AllowHeaders: []string{
+			"Access-Control-Allow-Credentials",
+			"Access-Control-Allow-Headers",
+			"Content-Type",
+			"Content-Length",
+			"Accept-Encoding",
+			"Authorization",
+		},
+		AllowCredentials: true,
 	}))
 	route.GET("/api/batch", func(c *gin.Context) {
 		query := c.Query("query")
