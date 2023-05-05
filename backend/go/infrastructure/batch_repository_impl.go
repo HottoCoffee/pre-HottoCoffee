@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/HottoCoffee/HottoCoffee/core"
@@ -81,6 +82,16 @@ func (br BatchRepositoryImpl) FindFilteredBy(query string) ([]entity.Batch, erro
 		bs = append(bs, *batch)
 	}
 	return bs, nil
+}
+
+func (br BatchRepositoryImpl) Create(batchName string, serverName string, cronSetting string, timeLimit int, startDate time.Time) (*entity.Batch, error) {
+	batchRecord := BatchRecord{BatchName: batchName, ServerName: serverName, CronSetting: cronSetting, InitialDate: startDate, TimeLimit: timeLimit}
+	tx := br.db.Create(&batchRecord)
+	if tx.RowsAffected != 1 {
+		return nil, errors.New(fmt.Sprintf("failed to insert batch record: %v", batchRecord))
+	}
+
+	return mapRecordToBatch(batchRecord)
 }
 
 func mapRecordToBatch(r BatchRecord) (*entity.Batch, error) {

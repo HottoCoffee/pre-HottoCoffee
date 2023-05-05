@@ -6,6 +6,7 @@ package mock_core
 
 import (
 	reflect "reflect"
+	time "time"
 
 	entity "github.com/HottoCoffee/HottoCoffee/core/entity"
 	gomock "github.com/golang/mock/gomock"
@@ -32,6 +33,21 @@ func NewMockBatchRepository(ctrl *gomock.Controller) *MockBatchRepository {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockBatchRepository) EXPECT() *MockBatchRepositoryMockRecorder {
 	return m.recorder
+}
+
+// Create mocks base method.
+func (m *MockBatchRepository) Create(batchName, serverName, cronSetting string, timeLimit int, startDate time.Time) (*entity.Batch, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", batchName, serverName, cronSetting, timeLimit, startDate)
+	ret0, _ := ret[0].(*entity.Batch)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockBatchRepositoryMockRecorder) Create(batchName, serverName, cronSetting, timeLimit, startDate interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBatchRepository)(nil).Create), batchName, serverName, cronSetting, timeLimit, startDate)
 }
 
 // FindAll mocks base method.
