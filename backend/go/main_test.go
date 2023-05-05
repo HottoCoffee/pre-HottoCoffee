@@ -185,8 +185,60 @@ func TestPostBatchApi(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		truncate()
 		t.Run(tt.name, func(t *testing.T) {
 			resRecorder := performRequest(route, "POST", "/api/batch", strings.NewReader(tt.args.body))
+			var got interface{}
+			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
+
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("POST /api/batch got = %v, want %v, diff %v", got, tt.want, diff)
+			}
+		})
+	}
+}
+
+func TestPutBatchApi(t *testing.T) {
+	// setup
+	if testing.Short() {
+		t.Skip()
+	}
+
+	route := SetUp()
+
+	type args struct {
+		body string
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			"put valid batch",
+			args{`{"batch_name":"hoge","server_name":"fuga","cron_setting":"0 * * * *", "initial_date":"2023-01-01T00:00:00+09:00","time_limit":1}`},
+			map[string]interface{}{
+				"id":           float64(1),
+				"batch_name":   "hoge",
+				"server_name":  "fuga",
+				"cron_setting": "0 * * * *",
+				"initial_date": "2023-01-01T00:00:00+09:00",
+				"time_limit":   float64(1),
+			},
+		}, {
+			"put invalid batch",
+			args{`{}`},
+			map[string]interface{}{
+				"status":  float64(400),
+				"message": "batch name should not be empty",
+			},
+		},
+	}
+	for _, tt := range tests {
+		truncate()
+		db.Exec("insert into batch (batch_name, server_name, cron_setting, initial_date, time_limit, estimated_duration) values ('batch', 'server', '1 * * * *', '2023-04-01', 100, 0)")
+		t.Run(tt.name, func(t *testing.T) {
+			resRecorder := performRequest(route, "PUT", "/api/batch/1", strings.NewReader(tt.args.body))
 			var got interface{}
 			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
 
