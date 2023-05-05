@@ -16,6 +16,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "~/")],
   },
+  output: "standalone",
   redirects: async () => {
     return [
       {
@@ -24,7 +25,7 @@ const nextConfig = {
         permanent: true,
       },
     ];
-  }
+  },
 };
 
 module.exports = nextConfig;
