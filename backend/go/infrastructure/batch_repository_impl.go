@@ -39,12 +39,7 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 		return nil, errors.New("no record")
 	}
 
-	var da *time.Time
-	if b.DeletedAt.Valid {
-		da = &b.DeletedAt.Time
-	}
-
-	batch, err := entity.NewBatch(id, b.BatchName, b.ServerName, b.CronSetting, b.TimeLimit, b.EstimatedDuration, b.InitialDate, da)
+	batch, err := mapRecordToBatch(b)
 	if err != nil {
 		return nil, errors.New("broken DB record")
 	}
