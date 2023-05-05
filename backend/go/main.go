@@ -5,6 +5,7 @@ import (
 	"github.com/HottoCoffee/HottoCoffee/controller"
 	"github.com/HottoCoffee/HottoCoffee/infrastructure"
 	"github.com/HottoCoffee/HottoCoffee/usecase"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -34,6 +35,16 @@ func SetUp() *gin.Engine {
 	br := infrastructure.NewBatchRepository(db)
 
 	route := gin.Default()
+	route.Use(cors.New(cors.Config{
+		AllowOrigins: []string{os.Getenv("ALLOW_ORIGIN")},
+		AllowMethods: []string{
+			"GET",
+			"POST",
+			"PUT",
+			"DELETE",
+			"OPTIONS",
+		},
+	}))
 	route.GET("/api/batch", func(c *gin.Context) {
 		query := c.Query("query")
 		bp := controller.NewBatchPresenter(c)
