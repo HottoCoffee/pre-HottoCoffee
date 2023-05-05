@@ -15,13 +15,13 @@ func NewCreateBatchUsecase(bp core.BatchRepository, bob BatchOutputBoundary) Cre
 }
 
 func (cbu CreateBatchUsecase) Execute(input BatchInput) {
-	bi, err := validateBatchInput(input)
+	err := validateBatchInput(input)
 	if err != nil {
 		cbu.batchOutputBoundary.SendInvalidRequestResponse(err.Error())
 		return
 	}
 
-	createdBatch, err := cbu.batchRepository.Create(bi.BatchName, bi.ServerName, bi.CronSetting, bi.TimeLimit, bi.InitialDate)
+	createdBatch, err := cbu.batchRepository.Create(input.BatchName, input.ServerName, input.CronSetting, input.TimeLimit, input.InitialDate)
 	if err != nil {
 		_ = fmt.Errorf(err.Error())
 		cbu.batchOutputBoundary.SendInternalServerErrorResponse()
