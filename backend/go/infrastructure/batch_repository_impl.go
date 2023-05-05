@@ -95,7 +95,13 @@ func (br BatchRepositoryImpl) Create(batchName string, serverName string, cronSe
 }
 
 func (br BatchRepositoryImpl) Save(batch entity.Batch) error {
-	record := BatchRecord{BatchName: batch.BatchName, ServerName: batch.ServerName, CronSetting: batch.CronSetting.ToString(), InitialDate: batch.StartDate, TimeLimit: batch.TimeLimit}
+	record := BatchRecord{
+		BatchName:   batch.BatchName,
+		ServerName:  batch.ServerName,
+		CronSetting: batch.CronSetting.ToString(),
+		InitialDate: batch.StartDate,
+		TimeLimit:   batch.TimeLimit,
+	}
 	record.ID = uint(batch.Id)
 	tx := br.db.Omit("created_at").Save(&record)
 	if tx.RowsAffected != 1 {
