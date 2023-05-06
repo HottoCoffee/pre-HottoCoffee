@@ -7,7 +7,6 @@
     "dev:next": "next dev",
     "dev:scss": "typed-scss-modules src --watch --implementation sass --nameFormat none --exportType default --aliasPrefixes.~ src/",
     "build": "next build",
-    "build:static": "next build && next export",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
