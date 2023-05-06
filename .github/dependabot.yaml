@@ -4,3 +4,7 @@ updates:
     directory: back/go
     schedule:
       interval: weekly
+  - package-ecosystem: "npm"
+    directory: frontend
+    schedule:
+      interval: weekly
