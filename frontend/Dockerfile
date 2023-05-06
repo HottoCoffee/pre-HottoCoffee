@@ -21,6 +21,8 @@ COPY ./frontend /app/frontend
 COPY ./swagger /app/swagger
 # This will do the trick, use the corresponding env file for each environment.
 ENV NODE_ENV=production
+COPY frontend/.env.docker .env.production
+
 RUN npm run generate
 RUN npm run build
 
@@ -39,7 +41,6 @@ COPY --from=builder /app/frontend/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/static ./.next/static
-COPY frontend/.env.docker .env.production
 
 USER nextjs
 
