@@ -32,6 +32,7 @@ func SetUp() *gin.Engine {
 		return nil
 	}
 	br := infrastructure.NewBatchRepository(db)
+	hr := infrastructure.NewHistoryRepositoryImpl(*db)
 
 	route := gin.Default()
 	route.GET("/api/batch", func(c *gin.Context) {
@@ -42,6 +43,11 @@ func SetUp() *gin.Engine {
 	route.GET("/api/batch/:id", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
 		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("id"))
+	})
+
+	route.GET("/api/batch/:id/history/:historyId", func(c *gin.Context) {
+		hp := controller.NewHistoryPresenter(c)
+		usecase.NewGetHistoryUsecase(hr, hp).Execute(c.Param("id"), c.Param("historyId"))
 	})
 
 	return route
