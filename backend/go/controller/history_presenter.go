@@ -23,6 +23,26 @@ func (hp HistoryPresenter) SendHistoryResponse(history entity.History) {
 	})
 }
 
+func (hp HistoryPresenter) SendHistoryListResponse(histories entity.Histories) {
+	if len(histories.SimpleHistories) == 0 {
+		hp.context.JSON(200, []interface{}{})
+		return
+	}
+
+	var response []map[string]interface{}
+	for _, history := range histories.SimpleHistories {
+		response = append(response, map[string]interface{}{
+			"history_id":     history.Id,
+			"batch_id":       histories.Batch.Id,
+			"batch_name":     histories.Batch.BatchName,
+			"start_datetime": history.ReportedDatetime,
+			"status":         mapStatusToResponseField(history.Status),
+		})
+	}
+
+	hp.context.JSON(200, response)
+}
+
 func (hp HistoryPresenter) SendNotFoundResponse() {
 	hp.context.JSON(404, map[string]interface{}{"status": 404, "message": "Not Found"})
 }
