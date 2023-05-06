@@ -26,7 +26,7 @@ func NewHistory(id *int, batch *Batch, statusValue string, reportedDatetime *tim
 		if batch == nil {
 			return nil, errors.New("batch should not be nil for success/failed history")
 		}
-		if reportedDatetime != nil {
+		if reportedDatetime == nil {
 			return nil, errors.New("reportedDatetime should be nil for success/failed history")
 		}
 		return &History{

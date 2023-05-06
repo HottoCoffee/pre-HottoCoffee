@@ -43,10 +43,10 @@ type batchAndHistoryRecord struct {
 func (hr HistoryRepositoryImpl) FindByIdAndBatchId(historyId int, batchId int) (*entity.History, error) {
 	record := batchAndHistoryRecord{}
 	tx := hr.db.Debug().Table("batch").
-		Select("batch.historyId as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, history.historyId as history_id, history.status, history.created_at as history_created_at").
-		Joins("join history on batch.historyId = history.batch_id").
-		Where("history.historyId", historyId).
-		Where("batch.historyId", batchId).
+		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, history.id as history_id, history.status, history.created_at as history_created_at").
+		Joins("join history on batch.id = history.batch_id").
+		Where("history.id", historyId).
+		Where("batch.id", batchId).
 		Where("batch.deleted_at is null").
 		Where("history.deleted_at is null").
 		Limit(1).
