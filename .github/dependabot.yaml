@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: gomod
-    directory: back/go
+    directory: backend/go
     schedule:
       interval: weekly
   - package-ecosystem: "npm"
