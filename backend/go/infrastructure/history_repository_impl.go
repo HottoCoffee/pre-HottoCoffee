@@ -76,12 +76,12 @@ func (hr HistoryRepositoryImpl) FindByIdAndBatchId(historyId int, batchId int) (
 
 func (hr HistoryRepositoryImpl) FindAllByBatchId(batchId int) (*entity.Histories, error) {
 	batch, err := hr.batchRepository.FindById(batchId)
-	if err == nil {
+	if err != nil {
 		return nil, errors.New(fmt.Sprintf("no batch found for batch id: %v", batchId))
 	}
 
 	var records []historyRecord
-	hr.db.Where("batch_id = ?", batch).Find(&records)
+	hr.db.Where("batch_id = ?", batchId).Find(&records)
 
 	var simpleHistories []entity.SimpleHistory
 	for _, record := range records {
