@@ -1,0 +1,17 @@
+frontend:
+  - any: ["frontend/**/*"]
+
+db:
+  - any: ["backend/db/**/*"]
+
+backend:
+  - any: ["backend/go/**/*"]
+
+ci:
+  - any: [".github/**/*"]
+
+swagger:
+  - any: ["swagger/**/*"]
+
+documentation:
+  - '**/*.md'
