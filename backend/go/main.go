@@ -32,7 +32,7 @@ func SetUp() *gin.Engine {
 		return nil
 	}
 	br := infrastructure.NewBatchRepository(db)
-	hr := infrastructure.NewHistoryRepositoryImpl(*db)
+	hr := infrastructure.NewHistoryRepositoryImpl(*db, br)
 
 	route := gin.Default()
 	route.GET("/api/batch", func(c *gin.Context) {

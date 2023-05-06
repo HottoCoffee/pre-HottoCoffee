@@ -3,17 +3,19 @@ package infrastructure
 import (
 	"errors"
 	"fmt"
+	"github.com/HottoCoffee/HottoCoffee/core"
 	"github.com/HottoCoffee/HottoCoffee/core/entity"
 	"gorm.io/gorm"
 	"time"
 )
 
 type HistoryRepositoryImpl struct {
-	db gorm.DB
+	db              gorm.DB
+	batchRepository core.BatchRepository
 }
 
-func NewHistoryRepositoryImpl(db gorm.DB) HistoryRepositoryImpl {
-	return HistoryRepositoryImpl{db: db}
+func NewHistoryRepositoryImpl(db gorm.DB, batchRepository core.BatchRepository) HistoryRepositoryImpl {
+	return HistoryRepositoryImpl{db: db, batchRepository: batchRepository}
 }
 
 type historyRecord struct {
@@ -70,4 +72,30 @@ func (hr HistoryRepositoryImpl) FindByIdAndBatchId(historyId int, batchId int) (
 	}
 
 	return entity.NewHistory(&record.HistoryId, batch, record.Status, &record.HistoryCreatedAt)
+}
+
+func (hr HistoryRepositoryImpl) FindAllByBatchId(batchId int) (*entity.Histories, error) {
+	batch, err := hr.batchRepository.FindById(batchId)
+	if err == nil {
+		return nil, errors.New(fmt.Sprintf("no batch found for batch id: %v", batchId))
+	}
+
+	var records []historyRecord
+	hr.db.Where("batch_id = ?", batch).Find(&records)
+
+	var simpleHistories []entity.SimpleHistory
+	for _, record := range records {
+		history, err := entity.NewSimpleHistory(
+			int(record.ID),
+			record.Status,
+			record.CreatedAt,
+		)
+		if err != nil {
+			return nil, errors.New("TODO")
+		}
+		simpleHistories = append(simpleHistories, *history)
+	}
+
+	histories := entity.NewHistories(*batch, simpleHistories)
+	return &histories, nil
 }
