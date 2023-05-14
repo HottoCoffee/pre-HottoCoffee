@@ -257,6 +257,404 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/sign-up":
+    description: Sign up for new user
+    post:
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: success to sign up
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/components/schemas/Success"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/sign-in":
+    description: Sign in for existing user
+    post:
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: success to sign in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/workspace":
+    get:
+      description: Get workspace that the user belongs to.
+      tags:
+        - workspace
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: success to get workspaces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    post:
+      description: Create new workspace
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+      tags:
+        - workspace
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+      responses:
+        "200":
+          description: success to create workspace
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/workspace/{workspace_id}":
+    put:
+      description: Update specific workspace
+      tags:
+        - workspace
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+      responses:
+        "200":
+          description: success to update workspace
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    delete:
+      description: Delete specific workspace
+      tags:
+        - workspace
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: success to delete workspace
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/components/schemas/Success"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/workspace/{workspace_id}/user":
+    get:
+      description: Get users that the workspace belongs to.
+      tags:
+        - workspace
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: success to get users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/user.yaml#/components/schemas/User"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+    put:
+      description: Update users that the workspace belongs to.
+      tags:
+        - workspace
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas/user.yaml#/components/schemas/User"
+      responses:
+        "200":
+          description: success to update users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/user.yaml#/components/schemas/User"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/workspace/{workspace_id}/admin/role":
+    put:
+      description: Update user role in workspace
+      tags:
+        - workspace
+        - user
+        - admin
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                role:
+                  type: string
+                  enum: [admin, normal, readonly]
+      responses:
+        "200":
+          description: success to update user role
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/user.yaml#/components/schemas/User"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "404":
+          description: NotFound.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+  "/api/workspace/{workspace_id}/admin/invite":
+    post:
+      description: Invite user to workspace
+      tags:
+        - workspace
+        - user
+        - admin
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer ${jwt token}
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: workspace_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: success to invite user
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/success.yaml#/components/schemas/Success"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
+        "500":
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/error.yaml#/components/schemas/Error"
 components:
   schemas:
     batch:

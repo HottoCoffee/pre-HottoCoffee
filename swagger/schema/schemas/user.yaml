@@ -1,0 +1,16 @@
+components:
+  schemas:
+    User:
+      type: object
+      description: User Schema
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        display_name:
+          type: string
+        role:
+          enum: [admin, normal, readonly]
+      required:
+        - message
