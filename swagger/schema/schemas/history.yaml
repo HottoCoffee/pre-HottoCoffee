@@ -17,6 +17,9 @@ components:
         start_datetime:
           type: string
           format: ISO8601
+        finish_datetime:
+          type: string
+          format: ISO8601
         status:
           type: string
           enum: [before_started, in_progress, success, failed]
@@ -25,4 +28,5 @@ components:
         - batch_id
         - batch_name
         - start_datetime
+        - finish_datetime
         - status
