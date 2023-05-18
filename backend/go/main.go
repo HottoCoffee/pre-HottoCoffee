@@ -54,5 +54,12 @@ func SetUp() *gin.Engine {
 		usecase.NewGetHistoryUsecase(hr, hp).Execute(c.Param("id"), c.Param("historyId"))
 	})
 
+	route.GET("/api/calendar", func(c *gin.Context) {
+		startDatetimeInput := c.Query("start_date")
+		endDatetimeInput := c.Query("end_date")
+		hp := controller.NewHistoryPresenter(c)
+		usecase.NewGetCalendarUsecase(hp, hr).Execute(startDatetimeInput, endDatetimeInput)
+	})
+
 	return route
 }

@@ -7,45 +7,58 @@ import (
 )
 
 type History struct {
-	Id               *int
-	Batch            *Batch
-	Status           Status
-	ReportedDatetime *time.Time
+	Id             *int
+	Batch          *Batch
+	Status         Status
+	StartDatetime  *time.Time
+	FinishDatetime *time.Time
 }
 
-func NewHistory(id *int, batch *Batch, statusValue string, reportedDatetime *time.Time) (*History, error) {
+func NewHistory(id *int, batch *Batch, statusValue string, startDatetime time.Time, reportedDatetime *time.Time) (*History, error) {
 	status, err := mapToStatus(statusValue)
 	if err != nil {
 		return nil, err
 	}
 
-	if status == Success || status == Failed {
+	if status == Success {
 		if id == nil {
-			return nil, errors.New("id should not be nil for success/failed history")
+			return nil, errors.New("id should not be nil for success history")
 		}
 		if batch == nil {
-			return nil, errors.New("batch should not be nil for success/failed history")
+			return nil, errors.New("batch should not be nil for success history")
 		}
 		if reportedDatetime == nil {
-			return nil, errors.New("reportedDatetime should be nil for success/failed history")
+			return nil, errors.New("reportedDatetime should be nil for success history")
 		}
 		return &History{
-			Id:               id,
-			Batch:            batch,
-			Status:           status,
-			ReportedDatetime: reportedDatetime,
+			Id:             id,
+			Batch:          batch,
+			Status:         status,
+			StartDatetime:  &startDatetime,
+			FinishDatetime: reportedDatetime,
 		}, nil
+	} else if status == Failed {
+		return &History{
+			Id:             id,
+			Batch:          batch,
+			Status:         status,
+			StartDatetime:  &startDatetime,
+			FinishDatetime: reportedDatetime,
+		}, err
 	} else {
 		if id != nil {
 			return nil, errors.New("id should be nil for before started/in progress history")
 		}
-		if batch != nil {
-			return nil, errors.New("batch should be nil for before started/in progress history")
-		}
 		if reportedDatetime != nil {
 			return nil, errors.New("reportedDatetime should be nil for before started/in progress history")
 		}
-		return &History{Status: status}, nil
+		return &History{
+			Id:             id,
+			Batch:          batch,
+			Status:         status,
+			StartDatetime:  &startDatetime,
+			FinishDatetime: reportedDatetime,
+		}, nil
 	}
 }
 
@@ -71,16 +84,4 @@ func mapToStatus(v string) (Status, error) {
 	default:
 		return "", errors.New(fmt.Sprintf("wrong history status value: %v", v))
 	}
-}
-
-var BeforeStartedHistory History = History{
-	Id:               nil,
-	Status:           BeforeStarted,
-	ReportedDatetime: nil,
-}
-
-var InProgressHistory History = History{
-	Id:               nil,
-	Status:           InProgress,
-	ReportedDatetime: nil,
 }

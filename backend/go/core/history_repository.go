@@ -1,8 +1,12 @@
 package core
 
-import "github.com/HottoCoffee/HottoCoffee/core/entity"
+import (
+	"github.com/HottoCoffee/HottoCoffee/core/entity"
+	"time"
+)
 
 type HistoryRepository interface {
-	FindByIdAndBatchId(historyId int, batchId int) (*entity.History, error)
+	FindByHistoryIdAndBatchId(historyId int, batchId int) (*entity.History, error)
 	FindAllByBatchId(batchId int) (*entity.Histories, error)
+	FindAllDuring(start time.Time, endInclusive time.Time) ([]entity.Histories, error)
 }
