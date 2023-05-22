@@ -21,6 +21,8 @@ export interface components {
       batch_name: string;
       /** Format: ISO8601 */
       start_datetime: string;
+      /** Format: ISO8601 */
+      finish_datetime: string;
       /** @enum {string} */
       status: "before_started" | "in_progress" | "success" | "failed";
     };
