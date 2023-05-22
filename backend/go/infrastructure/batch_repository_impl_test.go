@@ -156,7 +156,7 @@ func TestBatchRepositoryImpl_FindAll(t *testing.T) {
 		{
 			"get broken records",
 			fields{mockDb},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
 			nil,
 			true,
 		},
@@ -251,7 +251,7 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 			"get broken records",
 			fields{mockDb},
 			args{"name"},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
 			nil,
 			true,
 		},
