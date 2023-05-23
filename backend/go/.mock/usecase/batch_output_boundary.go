@@ -70,6 +70,18 @@ func (mr *MockBatchOutputBoundaryMockRecorder) SendInternalServerErrorResponse()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendInternalServerErrorResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendInternalServerErrorResponse))
 }
 
+// SendInvalidRequestResponse mocks base method.
+func (m *MockBatchOutputBoundary) SendInvalidRequestResponse(message string) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SendInvalidRequestResponse", message)
+}
+
+// SendInvalidRequestResponse indicates an expected call of SendInvalidRequestResponse.
+func (mr *MockBatchOutputBoundaryMockRecorder) SendInvalidRequestResponse(message interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendInvalidRequestResponse", reflect.TypeOf((*MockBatchOutputBoundary)(nil).SendInvalidRequestResponse), message)
+}
+
 // SendNotFoundResponse mocks base method.
 func (m *MockBatchOutputBoundary) SendNotFoundResponse() {
 	m.ctrl.T.Helper()

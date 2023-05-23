@@ -21,6 +21,7 @@ export const getHistoryMockList = (startDate: Date): Array<components["schemas"]
       batch_name: `Batch A`,
       start_datetime: add(startDate, { days: i }).toISOString(),
       status: "success",
+      finish_datetime: add(startDate, { days: i, hours: 1 }).toISOString(),
     };
   });
 

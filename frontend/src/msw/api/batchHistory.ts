@@ -18,6 +18,7 @@ export const successGetBatchHistory = (status: HottoCoffee.BatchStatus = "succes
           batch_name: "BatchA",
           start_datetime: new Date("2023/3/14").toISOString(),
           status: status,
+          finish_datetime: new Date("2023/3/14 12:00:00").toISOString(),
         }),
       );
     },
