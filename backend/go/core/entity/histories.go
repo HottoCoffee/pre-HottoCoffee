@@ -47,7 +47,12 @@ func NewSimpleHistory(id int, statusValue string, reportedDatetime time.Time) (*
 
 func (hh Histories) GetHistoryExecutedOn(startDatetime time.Time) History {
 	estimatedEndDatetime := startDatetime.Add(time.Duration(int(time.Minute) * hh.Batch.TimeLimit))
-	idx := hh.binarySearch(0, len(hh.SimpleHistories), startDatetime, estimatedEndDatetime)
+	var idx int
+	if len(hh.SimpleHistories) == 0 {
+		idx = -1
+	} else {
+		idx = hh.binarySearch(0, len(hh.SimpleHistories), startDatetime, estimatedEndDatetime)
+	}
 	if idx >= 0 {
 		history, _ := NewHistory(
 			&hh.SimpleHistories[idx].Id,

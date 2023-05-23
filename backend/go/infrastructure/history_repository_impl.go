@@ -108,7 +108,7 @@ func (hr HistoryRepositoryImpl) FindAllDuring(start time.Time, endInclusive time
 		Joins("left join history on batch.id = history.batch_id").
 		Where("batch.created_at >= ? AND batch.created_at <= ?", start, endInclusive).
 		Where("batch.deleted_at is null OR batch.deleted_at > ?", start).
-		Where("history.created_at >= ? AND history.created_at <= date_add(?, interval batch.time_limit minute)", start, endInclusive).
+		Where("history.created_at is null OR history.created_at >= ? AND history.created_at <= date_add(?, interval batch.time_limit minute)", start, endInclusive).
 		Where("history.deleted_at is null").
 		Find(&records)
 
