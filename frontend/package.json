@@ -89,7 +89,7 @@
     "prettier": "2.8.8",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
-    "storybook": "^7.0.12",
+    "storybook": "^7.0.9",
     "stylelint": "^15.6.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-recess-order": "^4.0.0",
