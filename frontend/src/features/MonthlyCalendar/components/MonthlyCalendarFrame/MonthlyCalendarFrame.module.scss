@@ -3,6 +3,7 @@ $border-color: #a1a1a1;
 .container {
   display: grid;
   height: 100%;
+  max-height: 100vh;
 
   & > div:not(:last-child) {
     border-bottom: 1px solid $border-color;
