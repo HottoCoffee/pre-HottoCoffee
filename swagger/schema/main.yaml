@@ -161,9 +161,6 @@ paths:
           schema:
             type: integer
           required: true
-      tags:
-        - calendar
-      parameters:
         - in: query
           name: start_date
           schema:
