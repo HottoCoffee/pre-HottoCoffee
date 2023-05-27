@@ -3,9 +3,10 @@ package infrastructure
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/HottoCoffee/HottoCoffee/core/entity"
 	"gorm.io/gorm"
-	"time"
 )
 
 type HistoryRepositoryImpl struct {
@@ -14,16 +15,6 @@ type HistoryRepositoryImpl struct {
 
 func NewHistoryRepositoryImpl(db gorm.DB) HistoryRepositoryImpl {
 	return HistoryRepositoryImpl{db: db}
-}
-
-type historyRecord struct {
-	gorm.Model
-	BatchId uint
-	Status  string
-}
-
-func (historyRecord) TableName() string {
-	return "history"
 }
 
 type batchAndHistoryRecord struct {
@@ -37,17 +28,17 @@ type batchAndHistoryRecord struct {
 	BatchCreatedAt    time.Time
 	HistoryId         int
 	Status            string
-	HistoryCreatedAt  time.Time
+	StartDatetime     time.Time
+	FinishDatetime    time.Time
 }
 
-func (hr HistoryRepositoryImpl) FindByIdAndBatchId(historyId int, batchId int) (*entity.History, error) {
+func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId int) (*entity.BatchExecutionHistory, error) {
 	record := batchAndHistoryRecord{}
 	tx := hr.db.Debug().Table("batch").
-		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, history.id as history_id, history.status, history.created_at as history_created_at").
+		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, history.id as history_id, history.status, history.start_datetime, history.finish_datetime").
 		Joins("join history on batch.id = history.batch_id").
 		Where("history.id", historyId).
 		Where("batch.id", batchId).
-		Where("batch.deleted_at is null").
 		Where("history.deleted_at is null").
 		Limit(1).
 		Find(&record)
@@ -66,8 +57,17 @@ func (hr HistoryRepositoryImpl) FindByIdAndBatchId(historyId int, batchId int) (
 		nil,
 	)
 	if err != nil {
-		return nil, errors.New("TODO")
+		return nil, err
 	}
 
-	return entity.NewHistory(&record.HistoryId, batch, record.Status, &record.HistoryCreatedAt)
+	history, err := entity.NewHistory(record.HistoryId, record.Status, record.StartDatetime, record.FinishDatetime)
+	if err != nil {
+		return nil, err
+	}
+
+	batchExecutionHistory, err := entity.NewBatchExecutionHistory(*batch, *history)
+	if err != nil {
+		return nil, err
+	}
+	return batchExecutionHistory, nil
 }
