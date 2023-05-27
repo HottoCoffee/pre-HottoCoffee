@@ -18,6 +18,7 @@ export const BatchList = () => {
     query: {
       keyword: debounced,
     },
+    keepPreviousData: true,
   });
 
   if (isLoading && !data) {
@@ -39,7 +40,7 @@ export const BatchList = () => {
       <ul className={styles.list}>
         {data?.map((batch) => {
           return (
-            <li key={`batch-card-${batch.id}`}>
+            <li key={batch.id}>
               <BatchCard batch={batch} />
             </li>
           );
