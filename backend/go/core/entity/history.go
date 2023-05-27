@@ -37,16 +37,16 @@ func NewHistory(id int, executionResultString string, startDatetime time.Time, f
 type ExecutionResult string
 
 const (
-	success ExecutionResult = "success"
-	failed  ExecutionResult = "failed"
+	Success ExecutionResult = "success"
+	Failed  ExecutionResult = "failed"
 )
 
 func mapStringToExecutionResult(value string) (ExecutionResult, error) {
 	switch value {
 	case "success":
-		return success, nil
+		return Success, nil
 	case "failed":
-		return failed, nil
+		return Failed, nil
 	default:
 		return "", NewDomainRuleViolationError(fmt.Sprintf("execution result should be success or failed. given: %v", value))
 	}

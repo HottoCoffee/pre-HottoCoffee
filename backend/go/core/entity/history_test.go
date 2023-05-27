@@ -26,7 +26,7 @@ func TestNewHistory(t *testing.T) {
 			args: args{1, "success", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 0, 1, 0, 0, util.JST)},
 			want: &History{
 				Id:              1,
-				ExecutionResult: success,
+				ExecutionResult: Success,
 				StartDatetime:   time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST),
 				FinishDatetime:  time.Date(2023, 1, 1, 0, 1, 0, 0, util.JST),
 			},
@@ -38,7 +38,7 @@ func TestNewHistory(t *testing.T) {
 			args: args{1, "failed", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 0, 1, 0, 0, util.JST)},
 			want: &History{
 				Id:              1,
-				ExecutionResult: failed,
+				ExecutionResult: Failed,
 				StartDatetime:   time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST),
 				FinishDatetime:  time.Date(2023, 1, 1, 0, 1, 0, 0, util.JST),
 			},
@@ -79,8 +79,7 @@ func TestNewHistory(t *testing.T) {
 					t.Errorf("NewHistory() error message = %v, wantErrMsg %v", err.Error(), *tt.wantErrMsg)
 					return
 				}
-			}
-			if !reflect.DeepEqual(got, tt.want) {
+			} else if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewHistory() got = %v, want %v", got, tt.want)
 			}
 		})
