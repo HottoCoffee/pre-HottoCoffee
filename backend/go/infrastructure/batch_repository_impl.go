@@ -39,12 +39,7 @@ func (br BatchRepositoryImpl) FindById(id int) (*entity.Batch, error) {
 		return nil, errors.New("no record")
 	}
 
-	var da *time.Time
-	if b.DeletedAt.Valid {
-		da = &b.DeletedAt.Time
-	}
-
-	batch, err := entity.NewBatch(id, b.BatchName, b.ServerName, b.CronSetting, b.TimeLimit, b.EstimatedDuration, b.InitialDate, da)
+	batch, err := mapRecordToBatch(b)
 	if err != nil {
 		return nil, errors.New("broken DB record")
 	}
@@ -94,6 +89,26 @@ func (br BatchRepositoryImpl) Create(batchName string, serverName string, cronSe
 	return mapRecordToBatch(batchRecord)
 }
 
+func (br BatchRepositoryImpl) Save(batch entity.Batch) error {
+	record := BatchRecord{
+		BatchName:   batch.BatchName,
+		ServerName:  batch.ServerName,
+		CronSetting: batch.CronSetting.ToString(),
+		InitialDate: batch.StartDate,
+		TimeLimit:   batch.TimeLimit,
+	}
+	record.ID = uint(batch.Id)
+	tx := br.db.Omit("created_at").Save(&record)
+	if tx.RowsAffected != 1 {
+		return errors.New(fmt.Sprintf("failed to update batch record: %v", record))
+	}
+	return nil
+}
+
 func mapRecordToBatch(r BatchRecord) (*entity.Batch, error) {
-	return entity.NewBatch(int(r.ID), r.BatchName, r.ServerName, r.CronSetting, r.TimeLimit, r.EstimatedDuration, r.InitialDate, nil)
+	var endDate *time.Time = nil
+	if r.DeletedAt.Valid {
+		endDate = &r.DeletedAt.Time
+	}
+	return entity.NewBatch(int(r.ID), r.BatchName, r.ServerName, r.CronSetting, r.TimeLimit, r.EstimatedDuration, r.InitialDate, endDate)
 }

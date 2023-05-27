@@ -156,7 +156,7 @@ func TestBatchRepositoryImpl_FindAll(t *testing.T) {
 		{
 			"get broken records",
 			fields{mockDb},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
 			nil,
 			true,
 		},
@@ -251,7 +251,7 @@ func TestBatchRepositoryImpl_FindFilteredBy(t *testing.T) {
 			"get broken records",
 			fields{mockDb},
 			args{"name"},
-			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), 2, 1}},
+			[]infrastructure.BatchRecord{{gorm.Model{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), UpdatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), DeletedAt: gorm.DeletedAt{Time: time.Now(), Valid: false}}, "", "server", "* * * * *", time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local), 2, 1}},
 			nil,
 			true,
 		},
@@ -350,6 +350,64 @@ func TestBatchRepositoryImpl_Create(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Create() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBatchRepositoryImpl_Save(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
+	mockDb, _ := gorm.Open(mysql.New(mysql.Config{Conn: db, SkipInitializeWithVersion: true}), &gorm.Config{})
+
+	type args struct {
+		batch entity.Batch
+	}
+	tests := []struct {
+		name       string
+		args       args
+		sqlResult  sql.Result
+		wantErr    bool
+		wantErrMsg string
+	}{
+		{
+			"successful update",
+			args{*newBatch(1, "batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST))},
+			sqlmock.NewResult(1, 1),
+			false,
+			"",
+		}, {
+			"failure update",
+			args{*newBatch(1, "batch", "server", "* * * * *", 1, time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST))},
+			sqlmock.NewResult(0, 0),
+			true,
+			`failed to update batch record: \{\{1 .+ \{0001-01-01 00:00:00 \+0000 UTC false\}\} batch server \* \* \* \* \* 2023-01-01 00:00:00 \+0900 JST 1 0\}`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			br := infrastructure.NewBatchRepository(mockDb)
+
+			mock.ExpectBegin()
+			mock.ExpectExec(regexp.QuoteMeta("UPDATE `batch` SET `updated_at`=?,`deleted_at`=?,`batch_name`=?,`server_name`=?,`cron_setting`=?,`initial_date`=?,`time_limit`=?,`estimated_duration`=? WHERE `batch`.`deleted_at` IS NULL AND `id` = ?")).
+				WithArgs(AnyTime{}, nil, tt.args.batch.BatchName, tt.args.batch.ServerName, tt.args.batch.CronSetting.ToString(), tt.args.batch.StartDate, tt.args.batch.TimeLimit, 0, 1).
+				WillReturnResult(tt.sqlResult)
+			mock.ExpectCommit()
+
+			err := br.Save(tt.args.batch)
+			if tt.wantErr {
+				if !regexp.MustCompile(tt.wantErrMsg).MatchString(err.Error()) {
+					t.Errorf("Save() error = %v, wantErrMsg %v", err.Error(), tt.wantErrMsg)
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Save() error = %v, wantErr %v", err, tt.wantErr)
+				}
 			}
 		})
 	}
