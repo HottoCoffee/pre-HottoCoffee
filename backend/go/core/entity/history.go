@@ -1,86 +1,53 @@
 package entity
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
 
 type History struct {
-	Id               *int
-	Batch            *Batch
-	Status           Status
-	ReportedDatetime *time.Time
+	Id              int
+	ExecutionResult ExecutionResult
+	StartDatetime   time.Time
+	FinishDatetime  time.Time
 }
 
-func NewHistory(id *int, batch *Batch, statusValue string, reportedDatetime *time.Time) (*History, error) {
-	status, err := mapToStatus(statusValue)
+func NewHistory(id int, executionResultString string, startDatetime time.Time, finishDatetime time.Time) (*History, error) {
+	if id <= 0 {
+		return nil, NewDomainRuleViolationError(fmt.Sprintf("history id should be equal or greater than 0. given: %v", id))
+	}
+
+	executionResult, err := mapStringToExecutionResult(executionResultString)
 	if err != nil {
 		return nil, err
 	}
 
-	if status == Success || status == Failed {
-		if id == nil {
-			return nil, errors.New("id should not be nil for success/failed history")
-		}
-		if batch == nil {
-			return nil, errors.New("batch should not be nil for success/failed history")
-		}
-		if reportedDatetime == nil {
-			return nil, errors.New("reportedDatetime should be nil for success/failed history")
-		}
-		return &History{
-			Id:               id,
-			Batch:            batch,
-			Status:           status,
-			ReportedDatetime: reportedDatetime,
-		}, nil
-	} else {
-		if id != nil {
-			return nil, errors.New("id should be nil for before started/in progress history")
-		}
-		if batch != nil {
-			return nil, errors.New("batch should be nil for before started/in progress history")
-		}
-		if reportedDatetime != nil {
-			return nil, errors.New("reportedDatetime should be nil for before started/in progress history")
-		}
-		return &History{Status: status}, nil
+	if finishDatetime.Before(startDatetime) {
+		return nil, NewDomainRuleViolationError(fmt.Sprintf("history finish datetime should be after start datetime. start datetime: %v, finish datetime: %v", startDatetime, finishDatetime))
 	}
+
+	return &History{
+		Id:              id,
+		ExecutionResult: executionResult,
+		StartDatetime:   startDatetime,
+		FinishDatetime:  finishDatetime,
+	}, nil
 }
 
-type Status string
+type ExecutionResult string
 
 const (
-	BeforeStarted Status = "before_started"
-	InProgress    Status = "in_progress"
-	Success       Status = "success"
-	Failed        Status = "failed"
+	success ExecutionResult = "success"
+	failed  ExecutionResult = "failed"
 )
 
-func mapToStatus(v string) (Status, error) {
-	switch v {
-	case "before_started":
-		return BeforeStarted, nil
-	case "in_progress":
-		return InProgress, nil
+func mapStringToExecutionResult(value string) (ExecutionResult, error) {
+	switch value {
 	case "success":
-		return Success, nil
+		return success, nil
 	case "failed":
-		return Failed, nil
+		return failed, nil
 	default:
-		return "", errors.New(fmt.Sprintf("wrong history status value: %v", v))
+		return "", NewDomainRuleViolationError(fmt.Sprintf("execution result should be success or failed. given: %v", value))
 	}
-}
-
-var BeforeStartedHistory History = History{
-	Id:               nil,
-	Status:           BeforeStarted,
-	ReportedDatetime: nil,
-}
-
-var InProgressHistory History = History{
-	Id:               nil,
-	Status:           InProgress,
-	ReportedDatetime: nil,
 }
