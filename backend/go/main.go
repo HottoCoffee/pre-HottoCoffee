@@ -88,15 +88,6 @@ func SetUp() *gin.Engine {
 		}
 		usecase.NewChangeBatchUsecase(br, &bp).Execute(c.Param("id"), input)
 	})
-	route.POST("/api/batch", func(c *gin.Context) {
-		bp := controller.NewBatchPresenter(c)
-		input := usecase.BatchInput{}
-		if err := c.ShouldBind(&input); err != nil {
-			bp.SendInvalidRequestResponse("Invalid format")
-			return
-		}
-		usecase.NewCreateBatchUsecase(br, &bp).Execute(input)
-	})
 
 	route.GET("/api/batch/:id/history/:historyId", func(c *gin.Context) {
 		hp := controller.NewHistoryPresenter(c)
