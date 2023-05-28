@@ -85,7 +85,7 @@ func newPerHourCronSetting() CronSetting {
 func newHistory(startDatetime time.Time, finishDatetime time.Time) History {
 	return History{
 		Id:              1,
-		ExecutionResult: "success",
+		ExecutionResult: Success,
 		StartDatetime:   startDatetime,
 		FinishDatetime:  finishDatetime,
 	}
