@@ -1,22 +1,18 @@
 package entity
 
-import "errors"
-
-type DomainRuleViolationError error
-
-func NewDomainRuleViolationError(text string) DomainRuleViolationError {
-	return &errorString{text}
-}
-
-type errorString struct {
+type DomainRuleViolationError struct {
 	s string
 }
 
-func (e *errorString) Error() string {
+func NewDomainRuleViolationError(text string) *DomainRuleViolationError {
+	return &DomainRuleViolationError{text}
+}
+
+func (e *DomainRuleViolationError) Error() string {
 	return e.s
 }
 
 func IsDomainRuleViolationError(err error) bool {
-	tmp := NewDomainRuleViolationError("")
-	return errors.As(err, &tmp)
+	_, ok := err.(*DomainRuleViolationError)
+	return ok
 }
