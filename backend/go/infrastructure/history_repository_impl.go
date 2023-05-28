@@ -53,7 +53,7 @@ func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId
 		record.CronSetting,
 		record.TimeLimit,
 		record.EstimatedDuration,
-		record.BatchCreatedAt,
+		record.InitialDate,
 		nil,
 	)
 	if err != nil {

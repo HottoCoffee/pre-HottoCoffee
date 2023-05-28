@@ -47,7 +47,7 @@ func TestHistoryRepositoryImpl_FindByHistoryIdAndBatchId(t *testing.T) {
 			fields{*db},
 			args{historyId: 1, batchId: 1},
 			func() {
-				db.Exec(`insert into batch values (1, 'batch', 'server', '0 1 * * *', '2023-01-01', 10, 0, '2023-01-01', '2023-01-01', null)`)
+				db.Exec(`insert into batch values (1, 'batch', 'server', '0 1 * * *', '2023-01-01', 10, 0, '2022-01-01', '2022-01-01', null)`)
 				db.Exec(`insert into history values (1, 1, 'success', '2023-01-01', '2023-01-01', '2023-01-01', '2023-01-01', null)`)
 			},
 			&entity.BatchExecutionHistory{
