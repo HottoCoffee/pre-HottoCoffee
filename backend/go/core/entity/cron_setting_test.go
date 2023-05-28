@@ -121,27 +121,48 @@ func newSchedule(v string) *cron.Schedule {
 }
 
 func TestCronSetting_Prev(t *testing.T) {
-	cronSetting, _ := NewCronSetting("0 * * * *")
+	type field struct {
+		value string
+	}
 	type args struct {
 		t time.Time
 	}
 	tests := []struct {
-		name string
-		args args
-		want time.Time
+		name  string
+		field field
+		args  args
+		want  time.Time
 	}{
 		{
 			"normal",
+			field{"0 * * * *"},
 			args{time.Date(2023, 1, 1, 1, 2, 3, 4, util.JST)},
 			time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST),
 		}, {
 			"just",
+			field{"0 * * * *"},
 			args{time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST)},
 			time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST),
+		}, {
+			"other month",
+			field{"0 * * * *"},
+			args{time.Date(2023, 2, 1, 0, 0, 0, 0, util.JST)},
+			time.Date(2023, 1, 31, 23, 0, 0, 0, util.JST),
+		}, {
+			"other year",
+			field{"0 * * * *"},
+			args{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
+			time.Date(2022, 12, 31, 23, 0, 0, 0, util.JST),
+		}, {
+			"monthly",
+			field{"0 0 1 * *"},
+			args{time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST)},
+			time.Date(2022, 12, 1, 0, 0, 0, 0, util.JST),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			cronSetting, _ := NewCronSetting(tt.field.value)
 			if got := cronSetting.Prev(tt.args.t); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Prev() = %v, want %v", got, tt.want)
 			}
