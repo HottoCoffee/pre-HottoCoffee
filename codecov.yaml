@@ -3,3 +3,4 @@ fixes:
 
 ignore:
   - "**/main.go"
+  - "**/*_repository.go"
