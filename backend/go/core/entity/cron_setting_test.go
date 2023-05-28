@@ -119,3 +119,32 @@ func newSchedule(v string) *cron.Schedule {
 	s, _ := p.Parse(v)
 	return &s
 }
+
+func TestCronSetting_Prev(t *testing.T) {
+	cronSetting, _ := NewCronSetting("0 * * * *")
+	type args struct {
+		t time.Time
+	}
+	tests := []struct {
+		name string
+		args args
+		want time.Time
+	}{
+		{
+			"normal",
+			args{time.Date(2023, 1, 1, 1, 2, 3, 4, util.JST)},
+			time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST),
+		}, {
+			"just",
+			args{time.Date(2023, 1, 1, 1, 0, 0, 0, util.JST)},
+			time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := cronSetting.Prev(tt.args.t); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Prev() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
