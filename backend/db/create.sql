@@ -17,6 +17,8 @@ create table history (
     id int unsigned not null auto_increment,
     batch_id int unsigned not null,
     status varchar(255) not null,
+    start_datetime datetime not null,
+    finish_datetime datetime not null,
     created_at datetime not null default current_timestamp,
     updated_at datetime not null default current_timestamp on update current_timestamp,
     deleted_at datetime,

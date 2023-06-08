@@ -24,4 +24,4 @@ jobs:
       - name: Test
         run: |-
           cd ./backend/go
-          go test .
+          go test . ./infrastructure

@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"errors"
 	"strconv"
 	"time"
 )
@@ -28,26 +27,26 @@ func NewBatch(
 	endDate *time.Time,
 ) (*Batch, error) {
 	if id <= 0 {
-		return nil, errors.New("ID should be more than 0. Given: " + strconv.Itoa(id))
+		return nil, NewDomainRuleViolationError("ID should be more than 0. Given: " + strconv.Itoa(id))
 	}
 	if len(batchName) == 0 || len(batchName) > 255 {
-		return nil, errors.New("batch name should not be empty")
+		return nil, NewDomainRuleViolationError("batch name should not be empty")
 	}
 	if len(serverName) == 0 || len(serverName) > 255 {
-		return nil, errors.New("server name should not be empty")
+		return nil, NewDomainRuleViolationError("server name should not be empty")
 	}
 	cs, err := NewCronSetting(cronSetting)
 	if err != nil {
 		return nil, err
 	}
 	if timeLimit < 1 {
-		return nil, errors.New("time limit should be equal or more than 1. Given: " + strconv.Itoa(timeLimit))
+		return nil, NewDomainRuleViolationError("time limit should be equal or more than 1. Given: " + strconv.Itoa(timeLimit))
 	}
 	if !(estimationDuration >= 0 && estimationDuration < timeLimit) {
-		return nil, errors.New("estimation duration should be equal or more than 0 and less than time limit")
+		return nil, NewDomainRuleViolationError("estimation duration should be equal or more than 0 and less than time limit")
 	}
 	if endDate != nil && (endDate.Equal(startDate) || endDate.Before(startDate)) {
-		return nil, errors.New("end date should be after start date if exists")
+		return nil, NewDomainRuleViolationError("end date should be after start date if exists")
 	}
 
 	return &Batch{

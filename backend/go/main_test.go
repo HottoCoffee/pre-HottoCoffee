@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github.com/google/go-cmp/cmp"
 	"io"
 	"net/http"
@@ -225,6 +226,74 @@ func TestPutBatchApi(t *testing.T) {
 		_, _ = db.Exec("insert into batch (batch_name, server_name, cron_setting, initial_date, time_limit, estimated_duration) values ('batch', 'server', '1 * * * *', '2023-04-01', 100, 0)")
 		t.Run(tt.name, func(t *testing.T) {
 			resRecorder := performRequest(route, "PUT", "/api/batch/1", strings.NewReader(tt.args.body))
+			var got interface{}
+			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
+
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("POST /api/batch got = %v, want %v, diff %v", got, tt.want, diff)
+			}
+		})
+	}
+}
+
+func TestGetHistoryApi(t *testing.T) {
+	// setup
+	if testing.Short() {
+		t.Skip()
+	}
+	truncate()
+
+	route := SetUp()
+
+	// given
+	_, _ = db.Exec(`insert into batch(id, batch_name, server_name, cron_setting, initial_date, time_limit, estimated_duration) values (1, 'hoge', 'fuga', '0 * * * *', '2023-01-01', 100, 50)`)
+	_, _ = db.Exec(`insert into history(id, batch_id, status, start_datetime, finish_datetime) values (1, 1, 'success', '2023-01-01 01:00:00', '2023-01-01 01:01:00'), (2, 1, 'failed', '2023-01-01 02:00:00', '2023-01-01 02:01:00')`)
+
+	type args struct {
+		batchId   string
+		historyId string
+	}
+	tests := []struct {
+		name string
+		args args
+		want interface{}
+	}{
+		{
+			"get success history",
+			args{batchId: "1", historyId: "1"},
+			map[string]interface{}{
+				"history_id":      float64(1),
+				"batch_id":        float64(1),
+				"batch_name":      "hoge",
+				"start_datetime":  "2023-01-01T01:00:00+09:00",
+				"finish_datetime": "2023-01-01T01:01:00+09:00",
+				"status":          "success",
+			},
+		},
+		{
+			"get failed history",
+			args{batchId: "1", historyId: "2"},
+			map[string]interface{}{
+				"history_id":      float64(2),
+				"batch_id":        float64(1),
+				"batch_name":      "hoge",
+				"start_datetime":  "2023-01-01T02:00:00+09:00",
+				"finish_datetime": "2023-01-01T02:01:00+09:00",
+				"status":          "failed",
+			},
+		},
+		{
+			"not found response",
+			args{batchId: "1", historyId: "3"},
+			map[string]interface{}{
+				"status":  float64(404),
+				"message": "Not Found",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resRecorder := performRequest(route, "GET", fmt.Sprintf("/api/batch/%v/history/%v", tt.args.batchId, tt.args.historyId), nil)
 			var got interface{}
 			_ = json.Unmarshal(resRecorder.Body.Bytes(), &got)
 
