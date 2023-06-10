@@ -24,6 +24,26 @@ func (hp HistoryPresenter) SendHistoryResponse(batchExecutionHistory entity.Batc
 	})
 }
 
+func (hp HistoryPresenter) SendHistoryListResponse(batchExecutionHistories entity.BatchExecutionHistories) {
+	if len(batchExecutionHistories.Histories) == 0 {
+		hp.context.JSON(200, []map[string]interface{}{})
+		return
+	}
+
+	var responseBody []map[string]interface{}
+	for _, history := range batchExecutionHistories.Histories {
+		responseBody = append(responseBody, map[string]interface{}{
+			"history_id":      history.Id,
+			"batch_id":        batchExecutionHistories.Batch.Id,
+			"batch_name":      batchExecutionHistories.Batch.BatchName,
+			"start_datetime":  history.StartDatetime,
+			"finish_datetime": history.FinishDatetime,
+			"status":          string(history.ExecutionResult),
+		})
+	}
+	hp.context.JSON(200, responseBody)
+}
+
 func (hp HistoryPresenter) SendNotFoundResponse() {
 	hp.context.JSON(404, map[string]interface{}{"status": 404, "message": "Not Found"})
 }
