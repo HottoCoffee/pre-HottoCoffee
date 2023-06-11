@@ -47,7 +47,7 @@ func TestGetHistoryListUsecase_Execute(t *testing.T) {
 			"target batch is not found",
 			args{"1"},
 			func(hr *mock_core.MockHistoryRepository, hob *mock_usecase.MockHistoryOutputBoundary) {
-				hr.EXPECT().FindByBatchId(1).Return(nil, errors.New("not found")).Times(1)
+				hr.EXPECT().FindByBatchId(1).Return(nil, errors.New("no record")).Times(1)
 				hob.EXPECT().SendNotFoundResponse().Times(1)
 			},
 		},

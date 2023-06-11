@@ -1,7 +1,9 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/HottoCoffee/HottoCoffee/core"
+	"github.com/HottoCoffee/HottoCoffee/core/entity"
 	"strconv"
 )
 
@@ -23,7 +25,12 @@ func (ghlu GetHistoryListUsecase) Execute(batchIdString string) {
 
 	histories, err := ghlu.historyRepository.FindByBatchId(batchId)
 	if err != nil {
-		ghlu.historyOutputBoundary.SendNotFoundResponse()
+		if entity.IsDomainRuleViolationError(err) {
+			fmt.Println(err.Error())
+			ghlu.historyOutputBoundary.SendInternalServerErrorResponse()
+		} else {
+			ghlu.historyOutputBoundary.SendNotFoundResponse()
+		}
 		return
 	}
 

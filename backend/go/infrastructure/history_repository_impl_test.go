@@ -136,6 +136,69 @@ func TestHistoryRepositoryImpl_FindByHistoryIdAndBatchId(t *testing.T) {
 	}
 }
 
+func TestHistoryRepositoryImpl_FindByBatchId(t *testing.T) {
+	if testing.Short() {
+		t.Skip()
+	}
+
+	type fields struct {
+		db gorm.DB
+	}
+	type args struct {
+		batchId int
+	}
+	tests := []struct {
+		name       string
+		fields     fields
+		args       args
+		inputDate  func()
+		test       func(histories entity.BatchExecutionHistories) bool
+		wantErr    bool
+		wantErrMsg *string
+	}{
+		{
+			"normal scenario",
+			fields{*db},
+			args{1},
+			func() {
+				db.Exec(`insert into batch values (1, 'batch', 'server', '0 0 * * *', '2023-01-01', 10, 0, '2022-01-01', '2022-01-01', null)`)
+				db.Exec(`insert into history values (1, 1, 'success', '2023-01-01', '2023-01-01 00:10:00', '2023-01-01', '2023-01-01', null)`)
+				db.Exec(`insert into history values (2, 1, 'success', '2023-01-02', '2023-01-02 00:10:00', '2023-01-02', '2023-01-02', null)`)
+			},
+			func(histories entity.BatchExecutionHistories) bool {
+				return histories.Batch.Id == 1 &&
+					len(histories.Histories) == 2
+			},
+			false,
+			nil,
+		},
+	}
+	for _, tt := range tests {
+		truncate()
+		tt.inputDate()
+		t.Run(tt.name, func(t *testing.T) {
+			hr := HistoryRepositoryImpl{
+				db: tt.fields.db,
+			}
+			got, err := hr.FindByBatchId(tt.args.batchId)
+			if err != nil {
+				if !tt.wantErr {
+					t.Errorf("FindByBatchId() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				}
+				if err.Error() != *tt.wantErrMsg {
+					t.Errorf("FindByBatchId() error message = %v, wantErrMsg %v", err.Error(), *tt.wantErrMsg)
+					return
+				}
+				return
+			}
+			if !tt.test(*got) {
+				t.Errorf("FindByBatchId()")
+			}
+		})
+	}
+}
+
 func newCronSetting(value string) entity.CronSetting {
 	setting, _ := entity.NewCronSetting(value)
 	return *setting

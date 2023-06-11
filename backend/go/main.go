@@ -94,5 +94,10 @@ func SetUp() *gin.Engine {
 		usecase.NewGetHistoryUsecase(hr, hp).Execute(c.Param("batchId"), c.Param("historyId"))
 	})
 
+	route.GET("/api/batch/:batchId/history", func(c *gin.Context) {
+		hp := controller.NewHistoryPresenter(c)
+		usecase.NewGetHistoryListUsecase(hr, hp).Execute(c.Param("batchId"))
+	})
+
 	return route
 }

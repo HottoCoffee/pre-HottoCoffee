@@ -32,6 +32,18 @@ type batchAndHistoryRecord struct {
 	FinishDatetime    time.Time
 }
 
+type HistoryRecord struct {
+	gorm.Model
+	BatchId        int
+	Status         string
+	StartDatetime  time.Time
+	FinishDatetime time.Time
+}
+
+func (HistoryRecord) TableName() string {
+	return "history"
+}
+
 func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId int) (*entity.BatchExecutionHistory, error) {
 	record := batchAndHistoryRecord{}
 	tx := hr.db.Table("batch").
@@ -70,4 +82,32 @@ func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId
 		return nil, err
 	}
 	return batchExecutionHistory, nil
+}
+
+func (hr HistoryRepositoryImpl) FindByBatchId(batchId int) (*entity.BatchExecutionHistories, error) {
+	var b BatchRecord
+	tx := hr.db.Find(&b, batchId)
+	if tx.RowsAffected == 0 {
+		return nil, errors.New("no record")
+	}
+
+	batch, err := mapRecordToBatch(b)
+	if err != nil {
+		return nil, err
+	}
+
+	var hrs []HistoryRecord
+	hr.db.Where("batch_id = ?", batchId).Find(&hrs)
+
+	var hs []entity.History
+	for _, record := range hrs {
+		h, err := entity.NewHistory(int(record.ID), record.Status, record.StartDatetime, record.FinishDatetime)
+		if err != nil {
+			return nil, err
+		}
+		hs = append(hs, *h)
+	}
+
+	beh := entity.NewBatchExecutionHistories(*batch, hs)
+	return &beh, nil
 }

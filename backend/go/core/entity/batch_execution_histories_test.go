@@ -26,10 +26,14 @@ func TestNewBatchExecutionHistories(t *testing.T) {
 			args{[]History{
 				{1, "success", time.Date(2023, 1, 1, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
 				{2, "failed", time.Date(2023, 1, 2, 0, 0, 1, 1, util.JST), time.Date(2023, 1, 2, 1, 1, 0, 0, util.JST)},
+				{3, "success", time.Date(2023, 1, 4, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
+				{4, "success", time.Date(2023, 1, 3, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
 			}},
 			BatchExecutionHistories{Batch: *batch, Histories: []History{
 				{1, "success", time.Date(2023, 1, 1, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
 				{2, "failed", time.Date(2023, 1, 2, 0, 0, 1, 1, util.JST), time.Date(2023, 1, 2, 1, 1, 0, 0, util.JST)},
+				{4, "success", time.Date(2023, 1, 3, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
+				{3, "success", time.Date(2023, 1, 4, 0, 0, 2, 0, util.JST), time.Date(2023, 1, 1, 0, 50, 0, 0, util.JST)},
 			}},
 		},
 		{
