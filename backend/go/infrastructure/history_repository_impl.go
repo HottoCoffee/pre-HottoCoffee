@@ -119,7 +119,7 @@ func (hr HistoryRepositoryImpl) FindAllDuring(startDate time.Time, endDate time.
 		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, batch.deleted_at as batch_deleted_at, history.id as history_id, history.status, history.start_datetime, history.finish_datetime").
 		Joins("left join history on batch.id = history.batch_id").
 		Where("batch.initial_date < ?", endDate).
-		Where("batch_deleted_at is null or batch.deleted_at >= ?", startDate).
+		Where("batch.deleted_at is null or batch.deleted_at >= ?", startDate).
 		Where("history.start_datetime >= ? and history.start_datetime < ?", startDate, endDate).
 		Where("history.deleted_at is null").
 		Find(&records)
