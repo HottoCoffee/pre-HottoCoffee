@@ -8,11 +8,11 @@ import (
 func GenerateCalendarItems(historiesArray []entity.BatchExecutionHistories, now time.Time, startDatetime time.Time, endDatetime time.Time) []entity.CalendarItem {
 	var calendarItems []entity.CalendarItem
 	for _, batchExecutionHistories := range historiesArray {
-		logicalTimeHistoryMap := map[time.Time]entity.History{}
+		logicalUnixTimeHistoryMap := map[int64]entity.History{}
 		batch := batchExecutionHistories.Batch
 		for _, history := range batchExecutionHistories.Histories {
 			logicalStartTime := batch.CronSetting.Prev(history.StartDatetime)
-			logicalTimeHistoryMap[logicalStartTime] = history
+			logicalUnixTimeHistoryMap[logicalStartTime.Unix()] = history
 		}
 
 		begin := max(startDatetime, batch.StartDate)
@@ -23,7 +23,7 @@ func GenerateCalendarItems(historiesArray []entity.BatchExecutionHistories, now 
 			end = min(*batch.EndDate, endDatetime)
 		}
 		for _, logicalStartTime := range batch.CronSetting.ListSchedules(begin, end) {
-			if history, ok := logicalTimeHistoryMap[logicalStartTime]; ok {
+			if history, ok := logicalUnixTimeHistoryMap[logicalStartTime.Unix()]; ok {
 				calendarItems = append(calendarItems, entity.NewCalendarItemFromHistory(batch, history))
 				continue
 			}
