@@ -18,6 +18,7 @@ components:
           type: string
           format: ISO8601
         finish_datetime:
+          nullable: true
           type: string
           format: ISO8601
         status:
