@@ -6,6 +6,7 @@ package mock_core
 
 import (
 	reflect "reflect"
+	time "time"
 
 	entity "github.com/HottoCoffee/HottoCoffee/core/entity"
 	gomock "github.com/golang/mock/gomock"
@@ -32,6 +33,21 @@ func NewMockHistoryRepository(ctrl *gomock.Controller) *MockHistoryRepository {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockHistoryRepository) EXPECT() *MockHistoryRepositoryMockRecorder {
 	return m.recorder
+}
+
+// FindAllDuring mocks base method.
+func (m *MockHistoryRepository) FindAllDuring(startDate, endDate time.Time) ([]entity.BatchExecutionHistories, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAllDuring", startDate, endDate)
+	ret0, _ := ret[0].([]entity.BatchExecutionHistories)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAllDuring indicates an expected call of FindAllDuring.
+func (mr *MockHistoryRepositoryMockRecorder) FindAllDuring(startDate, endDate interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllDuring", reflect.TypeOf((*MockHistoryRepository)(nil).FindAllDuring), startDate, endDate)
 }
 
 // FindByBatchId mocks base method.
