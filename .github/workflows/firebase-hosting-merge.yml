@@ -2,10 +2,14 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+"on":
   push:
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -25,8 +29,8 @@ jobs:
           swagger-cli bundle schema/main.yaml --outfile docs/swagger.yaml --type yaml --format 3
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOTTOCOFFEE_SWAGGER }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOTTOCOFFEE_SWAGGER }}"
           channelId: live
           projectId: hottocoffee-swagger
           entryPoint: swagger
