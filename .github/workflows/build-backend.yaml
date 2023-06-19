@@ -57,6 +57,10 @@ jobs:
       - name: Build
         run: go build
 
+      - name: Public IP Install
+        id: ip
+        uses: haythem/public-ip@v1.2
+
       - name: AWS CLI install
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
