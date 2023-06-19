@@ -114,48 +114,43 @@ func (hr HistoryRepositoryImpl) FindByBatchId(batchId int) (*entity.BatchExecuti
 }
 
 func (hr HistoryRepositoryImpl) FindAllDuring(startDate time.Time, endDate time.Time) ([]entity.BatchExecutionHistories, error) {
-	var records []batchAndHistoryRecord
-	hr.db.Table("batch").
-		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, batch.deleted_at as batch_deleted_at, history.id as history_id, history.status, history.start_datetime, history.finish_datetime").
-		Joins("left join history on batch.id = history.batch_id").
+	var brs []BatchRecord
+	hr.db.Find(&brs).
 		Where("batch.initial_date < ?", endDate).
-		Where("batch.deleted_at is null or batch.deleted_at >= ?", startDate).
+		Where("batch.deleted_at is null or batch.deleted_at >= ?", startDate)
+
+	var batchIds []uint
+	for _, br := range brs {
+		batchIds = append(batchIds, br.ID)
+	}
+
+	var hrs []HistoryRecord
+	hr.db.Find(&hrs).
+		Where("batch_id in ?", batchIds).
 		Where("history.start_datetime >= ? and history.start_datetime < ?", startDate, endDate).
-		Where("history.deleted_at is null").
-		Find(&records)
+		Where("history.deleted_at is null")
 
-	batchHistoriesMap := map[entity.Batch][]entity.History{}
-	for _, record := range records {
-		batch, err := entity.NewBatch(
-			record.BatchId,
-			record.BatchName,
-			record.ServerName,
-			record.CronSetting,
-			record.TimeLimit,
-			record.EstimatedDuration,
-			record.InitialDate,
-			record.BatchDeletedAt,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		if record.HistoryId == nil {
-			batchHistoriesMap[*batch] = []entity.History{}
-			continue
-		}
-
-		history, err := entity.NewHistory(*record.HistoryId, *record.Status, *record.StartDatetime, *record.FinishDatetime)
-		if err != nil {
-			return nil, err
-		}
-
-		batchHistoriesMap[*batch] = append(batchHistoriesMap[*batch], *history)
+	historyIdRecordMap := map[uint][]HistoryRecord{}
+	for _, record := range hrs {
+		historyIdRecordMap[record.ID] = append(historyIdRecordMap[record.ID], record)
 	}
 
 	var batchExecutionHistories []entity.BatchExecutionHistories
-	for batch, histories := range batchHistoriesMap {
-		batchExecutionHistories = append(batchExecutionHistories, entity.NewBatchExecutionHistories(batch, histories))
+	for _, br := range brs {
+		batch, err := mapRecordToBatch(br)
+		if err != nil {
+			return nil, err
+		}
+
+		var hs []entity.History
+		for _, record := range historyIdRecordMap[br.ID] {
+			history, err := entity.NewHistory(int(record.ID), record.Status, record.StartDatetime, record.FinishDatetime)
+			if err != nil {
+				return nil, err
+			}
+			hs = append(hs, *history)
+		}
+		batchExecutionHistories = append(batchExecutionHistories, entity.NewBatchExecutionHistories(*batch, hs))
 	}
 
 	return batchExecutionHistories, nil
