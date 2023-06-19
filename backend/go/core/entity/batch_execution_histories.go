@@ -30,8 +30,11 @@ func NewBatchExecutionHistories(batch Batch, histories []History) BatchExecution
 			batch.EndDate != nil && setDatetime.After(*batch.EndDate) {
 			continue
 		}
+		if len(setTimeHistoriesMap[setDatetime]) == 0 {
+			setDatetimes = append(setDatetimes, setDatetime)
+		}
 		setTimeHistoriesMap[setDatetime] = append(setTimeHistoriesMap[setDatetime], h)
-		setDatetimes = append(setDatetimes, setDatetime)
+
 	}
 
 	var distinctHistories []History
