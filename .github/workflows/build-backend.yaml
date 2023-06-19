@@ -72,10 +72,6 @@ jobs:
 
       - name: Deploy
         run: |
-          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
           echo ${{ secrets.DEPLOY_KEY }} > deploy_key
           chmod 600 deploy_key
           scp -i deploy_key -o StrictHostKeyChecking=no ./HottoCoffee ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_DIR }}
-
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
