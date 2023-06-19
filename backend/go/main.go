@@ -99,5 +99,10 @@ func SetUp() *gin.Engine {
 		usecase.NewGetHistoryListUsecase(hr, hp).Execute(c.Param("batchId"))
 	})
 
+	route.GET("/api/calendar", func(c *gin.Context) {
+		cp := controller.NewCalendarPresenter(c)
+		usecase.NewGetCalendarUsecase(hr, cp).Execute(c.Query("start_datetime"), c.Query("finish_datetime"))
+	})
+
 	return route
 }
