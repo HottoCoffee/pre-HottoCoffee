@@ -101,7 +101,7 @@ func SetUp() *gin.Engine {
 
 	route.GET("/api/calendar", func(c *gin.Context) {
 		cp := controller.NewCalendarPresenter(c)
-		usecase.NewGetCalendarUsecase(hr, cp).Execute(c.Query("start_date"), c.Query("finish_date"))
+		usecase.NewGetCalendarUsecase(hr, cp).Execute(c.Query("start_date"), c.Query("end_date"))
 	})
 
 	return route
