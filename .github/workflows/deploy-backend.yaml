@@ -3,7 +3,7 @@ name: Deploy backend to AWS
 on:
   workflow_run:
     workflows:
-      - build-backend
+      - Backend build check
     types:
       - completed
 
