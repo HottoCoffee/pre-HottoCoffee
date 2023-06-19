@@ -15,7 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
       - name: Make fail if the previous workflow was failed
@@ -51,9 +51,13 @@ jobs:
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
+          # copy the new binary
           echo "${{ secrets.DEPLOY_KEY }}" > deploy_key
           chmod 600 deploy_key
           scp -i deploy_key -o StrictHostKeyChecking=no ./HottoCoffee ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_DIR }}
+
+          # kill the previous process and run the new one
+          ssh -i deploy_key -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_DIR }} "ps aux | grep -v grep | grep HottoCoffee | awk '{print $2}' | xargs kill && nohup ./HottoCoffee > log &"
 
       - name: Revoke security group
         if: always()
