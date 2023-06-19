@@ -23,6 +23,7 @@ func NewBatchExecutionHistories(batch Batch, histories []History) BatchExecution
 	})
 
 	setTimeHistoriesMap := map[time.Time][]History{}
+	var setDatetimes []time.Time
 	for _, h := range histories {
 		setDatetime := batch.CronSetting.Prev(h.StartDatetime.Add(time.Second))
 		if setDatetime.Before(batch.StartDate) ||
@@ -30,11 +31,13 @@ func NewBatchExecutionHistories(batch Batch, histories []History) BatchExecution
 			continue
 		}
 		setTimeHistoriesMap[setDatetime] = append(setTimeHistoriesMap[setDatetime], h)
+		setDatetimes = append(setDatetimes, setDatetime)
 	}
 
 	var distinctHistories []History
-	for _, v := range setTimeHistoriesMap {
-		distinctHistories = append(distinctHistories, v[len(v)-1])
+	for _, setDatetime := range setDatetimes {
+		histories := setTimeHistoriesMap[setDatetime]
+		distinctHistories = append(distinctHistories, histories[len(histories)-1])
 	}
 
 	return BatchExecutionHistories{Batch: batch, Histories: distinctHistories}
