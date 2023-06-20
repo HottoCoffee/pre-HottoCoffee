@@ -15,9 +15,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
+      - name: debug
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event.workflow_run.conclusion }}
+          echo ${{ github.event.workflow_run.status }}
       - name: Make fail if the previous workflow was failed
         if: ${{ github.event.workflow_run.conclusion != 'success' }}
         run: |
