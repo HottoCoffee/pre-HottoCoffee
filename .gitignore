@@ -8,3 +8,5 @@ backend/go/coverage.*
 .DS_Store
 
 .idea
+
+backend/rust/target
