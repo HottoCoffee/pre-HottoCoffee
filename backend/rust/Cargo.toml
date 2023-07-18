@@ -14,3 +14,5 @@ derive-new = "0.5.9"
 hmac = "0.12.1"
 jsonwebtoken = "8.3.0"
 chrono = "0.4.26"
+sqlx = { version = "0.7.1", features = ["mysql", "runtime-tokio-rustls", "chrono"] }
+anyhow = "1.0.72"
