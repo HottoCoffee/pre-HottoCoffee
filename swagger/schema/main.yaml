@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
   title: hottocoffee
-  version: "0.0.1"
+  version: '0.0.1'
 servers:
-  - url: "http://localhost:3000"
+  - url: 'http://localhost:3000'
 paths:
-  "/api/workspace/{workspace_id}/batch":
-    description: "an endpoint for batch"
+  '/api/workspace/{workspace_id}/batch':
+    description: 'an endpoint for batch'
     get:
       parameters:
         - in: query
@@ -29,49 +29,49 @@ paths:
       tags: [batch list]
       description: get batch list. response can be filtered by keyword. If no batches are found, an empty array is returned.
       responses:
-        "200":
+        '200':
           description: success filter and can get batch list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/batch.yaml#/components/schemas/Batch"
-        "500":
+                  $ref: './schemas/batch.yaml#/components/schemas/Batch'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     post:
       tags: [batch]
       summary: register batch
       description: register new batch
       responses:
-        "200":
+        '200':
           description: success to create
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
-        "400":
+                $ref: './schemas/batch.yaml#/components/schemas/Batch'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/components/schemas/BatchCreate"
-  "/api/workspace/{workspace_id}/batch/{batch_id}":
+              $ref: './schemas/batch.yaml#/components/schemas/BatchCreate'
+  '/api/workspace/{workspace_id}/batch/{batch_id}':
     parameters:
       - in: path
         name: batch_id
@@ -92,61 +92,61 @@ paths:
     delete:
       tags: [batch]
       responses:
-        "200":
+        '200':
           description: successfully deleted
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
-        "500":
+                $ref: './schemas/success.yaml#/components/schemas/Success'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     put:
       tags: [batch]
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+              $ref: './schemas/batch.yaml#/components/schemas/Batch'
       responses:
-        "200":
+        '200':
           description: successfully updated.
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
-        "400":
+                $ref: './schemas/batch.yaml#/components/schemas/Batch'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     get:
       tags: [batch]
       responses:
-        "200":
+        '200':
           description: return specific batch information
           content:
             application/json:
               schema:
-                $ref: "./schemas/batch.yaml#/components/schemas/Batch"
-        "500":
+                $ref: './schemas/batch.yaml#/components/schemas/Batch'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
 
-  "/api/workspace/{workspace_id}/calendar":
+  '/api/workspace/{workspace_id}/calendar':
     description: batch status for calendar. If no batches are found, an empty array is returned.
     get:
       parameters:
@@ -174,27 +174,27 @@ paths:
           required: true
           description: query for filtering (inclusive)
       responses:
-        "200":
+        '200':
           description: return batch history list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/history.yaml#/components/schemas/History"
-        "400":
+                  $ref: './schemas/history.yaml#/components/schemas/History'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}/batch/{batch_id}/history":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}/batch/{batch_id}/history':
     description: Return all histories of specific batch.
     parameters:
       - in: path
@@ -217,26 +217,26 @@ paths:
       tags:
         - batch history
       responses:
-        "200":
+        '200':
           description: success to get history
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/history.yaml#/components/schemas/History"
-        "404":
+                  $ref: './schemas/history.yaml#/components/schemas/History'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     post:
       tags:
         - batch history
@@ -252,19 +252,19 @@ paths:
                 message:
                   type: string
       responses:
-        "200":
+        '200':
           description: success to receive
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
-        "500":
+                $ref: './schemas/success.yaml#/components/schemas/Success'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}/batch/{batch_id}/history/{history_id}":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}/batch/{batch_id}/history/{history_id}':
     description: Get specific batch history
     get:
       tags:
@@ -292,25 +292,25 @@ paths:
             type: integer
           required: true
       responses:
-        "200":
+        '200':
           description: Success to get history
           content:
             application/json:
               schema:
-                $ref: "./schemas/history.yaml#/components/schemas/History"
-        "404":
+                $ref: './schemas/history.yaml#/components/schemas/History'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/sign-up":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/public/sign-up':
     description: Sign up for new user
     post:
       tags:
@@ -326,25 +326,25 @@ paths:
                 password:
                   type: string
       responses:
-        "200":
+        '200':
           description: success to sign up
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
-        "400":
+                $ref: './schemas/success.yaml#/components/schemas/Success'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/sign-in":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/public/sign-in':
     description: Sign in for existing user
     post:
       tags:
@@ -360,7 +360,7 @@ paths:
                 password:
                   type: string
       responses:
-        "200":
+        '200':
           description: success to sign in
           content:
             application/json:
@@ -369,19 +369,19 @@ paths:
                 properties:
                   token:
                     type: string
-        "400":
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace':
     get:
       description: Get workspace that the user belongs to.
       tags:
@@ -395,20 +395,20 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: success to get workspaces
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
-        "500":
+                  $ref: './schemas/workspace.yaml#/components/schemas/Workspace'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     post:
       description: Create new workspace
       parameters:
@@ -425,27 +425,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+              $ref: './schemas/workspace.yaml#/components/schemas/Workspace'
       responses:
-        "200":
+        '200':
           description: success to create workspace
           content:
             application/json:
               schema:
-                $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
-        "400":
+                $ref: './schemas/workspace.yaml#/components/schemas/Workspace'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}':
     put:
       description: Update specific workspace
       tags:
@@ -467,26 +467,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
+              $ref: './schemas/workspace.yaml#/components/schemas/Workspace'
       responses:
-        "200":
+        '200':
           description: success to update workspace
           content:
             application/json:
               schema:
-                $ref: "./schemas/workspace.yaml#/components/schemas/Workspace"
-        "404":
+                $ref: './schemas/workspace.yaml#/components/schemas/Workspace'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     delete:
       description: Delete specific workspace
       tags:
@@ -505,25 +505,25 @@ paths:
             type: integer
           required: true
       responses:
-        "200":
+        '200':
           description: success to delete workspace
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
-        "404":
+                $ref: './schemas/success.yaml#/components/schemas/Success'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}/user":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}/user':
     get:
       description: Get users that the workspace belongs to.
       tags:
@@ -542,26 +542,26 @@ paths:
             type: integer
           required: true
       responses:
-        "200":
+        '200':
           description: success to get users
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/user.yaml#/components/schemas/User"
-        "404":
+                  $ref: './schemas/user.yaml#/components/schemas/User'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
     put:
       description: Update users that the workspace belongs to.
       tags:
@@ -585,29 +585,29 @@ paths:
             schema:
               type: array
               items:
-                $ref: "./schemas/user.yaml#/components/schemas/User"
+                $ref: './schemas/user.yaml#/components/schemas/User'
       responses:
-        "200":
+        '200':
           description: success to update users
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "./schemas/user.yaml#/components/schemas/User"
-        "404":
+                  $ref: './schemas/user.yaml#/components/schemas/User'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}/admin/role":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}/admin/role':
     put:
       description: Update user role in workspace
       tags:
@@ -638,31 +638,31 @@ paths:
                   type: string
                   enum: [admin, normal, readonly]
       responses:
-        "200":
+        '200':
           description: success to update user role
           content:
             application/json:
               schema:
-                $ref: "./schemas/user.yaml#/components/schemas/User"
-        "400":
+                $ref: './schemas/user.yaml#/components/schemas/User'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "404":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '404':
           description: NotFound.
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-  "/api/workspace/{workspace_id}/admin/invite":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+  '/api/workspace/{workspace_id}/admin/invite':
     post:
       description: Invite user to workspace
       tags:
@@ -690,31 +690,31 @@ paths:
                 email:
                   type: string
       responses:
-        "200":
+        '200':
           description: success to invite user
           content:
             application/json:
               schema:
-                $ref: "./schemas/success.yaml#/components/schemas/Success"
-        "400":
+                $ref: './schemas/success.yaml#/components/schemas/Success'
+        '400':
           description: bad request
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
-        "500":
+                $ref: './schemas/error.yaml#/components/schemas/Error'
+        '500':
           description: internal server error
           content:
             application/json:
               schema:
-                $ref: "./schemas/error.yaml#/components/schemas/Error"
+                $ref: './schemas/error.yaml#/components/schemas/Error'
 components:
   schemas:
     batch:
-      $ref: "./schemas/batch.yaml#/components/schemas/Batch"
+      $ref: './schemas/batch.yaml#/components/schemas/Batch'
     error:
-      $ref: "./schemas/error.yaml#/components/schemas/Error"
+      $ref: './schemas/error.yaml#/components/schemas/Error'
     history:
-      $ref: "./schemas/history.yaml#/components/schemas/History"
+      $ref: './schemas/history.yaml#/components/schemas/History'
     success:
-      $ref: "./schemas/success.yaml#/components/schemas/Success"
+      $ref: './schemas/success.yaml#/components/schemas/Success'
