@@ -1,0 +1,22 @@
+components:
+  schemas:
+    Workspace:
+      type: object
+      description: Workspace Schema
+      properties:
+        name:
+          type: string
+        id:
+          description: Unique name of the workspace. 5-30 lower case alphanumeric, dashes and underscores only.
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - name
+        - id
+        - created_at
+        - updated_at
