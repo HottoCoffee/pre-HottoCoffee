@@ -16,3 +16,5 @@ jsonwebtoken = "8.3.0"
 chrono = "0.4.26"
 sqlx = { version = "0.7.1", features = ["mysql", "runtime-tokio-rustls", "chrono"] }
 anyhow = "1.0.72"
+ring = "0.16.20"
+hex = "0.4.3"

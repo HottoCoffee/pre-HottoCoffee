@@ -1,24 +1,21 @@
-use axum::{Json, Router, routing::{get, post}};
+use axum::{Json, Router, routing::post};
 use axum::http::StatusCode;
-use chrono::{DateTime, Local, NaiveDateTime};
-use serde::Serialize;
-use sqlx::{MySqlPool, Row};
+use chrono::{Duration, Local, NaiveDateTime};
+use derive_new::new;
+use jsonwebtoken::{Algorithm, EncodingKey, Header};
+use ring::digest::{Context, SHA256};
+use serde::{Deserialize, Serialize};
+use sqlx::MySqlPool;
+
+const SALT: &str = "salt";
+const JWT_SECRET: &str = "jwt";
 
 #[tokio::main]
 async fn main() {
-    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee")
-        .await
-        .unwrap();
-
-    let x = sqlx::query_as!(UserRecord, "select * from user")
-        .fetch_one(&pool)
-        .await.unwrap();
-    println!("{:?}", x);
-
     tracing_subscriber::fmt::init();
 
     let public_route = Router::new()
-        .route("/sign-in", get(sign_in))
+        .route("/sign-in", post(sign_in))
         .route("/sign-up", post(sign_up));
 
     let route = Router::new()
@@ -30,27 +27,93 @@ async fn main() {
         .unwrap();
 }
 
-async fn sign_in() -> (StatusCode, Json<User>) {
-    (StatusCode::OK, Json(User { id: 0, username: "".to_string() }))
+async fn sign_in(Json(request): Json<SignInUpRequest>) -> (StatusCode, Json<UserResponse>) {
+    let hashed_email = hash(request.email);
+    let hashed_password = hash(request.password);
+
+    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee")
+        .await
+        .unwrap();
+
+    let record = sqlx::query_as::<_, UserRecord>("select * from user where email = ? and password = ?")
+        .bind(hashed_email)
+        .bind(hashed_password)
+        .fetch_one(&pool)
+        .await
+        .expect("");
+
+    let jwt = make_jwt(record.id);
+
+    (StatusCode::OK, Json(UserResponse::new(jwt)))
 }
 
-async fn sign_up() {
-    todo!()
+async fn sign_up(Json(request): Json<SignInUpRequest>) -> (StatusCode, Json<UserResponse>) {
+    let hashed_email = hash(request.email);
+    let hashed_password = hash(request.password);
+
+    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee")
+        .await
+        .unwrap();
+
+    sqlx::query!(
+        r#"
+        insert into user(display_name, email, password)
+        value ('user', ?, ?)
+        "#,
+        hashed_email, hashed_password
+    )
+        .execute(&pool)
+        .await
+        .unwrap();
+
+    let user_id = sqlx::query_scalar("select last_insert_id()")
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+
+    let jwt = make_jwt(user_id);
+
+    return (StatusCode::OK, Json(UserResponse::new(jwt)));
 }
 
-#[derive(Serialize)]
-struct User {
-    id: u64,
-    username: String,
+fn hash(value: String) -> String {
+    let salted_email = format!("{}{}", value, SALT);
+    let mut context = Context::new(&SHA256);
+    context.update(salted_email.as_bytes());
+    let digest = context.finish();
+
+    return hex::encode(digest.as_ref());
 }
 
-#[derive(Debug)]
+fn make_jwt(user_id: u32) -> String {
+    let header = Header::new(Algorithm::HS512);
+    let claims = JwtClaims::new(user_id, "HottoCoffee".to_string(), (Local::now() + Duration::minutes(30)).timestamp_nanos());
+    let key = EncodingKey::from_secret(JWT_SECRET.as_ref());
+    jsonwebtoken::encode(&header, &claims, &key).unwrap()
+}
+
+#[derive(Clone, new, Deserialize, Serialize)]
+struct JwtClaims {
+    user_id: u32,
+    iss: String,
+    exp: i64,
+}
+
+#[derive(Serialize, new)]
+struct UserResponse {
+    token: String,
+}
+
+#[derive(Deserialize)]
+struct SignInUpRequest {
+    email: String,
+    password: String,
+}
+
+#[derive(sqlx::FromRow)]
 struct UserRecord {
     id: u32,
     display_name: String,
-    email: Box<[u8]>,
-    password: Box<[u8]>,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
-    deleted_at: Option<NaiveDateTime>,
+    email: String,
+    password: String,
 }
