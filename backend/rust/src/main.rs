@@ -1,11 +1,15 @@
-use axum::{Json, Router, routing::post};
+use adaptor::user_controller::{self};
 use axum::http::StatusCode;
+use axum::{routing::post, Json, Router};
 use chrono::{Duration, Local, NaiveDateTime};
 use derive_new::new;
 use jsonwebtoken::{Algorithm, EncodingKey, Header};
 use ring::digest::{Context, SHA256};
 use serde::{Deserialize, Serialize};
 use sqlx::MySqlPool;
+
+mod adaptor;
+mod service;
 
 const SALT: &str = "salt";
 const JWT_SECRET: &str = "jwt";
@@ -15,11 +19,10 @@ async fn main() {
     tracing_subscriber::fmt::init();
 
     let public_route = Router::new()
-        .route("/sign-in", post(sign_in))
+        .route("/sign-in", post(user_controller::sign_in))
         .route("/sign-up", post(sign_up));
 
-    let route = Router::new()
-        .nest("/public", public_route);
+    let route = Router::new().nest("/public", public_route);
 
     axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
         .serve(route.into_make_service())
@@ -35,12 +38,13 @@ async fn sign_in(Json(request): Json<SignInUpRequest>) -> (StatusCode, Json<User
         .await
         .unwrap();
 
-    let record = sqlx::query_as::<_, UserRecord>("select * from user where email = ? and password = ?")
-        .bind(hashed_email)
-        .bind(hashed_password)
-        .fetch_one(&pool)
-        .await
-        .expect("");
+    let record =
+        sqlx::query_as::<_, UserRecord>("select * from user where email = ? and password = ?")
+            .bind(hashed_email)
+            .bind(hashed_password)
+            .fetch_one(&pool)
+            .await
+            .expect("");
 
     let jwt = make_jwt(record.id);
 
@@ -60,11 +64,12 @@ async fn sign_up(Json(request): Json<SignInUpRequest>) -> (StatusCode, Json<User
         insert into user(display_name, email, password)
         value ('user', ?, ?)
         "#,
-        hashed_email, hashed_password
+        hashed_email,
+        hashed_password
     )
-        .execute(&pool)
-        .await
-        .unwrap();
+    .execute(&pool)
+    .await
+    .unwrap();
 
     let user_id = sqlx::query_scalar("select last_insert_id()")
         .fetch_one(&pool)
@@ -87,31 +92,35 @@ fn hash(value: String) -> String {
 
 fn make_jwt(user_id: u32) -> String {
     let header = Header::new(Algorithm::HS512);
-    let claims = JwtClaims::new(user_id, "HottoCoffee".to_string(), (Local::now() + Duration::minutes(30)).timestamp_nanos());
+    let claims = JwtClaims::new(
+        user_id,
+        "HottoCoffee".to_string(),
+        (Local::now() + Duration::minutes(30)).timestamp_nanos(),
+    );
     let key = EncodingKey::from_secret(JWT_SECRET.as_ref());
     jsonwebtoken::encode(&header, &claims, &key).unwrap()
 }
 
 #[derive(Clone, new, Deserialize, Serialize)]
-struct JwtClaims {
+pub struct JwtClaims {
     user_id: u32,
     iss: String,
     exp: i64,
 }
 
 #[derive(Serialize, new)]
-struct UserResponse {
+pub struct UserResponse {
     token: String,
 }
 
 #[derive(Deserialize)]
-struct SignInUpRequest {
+pub struct SignInUpRequest {
     email: String,
     password: String,
 }
 
 #[derive(sqlx::FromRow)]
-struct UserRecord {
+pub struct UserRecord {
     id: u32,
     display_name: String,
     email: String,
