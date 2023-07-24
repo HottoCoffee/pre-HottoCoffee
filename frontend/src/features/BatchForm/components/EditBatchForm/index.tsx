@@ -10,6 +10,7 @@ import { components } from "~/swagger/schema/schemas/batch";
 import axios from "axios";
 import { Toaster } from "~/shared/Toaster/ui";
 import { editBatchValidation } from "../../utils/validations/editNewBatchValidation";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   onSuccess: (batch: components["schemas"]["Batch"]) => void;
@@ -23,6 +24,7 @@ export const EditBatchForm = (props: Props) => {
   const { onSuccess, footer, initialBatch } = props;
   const [selectedDate, setSelectedDate] = useState(new Date(initialBatch.initial_date));
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const { workspaceId } = useUserInformation();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,9 +42,12 @@ export const EditBatchForm = (props: Props) => {
     }
 
     try {
-      const response = await client.api.batch._batch_id(initialBatch.id).put({
-        body: validationResult.data,
-      });
+      const response = await client.api.workspace
+        ._workspace_id(workspaceId)
+        .batch._batch_id(initialBatch.id)
+        .put({
+          body: validationResult.data,
+        });
 
       onSuccess?.(response.body);
     } catch (e) {

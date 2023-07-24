@@ -7,6 +7,7 @@ import styles from "./index.module.scss";
 import { MonthlyCalendarDayCell } from "./components/MonthlyCalendarDayCell";
 import { Toaster } from "~/shared/Toaster/ui";
 import * as Toast from "@radix-ui/react-toast";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   date: Date;
@@ -14,6 +15,7 @@ interface Props {
 
 export const MonthlyCalendar = (props: Props) => {
   const { date } = props;
+  const { workspaceId } = useUserInformation();
 
   const dateList = getDateListInMonth(date);
   const startDate = dateList[0][0];
@@ -21,7 +23,7 @@ export const MonthlyCalendar = (props: Props) => {
 
   console.log(startDate.toISOString() ?? "");
 
-  const { data, error } = useAspidaQuery(client.api.calendar, {
+  const { data, error } = useAspidaQuery(client.api.workspace._workspace_id(workspaceId).calendar, {
     query: {
       start_date: startDate.toISOString() ?? "",
       end_date: endDate?.toISOString() ?? "",
@@ -30,7 +32,7 @@ export const MonthlyCalendar = (props: Props) => {
 
   // FIXME: Should add error handling
   if (error) {
-    return <p>Unknown error occurred. {JSON.stringify(error)}</p>
+    return <p>Unknown error occurred. {JSON.stringify(error)}</p>;
   }
 
   return (

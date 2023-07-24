@@ -6,6 +6,7 @@ import classNames from "classnames/bind";
 const clx = classNames.bind(styles);
 
 import styles from "./BatchDetailPopover.module.scss";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   batchId: number;
@@ -13,8 +14,11 @@ interface Props {
 
 export const BatchDetailPopover = (props: Props) => {
   const { batchId } = props;
+  const { workspaceId } = useUserInformation();
 
-  const { data, error } = useAspidaQuery(client.api.batch._batch_id(batchId));
+  const { data, error } = useAspidaQuery(
+    client.api.workspace._workspace_id(workspaceId).batch._batch_id(batchId),
+  );
 
   const informationContainerClass = clx(styles.container, styles.informationContainer);
 

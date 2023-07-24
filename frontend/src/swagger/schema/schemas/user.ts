@@ -10,21 +10,13 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    History: {
-      /**
-       * Format: int64 
-       * @description history_id will be null when the batch execution time is future.
-       */
-      history_id?: number;
-      /** Format: int64 */
-      batch_id: number;
-      batch_name: string;
-      /** Format: ISO8601 */
-      start_datetime: string;
-      /** Format: ISO8601 */
-      finish_datetime: string | null;
+    /** @description User Schema */
+    User: {
+      id?: number;
+      email?: string;
+      display_name?: string;
       /** @enum {string} */
-      status: "before_started" | "in_progress" | "success" | "failed";
+      role?: "admin" | "normal" | "readonly";
     };
   };
   responses: never;

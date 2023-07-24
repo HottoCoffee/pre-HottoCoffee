@@ -28,10 +28,13 @@ export const getHistoryMockList = (startDate: Date): Array<components["schemas"]
   return list;
 };
 
-export const mockGetBatchListForCalendar = restGet(client.api.calendar, (req, res, context) => {
-  const startDate = new URLSearchParams(req.url.search).get("start_date") ?? "";
+export const mockGetBatchListForCalendar = restGet(
+  client.api.workspace._workspace_id(1).calendar,
+  (req, res, context) => {
+    const startDate = new URLSearchParams(req.url.search).get("start_date") ?? "";
 
-  return res(context.json(getHistoryMockList(new Date(startDate))));
-});
+    return res(context.json(getHistoryMockList(new Date(startDate))));
+  },
+);
 
 export const calendarHandlers = [mockGetBatchListForCalendar];

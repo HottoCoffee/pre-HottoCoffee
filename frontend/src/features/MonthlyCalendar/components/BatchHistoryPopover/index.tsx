@@ -7,6 +7,7 @@ const clx = classNames.bind(styles);
 
 import styles from "./BatchHistoryPopover.module.scss";
 import { format } from "date-fns";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   batchId: number;
@@ -15,9 +16,13 @@ interface Props {
 
 export const BatchHistoryPopover = (props: Props) => {
   const { batchId, historyId } = props;
+  const { workspaceId } = useUserInformation();
 
   const { data, error } = useAspidaQuery(
-    client.api.batch._batch_id(batchId).history._history_id(historyId),
+    client.api.workspace
+      ._workspace_id(workspaceId)
+      .batch._batch_id(batchId)
+      .history._history_id(historyId),
   );
 
   const informationContainerClass = clx(styles.container, styles.informationContainer);

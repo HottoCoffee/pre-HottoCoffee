@@ -16,46 +16,52 @@ const batchList = [...new Array(10)].map((_, i) => {
 });
 
 export const successGetBatchList = () => {
-  return restGet(client.api.batch, async (_, res, context) => {
+  return restGet(client.api.workspace._workspace_id(1).batch, async (_, res, context) => {
     return res(context.json(batchList));
   });
 };
 
 export const successGetBatchByBatchId = () => {
-  return restGet(client.api.batch._batch_id(MOCK_BATCH_ID), async (_, res, context) => {
-    return res(
-      context.json({
-        id: MOCK_BATCH_ID,
-        batch_name: "Batch1",
-        server_name: "Server1",
-        initial_date: "2023-03-03T09:27:03.529Z",
-        time_limit: 30,
-        cron_setting: "30 * * *",
-      }),
-    );
-  });
+  return restGet(
+    client.api.workspace._workspace_id(1).batch._batch_id(MOCK_BATCH_ID),
+    async (_, res, context) => {
+      return res(
+        context.json({
+          id: MOCK_BATCH_ID,
+          batch_name: "Batch1",
+          server_name: "Server1",
+          initial_date: "2023-03-03T09:27:03.529Z",
+          time_limit: 30,
+          cron_setting: "30 * * *",
+        }),
+      );
+    },
+  );
 };
 
 export const longLoadingGetBatchByBatchId = () => {
-  return restGet(client.api.batch._batch_id(MOCK_BATCH_ID), async () => {
+  return restGet(client.api.workspace._workspace_id(1).batch._batch_id(MOCK_BATCH_ID), async () => {
     await sleep(1000);
   });
 };
 
 export const returnErrorGetBatchByBatchId = () => {
-  return rest.get(client.api.batch._batch_id(MOCK_BATCH_ID).$path(), async (_, res, context) => {
-    return res(
-      context.status(500),
-      context.json({
-        status: 500,
-        message: "Unknown Error",
-      }),
-    );
-  });
+  return rest.get(
+    client.api.workspace._workspace_id(1).batch._batch_id(MOCK_BATCH_ID).$path(),
+    async (_, res, context) => {
+      return res(
+        context.status(500),
+        context.json({
+          status: 500,
+          message: "Unknown Error",
+        }),
+      );
+    },
+  );
 };
 
 export const successToCreateNewBatch = () => {
-  return restPost(client.api.batch, async (_, res, context) => {
+  return restPost(client.api.workspace._workspace_id(1).batch, async (_, res, context) => {
     return res(
       context.json({
         id: MOCK_BATCH_ID,
@@ -70,7 +76,7 @@ export const successToCreateNewBatch = () => {
 };
 
 export const failedToCreateNewBatch = () => {
-  return rest.post(client.api.batch.$path(), async (_, res, context) => {
+  return rest.post(client.api.workspace._workspace_id(1).batch.$path(), async (_, res, context) => {
     return res(
       context.status(500),
       context.json({ status: 500, message: "Unknown Error occurred during creating new batch" }),
