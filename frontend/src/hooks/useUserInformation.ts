@@ -4,7 +4,7 @@
 export const useUserInformation = () => {
   // TODO: Write API call to get user information
   return {
-    workspaceId: 12,
+    workspaceId: 1,
     userId: "userId",
   };
 };
