@@ -5,7 +5,7 @@ use jsonwebtoken::{Algorithm, EncodingKey, Header};
 use serde::{Deserialize, Serialize};
 
 const ISSUER: &str = "HottoCoffee";
-const JWT_SECRET: &str = "JWT";
+const JWT_SECRET: &str = "JWT"; // TODO: from env var
 
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Jwt {

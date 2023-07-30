@@ -21,16 +21,16 @@ async fn main() {
     axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
         .serve(route.into_make_service())
         .await
-        .unwrap();
+        .expect("failed to run app");
 }
 
 async fn migrate_db() {
-    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee")
+    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee") // TODO: from env ver
         .await
         .unwrap();
 
     sqlx::migrate!("./migrations")
         .run(&pool)
         .await
-        .unwrap();
+        .expect("failed to migrate db")
 }
