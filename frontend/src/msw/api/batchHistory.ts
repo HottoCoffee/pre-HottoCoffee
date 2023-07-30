@@ -9,7 +9,10 @@ export const MOCK_BATCH_HISTORY_ID = 1;
 
 export const successGetBatchHistory = (status: HottoCoffee.BatchStatus = "success") => {
   return restGet(
-    client.api.batch._batch_id(MOCK_BATCH_ID).history._history_id(MOCK_BATCH_HISTORY_ID),
+    client.api.workspace
+      ._workspace_id(1)
+      .batch._batch_id(MOCK_BATCH_ID)
+      .history._history_id(MOCK_BATCH_HISTORY_ID),
     async (_, res, context) => {
       return res(
         context.json({
@@ -27,7 +30,10 @@ export const successGetBatchHistory = (status: HottoCoffee.BatchStatus = "succes
 
 export const longLoadingGetBatchHistory = () => {
   return restGet(
-    client.api.batch._batch_id(MOCK_BATCH_ID).history._history_id(MOCK_BATCH_HISTORY_ID),
+    client.api.workspace
+      ._workspace_id(1)
+      .batch._batch_id(MOCK_BATCH_ID)
+      .history._history_id(MOCK_BATCH_HISTORY_ID),
     async () => {
       await sleep(1000);
     },
@@ -36,7 +42,11 @@ export const longLoadingGetBatchHistory = () => {
 
 export const returnErrorGetBatchHistory = () => {
   return rest.get(
-    client.api.batch._batch_id(MOCK_BATCH_ID).history._history_id(MOCK_BATCH_HISTORY_ID).$path(),
+    client.api.workspace
+      ._workspace_id(1)
+      .batch._batch_id(MOCK_BATCH_ID)
+      .history._history_id(MOCK_BATCH_HISTORY_ID)
+      .$path(),
     async (_, res, context) => {
       return res(
         context.status(500),

@@ -5,13 +5,20 @@ import { useAspidaQuery } from "@aspida/react-query";
 import { client } from "~/modules/aspidaClient";
 import { EditBatchForm } from "~/features/BatchForm/components/EditBatchForm";
 import { useRouter } from "next/router";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   id: number;
 }
 
 export default function Home(props: Props) {
-  const { data, isLoading } = useAspidaQuery(client.api.batch._batch_id(props.id));
+  const { workspaceId } = useUserInformation();
+  const { data, isLoading } = useAspidaQuery(
+    client.api.workspace._workspace_id(workspaceId).batch._batch_id(props.id),
+    {
+      enabled: Boolean(workspaceId),
+    },
+  );
   const router = useRouter();
 
   const onSuccess = () => {

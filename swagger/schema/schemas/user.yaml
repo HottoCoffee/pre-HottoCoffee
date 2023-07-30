@@ -11,6 +11,7 @@ components:
         display_name:
           type: string
         role:
+          type: string
           enum: [admin, normal, readonly]
       required:
         - message

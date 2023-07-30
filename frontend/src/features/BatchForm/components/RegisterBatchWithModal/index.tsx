@@ -14,9 +14,10 @@ interface Props {
 export const RegisterNewBatchWithModal = (props: Props) => {
   const { children } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [openToast, setOpenToast] = useState(false);
+  // const [openToast, setOpenToast] = useState(false);
 
-  const onSuccess = (batch: components["schemas"]["Batch"]) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onSuccess = (_batch: components["schemas"]["Batch"]) => {
     setIsOpen(false);
   };
 

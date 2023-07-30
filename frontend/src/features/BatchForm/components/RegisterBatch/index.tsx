@@ -10,6 +10,7 @@ import * as Toast from "@radix-ui/react-toast";
 import { components } from "~/swagger/schema/schemas/batch";
 import axios from "axios";
 import { Toaster } from "~/shared/Toaster/ui";
+import { useUserInformation } from "~/hooks/useUserInformation";
 
 interface Props {
   onSuccess: (batch: components["schemas"]["Batch"]) => void;
@@ -22,6 +23,7 @@ export const RegisterNewBatchForm = (props: Props) => {
   const { onSuccess, footer } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const { workspaceId } = useUserInformation();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,7 +40,7 @@ export const RegisterNewBatchForm = (props: Props) => {
     }
 
     try {
-      const response = await client.api.batch.post({
+      const response = await client.api.workspace._workspace_id(workspaceId).batch.post({
         body: validationResult.data,
       });
 

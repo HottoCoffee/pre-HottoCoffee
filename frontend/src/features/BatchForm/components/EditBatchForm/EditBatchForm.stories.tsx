@@ -6,7 +6,6 @@ import { queryClientDecorator } from "~/modules/queryClientDecorator";
 import { failedToCreateNewBatch, successToCreateNewBatch } from "~/msw/api/batch";
 import { toasterDecorator } from "~/modules/toasterDecorator";
 import { within, userEvent } from "@storybook/testing-library";
-import { sleep } from "~/modules/sleep";
 
 const meta: Meta<typeof EditBatchForm> = {
   title: "feature/BatchForm/EditBatchForm",
