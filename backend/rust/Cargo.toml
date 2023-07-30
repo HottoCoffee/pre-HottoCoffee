@@ -5,7 +5,9 @@ edition = "2021"
 
 [dependencies]
 serde = { features = ["derive"] }
+axum = "0.6.18"
 tokio = { version = "1", features = ["full"] }
+tracing-subscriber = "0.3.17"
 chrono = "0.4.26"
 sqlx = { version = "0.7.1", features = ["mysql", "runtime-tokio-rustls", "chrono"] }
 jsonwebtoken = "8.3.0"
