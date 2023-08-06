@@ -66,9 +66,9 @@ func SetUp() *gin.Engine {
 		bp := controller.NewBatchPresenter(c)
 		usecase.NewGetBatchListUsecase(br, &bp).Execute(query)
 	})
-	route.GET("/api/batch/:id", func(c *gin.Context) {
+	route.GET("/api/batch/:batchId", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
-		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("id"))
+		usecase.NewGetBatchUsecase(br, &bp).Execute(c.Param("batchId"))
 	})
 	route.POST("/api/batch", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
@@ -79,19 +79,24 @@ func SetUp() *gin.Engine {
 		}
 		usecase.NewCreateBatchUsecase(br, &bp).Execute(input)
 	})
-	route.PUT("/api/batch/:id", func(c *gin.Context) {
+	route.PUT("/api/batch/:batchId", func(c *gin.Context) {
 		bp := controller.NewBatchPresenter(c)
 		input := usecase.BatchInput{}
 		if err := c.ShouldBind(&input); err != nil {
 			bp.SendInvalidRequestResponse("Invalid format")
 			return
 		}
-		usecase.NewChangeBatchUsecase(br, &bp).Execute(c.Param("id"), input)
+		usecase.NewChangeBatchUsecase(br, &bp).Execute(c.Param("batchId"), input)
 	})
 
-	route.GET("/api/batch/:id/history/:historyId", func(c *gin.Context) {
+	route.GET("/api/batch/:batchId/history/:historyId", func(c *gin.Context) {
 		hp := controller.NewHistoryPresenter(c)
-		usecase.NewGetHistoryUsecase(hr, hp).Execute(c.Param("id"), c.Param("historyId"))
+		usecase.NewGetHistoryUsecase(hr, hp).Execute(c.Param("batchId"), c.Param("historyId"))
+	})
+
+	route.GET("/api/batch/:batchId/history", func(c *gin.Context) {
+		hp := controller.NewHistoryPresenter(c)
+		usecase.NewGetHistoryListUsecase(hr, hp).Execute(c.Param("batchId"))
 	})
 
 	return route

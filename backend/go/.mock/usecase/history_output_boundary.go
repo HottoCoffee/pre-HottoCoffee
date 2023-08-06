@@ -34,6 +34,18 @@ func (m *MockHistoryOutputBoundary) EXPECT() *MockHistoryOutputBoundaryMockRecor
 	return m.recorder
 }
 
+// SendHistoryListResponse mocks base method.
+func (m *MockHistoryOutputBoundary) SendHistoryListResponse(histories entity.BatchExecutionHistories) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SendHistoryListResponse", histories)
+}
+
+// SendHistoryListResponse indicates an expected call of SendHistoryListResponse.
+func (mr *MockHistoryOutputBoundaryMockRecorder) SendHistoryListResponse(histories interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendHistoryListResponse", reflect.TypeOf((*MockHistoryOutputBoundary)(nil).SendHistoryListResponse), histories)
+}
+
 // SendHistoryResponse mocks base method.
 func (m *MockHistoryOutputBoundary) SendHistoryResponse(history entity.BatchExecutionHistory) {
 	m.ctrl.T.Helper()

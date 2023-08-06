@@ -29,7 +29,7 @@ func TestGetHistoryUsecase_Execute(t *testing.T) {
 				history, _ := entity.NewHistory(1, "success", time.Date(2023, 1, 1, 0, 0, 0, 0, util.JST), time.Date(2023, 1, 1, 0, 1, 0, 0, util.JST))
 				executionHistory, _ := entity.NewBatchExecutionHistory(*batch, *history)
 
-				hr.EXPECT().FindByIdAndBatchId(1, 1).Return(executionHistory, nil)
+				hr.EXPECT().FindByHistoryIdAndBatchId(1, 1).Return(executionHistory, nil)
 
 				hob.EXPECT().SendHistoryResponse(*executionHistory)
 			},
@@ -52,7 +52,7 @@ func TestGetHistoryUsecase_Execute(t *testing.T) {
 			"error scenario with domain violated history",
 			args{batchIdString: "1", historyIdString: "1"},
 			func(hr *mock_core.MockHistoryRepository, hob *mock_usecase.MockHistoryOutputBoundary) {
-				hr.EXPECT().FindByIdAndBatchId(1, 1).Return(nil, entity.NewDomainRuleViolationError("sample"))
+				hr.EXPECT().FindByHistoryIdAndBatchId(1, 1).Return(nil, entity.NewDomainRuleViolationError("sample"))
 				hob.EXPECT().SendInternalServerErrorResponse().Times(1)
 			},
 		},
@@ -60,7 +60,7 @@ func TestGetHistoryUsecase_Execute(t *testing.T) {
 			"error scenario with not found history",
 			args{batchIdString: "1", historyIdString: "1"},
 			func(hr *mock_core.MockHistoryRepository, hob *mock_usecase.MockHistoryOutputBoundary) {
-				hr.EXPECT().FindByIdAndBatchId(1, 1).Return(nil, errors.New("not found"))
+				hr.EXPECT().FindByHistoryIdAndBatchId(1, 1).Return(nil, errors.New("not found"))
 				hob.EXPECT().SendNotFoundResponse().Times(1)
 			},
 		},
