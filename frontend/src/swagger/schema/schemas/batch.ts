@@ -20,12 +20,12 @@ export interface components {
       /** Format: ISO 8601 */
       initial_date: string;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       time_limit: number;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       estimated_duration?: number;
@@ -38,12 +38,12 @@ export interface components {
       /** Format: ISO 8601 */
       initial_date: string;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       time_limit: number;
       /**
-       * Format: int64 
+       * Format: int64
        * @description Unit -> Minutes
        */
       estimated_duration?: number;

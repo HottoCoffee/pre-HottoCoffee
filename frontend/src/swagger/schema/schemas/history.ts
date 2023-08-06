@@ -12,7 +12,7 @@ export interface components {
   schemas: {
     History: {
       /**
-       * Format: int64 
+       * Format: int64
        * @description history_id will be null when the batch execution time is future.
        */
       history_id?: number;
