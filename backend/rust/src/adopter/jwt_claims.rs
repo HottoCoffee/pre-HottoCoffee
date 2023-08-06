@@ -31,3 +31,13 @@ impl Jwt {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_issue(){
+
+    }
+}
