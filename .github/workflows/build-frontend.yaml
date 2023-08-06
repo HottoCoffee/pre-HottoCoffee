@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Generate schema and api client
         run: npm run generate
       - name: Run static analysis
