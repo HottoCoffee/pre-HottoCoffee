@@ -25,7 +25,7 @@ async fn main() {
 }
 
 async fn migrate_db() {
-    let pool = MySqlPool::connect(&"mysql://root:root@0.0.0.0:3306/hottocoffee") // TODO: from env ver
+    let pool = MySqlPool::connect("mysql://root:root@0.0.0.0:3306/hottocoffee") // TODO: from env ver
         .await
         .unwrap();
 
