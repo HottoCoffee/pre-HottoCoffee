@@ -22,7 +22,7 @@
     "fix:stylelint": "stylelint --fix '**/*.{css,scss}'",
     "typegen:scss": "typed-scss-modules src",
     "generate": "run-p generate:*",
-    "generate:api": "rm -rf src/api && npx openapi2aspida -i ../swagger/schema/main.yaml -o src/api",
+    "generate:api": "rm -rf ./src/api && openapi2aspida -i=../swagger/schema/main.yaml && mv api ./src/api",
     "generate:type": "cd ../ && npx openapi-typescript 'swagger/schema/schemas/**/*.yaml' --output frontend/src/",
     "test-storybook": "test-storybook"
   },
