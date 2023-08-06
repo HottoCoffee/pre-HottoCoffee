@@ -20,7 +20,7 @@ pub async fn sign_in(Json(request): Json<SignInUpRequest>)
     };
 
     let jwt = Jwt::issue(user.id).await;
-    return Ok(Json(UserResponse { token: jwt }));
+    Ok(Json(UserResponse { token: jwt }))
 }
 
 #[derive(Deserialize)]
