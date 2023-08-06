@@ -24,7 +24,7 @@ jobs:
       - name: Generate schema and api client
         run: npm run generate
       - name: Debug
-        run: ls src/api
+        run: ls ./src ls ./src/api
       - name: Run static analysis
         run: npm run check && npm run fix
       - name: Run unit-test
