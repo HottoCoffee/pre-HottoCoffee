@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Generate schema and api client
-        run: npm run generate:api && npm run generate:type
+        run: npm run generate
       - name: Run static analysis
         run: npm run check && npm run fix
       - name: Run unit-test
