@@ -2,24 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "~/styles/Home.module.css";
-import { useEffect } from "react";
-import { client } from "~/modules/aspidaClient";
-import { useUserInformation } from "~/hooks/useUserInformation";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { workspaceId } = useUserInformation();
-
-  useEffect(() => {
-    (async () => {
-      setTimeout(async () => {
-        const res = await client.api.workspace._workspace_id(workspaceId).batch.$get({ query: {} });
-        console.log(res);
-      }, 1000);
-    })();
-  }, []);
-
   return (
     <>
       <Head>
