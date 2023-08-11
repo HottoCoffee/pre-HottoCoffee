@@ -15,15 +15,15 @@ pub struct Jwt {
 }
 
 impl Jwt {
-    pub async fn issue(user_id: u32) -> String {
+    pub fn issue(user_id: u32) -> String {
         let header = Header::new(Algorithm::HS512);
-        let claims = Jwt::new(user_id).await;
+        let claims = Jwt::new(user_id);
 
         let key = EncodingKey::from_secret(JWT_SECRET.as_ref());
         jsonwebtoken::encode(&header, &claims, &key).unwrap()
     }
 
-    async fn new(user_id: u32) -> Jwt {
+    fn new(user_id: u32) -> Jwt {
         Jwt {
             user_id,
             iss: ISSUER.to_string(),
