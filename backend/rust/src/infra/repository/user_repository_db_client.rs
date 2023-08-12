@@ -17,7 +17,7 @@ pub struct UserDbClient {
 impl UserRepository for UserDbClient {
     async fn find_by_email_and_password(&self, email: &String, password: &String) -> Option<User> {
         let encrypted_email = self.cryptor.encrypt(email);
-        sqlx::query_as::<_, UserRecord>("select * from user where email = ?")
+        sqlx::query_as::<_, UserRecord>("select * from user where email = ? and deleted_at is null")
             .bind(encrypted_email)
             .fetch_one(&self.pool)
             .await
