@@ -2,21 +2,18 @@ use axum::extract::State;
 use axum::http::StatusCode;
 use axum::Json;
 use serde::{Deserialize, Serialize};
-use sqlx::MySqlPool;
 
 use crate::adopter::jwt_claims::Jwt;
 use crate::entity::repository::user_repository::UserRepository;
-use crate::infra::repository::user_repository_db_client::UserDbClient;
 use crate::infra::util::cryptor::Cryptor;
 use crate::infra::util::hashed_password::HashedPassword;
+use crate::service_locator::ServiceLocator;
 
 use super::error_response::ErrorResponse;
 
-pub async fn sign_in(State(pool): State<MySqlPool>, Json(request): Json<SignInUpRequest>)
+pub async fn sign_in(State(service_locator): State<ServiceLocator>, Json(request): Json<SignInUpRequest>)
                      -> Result<Json<UserResponse>, (StatusCode, Json<ErrorResponse>)> {
-    let cryptor = Cryptor::new("pass".to_string());
-
-    let user_repository = UserDbClient::new(pool.clone(), cryptor);
+    let user_repository = service_locator.user_db_client;
     match user_repository.find_by_email_and_password(&request.email, &request.password).await {
         Some(user) => {
             let jwt = Jwt::issue(user.id);
@@ -29,13 +26,13 @@ pub async fn sign_in(State(pool): State<MySqlPool>, Json(request): Json<SignInUp
     }
 }
 
-pub async fn sign_up(State(pool): State<MySqlPool>, Json(request): Json<SignInUpRequest>)
+pub async fn sign_up(State(service_locator): State<ServiceLocator>, Json(request): Json<SignInUpRequest>)
                      -> Result<Json<UserResponse>, (StatusCode, Json<ErrorResponse>)> {
     let cryptor = Cryptor::new("pass".to_string());
     let encrypted_email = cryptor.encrypt(&request.email);
     let hashed_password = HashedPassword::from_plain_password(request.password);
 
-    let tx = pool.begin().await.unwrap();
+    let tx = service_locator.pool.begin().await.unwrap();
     sqlx::query!(
         r#"
         insert into user(display_name, email, password)
@@ -43,12 +40,12 @@ pub async fn sign_up(State(pool): State<MySqlPool>, Json(request): Json<SignInUp
         "#,
         encrypted_email, hashed_password.value
     )
-        .execute(&pool)
+        .execute(&service_locator.pool)
         .await
         .unwrap();
 
     let user_id = sqlx::query_scalar("select last_insert_id()")
-        .fetch_one(&pool)
+        .fetch_one(&service_locator.pool)
         .await
         .unwrap();
 

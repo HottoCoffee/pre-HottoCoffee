@@ -7,7 +7,7 @@ use crate::entity::repository::user_repository::UserRepository;
 use crate::infra::util::cryptor::Cryptor;
 use crate::infra::util::hashed_password::HashedPassword;
 
-#[derive(new)]
+#[derive(new, Clone)]
 pub struct UserDbClient {
     pool: MySqlPool,
     cryptor: Cryptor,
