@@ -9,7 +9,7 @@ pub struct ServiceLocator {
     pub user_db_client: UserDbClient,
 }
 
-const CRYPT_KEY: String = String::from("pass");
+const CRYPT_KEY: &str = "pass";
 
 impl ServiceLocator {
     pub async fn new(db_url: &str) -> ServiceLocator { // TODO: receive config as param
@@ -17,7 +17,7 @@ impl ServiceLocator {
             .await
             .expect("failed to connect DB");
 
-        let cryptor = Cryptor::new(CRYPT_KEY);
+        let cryptor = Cryptor::new(String::from(CRYPT_KEY));
         let user_repository = UserDbClient::new(pool.clone(), cryptor);
         ServiceLocator { pool, user_db_client: user_repository }
     }
