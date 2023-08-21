@@ -131,7 +131,7 @@ export const RegisterNewBatchForm = (props: Props) => {
       </div>
 
       <Toaster
-        type={"success"}
+        type="failed"
         description={<p>{errorMessage}</p>}
         title="Error on api."
         open={Boolean(errorMessage)}
