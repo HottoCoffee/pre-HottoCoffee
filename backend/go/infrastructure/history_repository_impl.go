@@ -26,16 +26,29 @@ type batchAndHistoryRecord struct {
 	TimeLimit         int
 	EstimatedDuration int
 	BatchCreatedAt    time.Time
-	HistoryId         int
-	Status            string
-	StartDatetime     time.Time
-	FinishDatetime    time.Time
+	BatchDeletedAt    *time.Time
+	HistoryId         *int
+	Status            *string
+	StartDatetime     *time.Time
+	FinishDatetime    *time.Time
+}
+
+type HistoryRecord struct {
+	gorm.Model
+	BatchId        int
+	Status         string
+	StartDatetime  time.Time
+	FinishDatetime time.Time
+}
+
+func (HistoryRecord) TableName() string {
+	return "history"
 }
 
 func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId int) (*entity.BatchExecutionHistory, error) {
 	record := batchAndHistoryRecord{}
 	tx := hr.db.Table("batch").
-		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, history.id as history_id, history.status, history.start_datetime, history.finish_datetime").
+		Select("batch.id as batch_id, batch.batch_name, batch.server_name, batch.cron_setting, batch.initial_date, batch.time_limit, batch.estimated_duration, batch.created_at as batch_created_at, batch.deleted_at as batch_deleted_at, history.id as history_id, history.status, history.start_datetime, history.finish_datetime").
 		Joins("join history on batch.id = history.batch_id").
 		Where("history.id", historyId).
 		Where("batch.id", batchId).
@@ -60,7 +73,7 @@ func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId
 		return nil, err
 	}
 
-	history, err := entity.NewHistory(record.HistoryId, record.Status, record.StartDatetime, record.FinishDatetime)
+	history, err := entity.NewHistory(*record.HistoryId, *record.Status, *record.StartDatetime, *record.FinishDatetime)
 	if err != nil {
 		return nil, err
 	}
@@ -70,4 +83,75 @@ func (hr HistoryRepositoryImpl) FindByHistoryIdAndBatchId(historyId int, batchId
 		return nil, err
 	}
 	return batchExecutionHistory, nil
+}
+
+func (hr HistoryRepositoryImpl) FindByBatchId(batchId int) (*entity.BatchExecutionHistories, error) {
+	var b BatchRecord
+	tx := hr.db.Find(&b, batchId)
+	if tx.RowsAffected == 0 {
+		return nil, errors.New("no record")
+	}
+
+	batch, err := mapRecordToBatch(b)
+	if err != nil {
+		return nil, err
+	}
+
+	var hrs []HistoryRecord
+	hr.db.Where("batch_id = ?", batchId).Find(&hrs)
+
+	var hs []entity.History
+	for _, record := range hrs {
+		h, err := entity.NewHistory(int(record.ID), record.Status, record.StartDatetime, record.FinishDatetime)
+		if err != nil {
+			return nil, err
+		}
+		hs = append(hs, *h)
+	}
+
+	beh := entity.NewBatchExecutionHistories(*batch, hs)
+	return &beh, nil
+}
+
+func (hr HistoryRepositoryImpl) FindAllDuring(startDate time.Time, endDate time.Time) ([]entity.BatchExecutionHistories, error) {
+	var brs []BatchRecord
+	hr.db.Find(&brs).
+		Where("batch.initial_date < ?", endDate).
+		Where("batch.deleted_at is null or batch.deleted_at >= ?", startDate)
+
+	var batchIds []uint
+	for _, br := range brs {
+		batchIds = append(batchIds, br.ID)
+	}
+
+	var hrs []HistoryRecord
+	hr.db.Find(&hrs).
+		Where("batch_id in ?", batchIds).
+		Where("history.start_datetime >= ? and history.start_datetime < ?", startDate, endDate).
+		Where("history.deleted_at is null")
+
+	historyIdRecordMap := map[uint][]HistoryRecord{}
+	for _, record := range hrs {
+		historyIdRecordMap[record.ID] = append(historyIdRecordMap[record.ID], record)
+	}
+
+	var batchExecutionHistories []entity.BatchExecutionHistories
+	for _, br := range brs {
+		batch, err := mapRecordToBatch(br)
+		if err != nil {
+			return nil, err
+		}
+
+		var hs []entity.History
+		for _, record := range historyIdRecordMap[br.ID] {
+			history, err := entity.NewHistory(int(record.ID), record.Status, record.StartDatetime, record.FinishDatetime)
+			if err != nil {
+				return nil, err
+			}
+			hs = append(hs, *history)
+		}
+		batchExecutionHistories = append(batchExecutionHistories, entity.NewBatchExecutionHistories(*batch, hs))
+	}
+
+	return batchExecutionHistories, nil
 }
