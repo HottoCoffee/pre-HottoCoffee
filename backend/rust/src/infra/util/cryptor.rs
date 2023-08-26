@@ -4,6 +4,7 @@ use sha2::{Digest, Sha256};
 use sha2::digest::generic_array::GenericArray;
 use typenum::{U12, U32};
 
+#[derive(Clone)]
 pub struct Cryptor {
     secret: GenericArray<u8, U32>,
 }
